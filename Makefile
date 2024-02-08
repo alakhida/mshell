@@ -3,42 +3,60 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alakhida <alakhida@student.1337.ma>        +#+  +:+       +#+         #
+#    By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/05 20:46:16 by alakhida          #+#    #+#              #
-#    Updated: 2024/02/05 20:49:06 by alakhida         ###   ########.fr        #
+#    Updated: 2024/02/08 01:49:59 by alakhida         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell
+NAME =	minishell
 
-SRC = main.c
+SRCS =	main.c\
 
-OBJ = $(SRC:.c=.o)
+OBJS = $(SRCS:.c=.o)
 
-CC = cc
-#-Wall -Wextra -Werror
-CFLAGS = #-g -fsanitize=address
+CC = gcc
 
-LIBFT = ./libft/libft.a
+CFLAGS += -Wall -Werror -Wextra -g3 -fsanitize=address
 
-RM = rm -f
+#CFLAGS += -g3 -fsanitize=address
 
-all: $(NAME)
+RM = rm -rf
 
-.c.o:
-	$(CC) $(CFLAGS) -c $< -o ${<:.c=.o}
+LIBFT = libft/libft.a
+LIBFTDIR = libft
+LIBFTLINK = -L $(LIBFTDIR) -lft
 
-$(NAME): $(OBJ)
-		make -C ./libft
-		$(CC) $(CFLAFS) -o $(NAME) $(OBJ) $(LIBFT)
 
-clean:
-	make clean -C ./libft
-	$(RM) $(OBJ)
+all:		$(NAME)
 
-fclean:clean
-	make fclean -C ./libft
+$(NAME):	complib echoCM $(OBJS) echoOK
+	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBFTLINK)
+
+complib:
+	$(MAKE) -C libft/
+
+%.o:		%.c
+	$(CC) -c $(CFLAGS) -o $@ $<
+	printf "$(GREEN)██"
+
+clean: echoCLEAN
+	$(MAKE) -C $(LIBFTDIR) clean
+	$(RM) $(OBJS)
+
+fclean: clean echoFCLEAN
+	$(MAKE) -C $(LIBFTDIR) fclean
+	$(RM) $(OBJS)
 	$(RM) $(NAME)
 
-re: fclean all
+re:		fclean all
+
+echoCM:
+	echo "$(YELLOW)===> Compiling $(RED)Minishell$(END)\n"
+echoOK:
+	echo "$(GREEN) OK ===> Compilation Success$(END)\n"
+echoCLEAN :
+	echo "\n$(CYAN)===> Cleanning OBJS$(END)"
+echoFCLEAN :
+	echo "$(CYAN)===> Cleanning minishell & Libft$(END)\n"
