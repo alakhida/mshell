@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 20:50:10 by alakhida          #+#    #+#             */
-/*   Updated: 2024/02/08 22:24:59 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/02/18 23:02:37 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,14 @@
 #include <readline/history.h>
 #include <errno.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "./libft/libft.h"
 
-typedef enum s_tokens
+typedef struct    ms_cmd
 {
-	words,
-	pipes,
-	dir_in,
-	dir_out,
-	
-}
+    char **cmd;
+	bool is_pipe;
+    struct s_cmd *next;
+}t_cmd;
 
 #endif

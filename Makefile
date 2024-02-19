@@ -6,7 +6,7 @@
 #    By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/05 20:46:16 by alakhida          #+#    #+#              #
-#    Updated: 2024/02/08 01:49:59 by alakhida         ###   ########.fr        #
+#    Updated: 2024/02/18 23:26:06 by alakhida         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ OBJS = $(SRCS:.c=.o)
 
 CC = gcc
 
-CFLAGS += -Wall -Werror -Wextra -g3 -fsanitize=address
+CFLAGS = -lreadline
 
 #CFLAGS += -g3 -fsanitize=address
 
