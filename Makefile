@@ -3,60 +3,41 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+         #
+#    By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/02/05 20:46:16 by alakhida          #+#    #+#              #
-#    Updated: 2024/02/18 23:26:06 by alakhida         ###   ########.fr        #
+#    Created: 2023/04/10 00:43:31 by calmouht          #+#    #+#              #
+#    Updated: 2024/03/08 08:05:35 by calmouht         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME =	minishell
-
-SRCS =	main.c\
-
-OBJS = $(SRCS:.c=.o)
-
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 CC = gcc
+NAME = minishell
+LIBFT = lib/libft/libft.a
+OBJ = build/main.o build/ms_parse.o build/ms_env.o build/ms_cmdgen.o build/ms_cmdrender.o build/ms_env_clone.o \
+		build/ms_errors.o build/utility.o build/exec_cmd.o
+SRC = src/main.c src/ms_parse.c src/ms_env.c src/ms_cmdgen.c src/ms_cmdrender.c src/ms_env_clone.c \
+		src/ms_errors.c src/utility.c src/execution/exec_cmd.c
+INCLUDE = includes/minishell.h
 
-CFLAGS = -lreadline
+build/%.o : src/%.c
+	$(CC) $< $(CFLAGS) -I$(INCLUDE) -c -o $@
 
-#CFLAGS += -g3 -fsanitize=address
+all : build $(NAME)
 
-RM = rm -rf
+build :
+	mkdir build
 
-LIBFT = libft/libft.a
-LIBFTDIR = libft
-LIBFTLINK = -L $(LIBFTDIR) -lft
+$(LIBFT):
+	$(MAKE) -C lib/libft
 
+$(NAME): $(LIBFT) $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -lreadline -I$(INCLUDE) -o $(NAME)
 
-all:		$(NAME)
+clean:
+	$(MAKE) fclean -C lib/libft; rm -rf build/
 
-$(NAME):	complib echoCM $(OBJS) echoOK
-	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBFTLINK)
+fclean : clean
+	rm -rf $(NAME)
 
-complib:
-	$(MAKE) -C libft/
-
-%.o:		%.c
-	$(CC) -c $(CFLAGS) -o $@ $<
-	printf "$(GREEN)██"
-
-clean: echoCLEAN
-	$(MAKE) -C $(LIBFTDIR) clean
-	$(RM) $(OBJS)
-
-fclean: clean echoFCLEAN
-	$(MAKE) -C $(LIBFTDIR) fclean
-	$(RM) $(OBJS)
-	$(RM) $(NAME)
-
-re:		fclean all
-
-echoCM:
-	echo "$(YELLOW)===> Compiling $(RED)Minishell$(END)\n"
-echoOK:
-	echo "$(GREEN) OK ===> Compilation Success$(END)\n"
-echoCLEAN :
-	echo "\n$(CYAN)===> Cleanning OBJS$(END)"
-echoFCLEAN :
-	echo "$(CYAN)===> Cleanning minishell & Libft$(END)\n"
+re : fclean all
