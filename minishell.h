@@ -31,4 +31,11 @@ typedef struct    ms_cmd
     struct s_cmd *next;
 }t_cmd;
 
+typedef struct t_env
+{
+	char			*varname;
+	char			*value;
+	struct t_env	*next;
+}					t_env;
+
 #endif
