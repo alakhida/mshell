@@ -38,7 +38,7 @@ typedef struct t_env
 // function defs
 char				**ms_parse(char *cmd);
 t_env				*ms_env_new(char **envp);
-int					ms_prompt(t_env *env);
+int					ms_prompt(t_env **env);
 t_cmd				*ms_cmdgen(char **cmd);
 void				ms_rendercmd(char **command, t_env *head);
 char				**ms_env_dup(t_env *env);
@@ -53,8 +53,7 @@ char				*ft_strreplace(char *src, char *dst, char *replacement);
 char				*ft_strreplace_all(char *src, char *dst, char *replacement);
 int                 ft_strcmp(char *s1, char *s2);
 
-// exec
-
-void    			exec_cmd(t_cmd *cmds, t_env *env);
+void				exec_cmd(t_env **env, t_cmd *cmds);
+int					check_built_in(t_cmd *cmds, t_env **envp);
 
 #endif

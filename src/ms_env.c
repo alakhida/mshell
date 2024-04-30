@@ -6,7 +6,7 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:15 by calmouht          #+#    #+#             */
-/*   Updated: 2024/03/08 07:14:09 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/04/16 15:33:41 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ t_env	*ms_env_new(char **envp)
 	{
 		env->varname = ft_strldup(envp[i], ft_strchr(envp[i], '=') - envp[i]);
 		env->value = ft_strdup(ft_strchr(envp[i], '=') + 1);
-		if (envp[i + 1])
+		if (envp[i] != NULL){
 			env->next = (t_env *)malloc(sizeof(t_env));
-		else
-			env->next = NULL;
-		env = env->next;
+			ft_bzero(env->next, sizeof(t_env));
+			env = env->next;
+		}
 		i++;
 	}
 	return (head);
@@ -53,14 +53,19 @@ t_env	*ms_env_search(char *ptr, t_env *head)
 	while (head)
 	{
 		if (ft_strcmp(head->varname, ptr) == 0)
+		{
+			// printf("returned %s %s \n", head->varname, head->value);
 			return (head);
+		}
 		head = head->next;
 	}
+	printf("return NULL\n");
 	return(NULL);
 }
 
 char	*expanded(char *cmd)
 {
+	// printf("expanded =>%s",cmd);
 	int		i;
 	int		k;
 	int		ex_len;
@@ -88,9 +93,13 @@ char	*expanded(char *cmd)
 		i++;
 	}
 	if (k == 0)
+	{
+		// printf("return NULL \n");
 		return (NULL);
+	}
 	ex_len = k - i;
 	l7asol = malloc(sizeof(char) * (ex_len + 1));
-	ft_strlcpy(l7asol, cmd, ex_len);
+	ft_strlcpy(l7asol, &cmd[i], ex_len + 1);
+	// printf("return %s\n",l7asol);
 	return (l7asol);
 }

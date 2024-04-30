@@ -81,9 +81,7 @@ char	**ms_parse(char *cmd)
 	if (cmd == NULL)
 		return (NULL);
 	lexed = (char **)malloc((ms_count(cmd) + 1) * sizeof(char *));
-	if (lexed == NULL)
-		return (NULL);
-	bzero(lexed, (ms_count(cmd) + 1) * sizeof(char *));
+	ft_bzero(lexed, (ms_count(cmd) + 1) * sizeof(char *));
 	while (cmd[i] != '\0')
 	{
 		while (cmd[i] != '\0' && (cmd[i] == ' ' || cmd[i] == '\t'))
