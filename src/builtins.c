@@ -82,38 +82,60 @@ t_env	*add_node(char *var, char *value)
 	return (new);
 }
 
-void add_node_to_back(t_env *envp, t_env *node)
+void add_node_to_back(t_env **envp, t_env *node)
 {
-	while (envp->next != NULL)
-		envp = envp->next;
-	envp->next = node;
+	t_env *current;
+
+	current = *envp;
+	while (current->next != NULL)
+		current = current->next;
+	current->next = node;
+}
+int		ft_env(t_env **env)
+{
+	t_env *curr;
+
+	if (!env)
+        return (0);
+	curr = *env;
+	while (curr->next != NULL)
+	{
+		printf("%s=%s\n",curr->varname, curr->value);
+		curr = curr->next;
+	}
+	return (0);
 }
 
-int		ft_export(t_cmd *cmds, t_env *envp)
+int		ft_export(t_cmd *cmds, t_env **envp)
 {
 	int		i;
 	int		j;
+	t_env	*current;
+	char	*var;
+	char	*value;
 
 	i = 1;
 	j = 0;
-	char	*var;
-	char	*value;
+	current = *envp;
+	if (!cmds->cmd[1])
+		ft_env(envp);
 	while (cmds->cmd[i] != NULL)
 	{
 		j = ft_strchar(cmds->cmd[i], '=');
 		if (j != 1)
 		{
 			var = (char *)malloc(j * sizeof(char));
-			ft_strlcpy(var, cmds->cmd[i], j);
+			ft_strlcpy(var, cmds->cmd[i], j + 1);
+			printf("%s\n", var);
 			value = (char *)malloc((ft_strlen(cmds->cmd[i]) - j + 1) * sizeof(char));
 			ft_strlcpy(value, (cmds->cmd[i] + j), ft_strlen(cmds->cmd[i]) - j + 1);
-			while (envp->next != NULL)
+			while (current->next != NULL)
 			{
-				if (!ft_strcmp(var, envp->varname))
-					envp->value = value;
+				if (!ft_strcmp(var, current->varname))
+					current->value = value;
 				else
 					add_node_to_back(envp, add_node(var, value));
-				envp = envp->next;
+				current = current->next;
 			}
 		}
 		else
@@ -168,11 +190,11 @@ int		ft_unset(t_cmd *cmds, t_env **env)
 	return (0);
 }
 
-void	update_pwd(t_env *env, char *var, char *value)
+void	update_pwd(t_env **env, char *var, char *value)
 {
 	t_env *curr;
 	
-	curr = env;
+	curr = *env;
 	while (curr->next != NULL)
 	{
 		if (!ft_strcmp(curr->varname, var))
@@ -185,13 +207,13 @@ void	update_pwd(t_env *env, char *var, char *value)
 	add_node("OLDPWD", value);
 }
 
-void    ft_cd(t_cmd *cmds, t_env *env)
+void    ft_cd(t_cmd *cmds, t_env **env)
 {
 	t_env	*current;
 	char	*oldpwd;
 	char	*pwd;
 
-	current = env;
+	current = *env;
 	oldpwd = getcwd(NULL, 0);
     if (cmds->cmd[1] == NULL)
 	{
@@ -264,34 +286,20 @@ int    ft_exit(t_cmd *cmds)
     return (0);
 }
 
-int		ft_env(t_env *env)
-{
-	t_env *curr;
-
-	if (!env)
-        return (0);
-	curr = env;
-	while (curr->next != NULL)
-	{
-		printf("%s=%s\n",curr->varname, curr->value);
-		curr = curr->next;
-	}
-	return (0);
-}
 int		check_built_in(t_cmd *cmds, t_env **envp)
 {
 	if (!ft_strncmp(cmds->cmd[0], "echo", 4))
 		ft_echo(cmds);
 	else if (!ft_strncmp(cmds->cmd[0], "env", 3))
-        ft_env(*envp);
+        ft_env(envp);
 	else if (!ft_strncmp(cmds->cmd[0], "pwd", 3))
 		ft_pwd(cmds);
 	else if (!ft_strncmp(cmds->cmd[0], "export", 6))
-		return (ft_export(cmds, *envp));
+		return (ft_export(cmds, envp));
 	else if (!ft_strncmp(cmds->cmd[0], "unset", 5))
 		ft_unset(cmds, envp);
 	else if (!ft_strncmp(cmds->cmd[0], "cd", 2))
-		ft_cd(cmds, *envp);
+		ft_cd(cmds, envp);
 	else if (!ft_strncmp(cmds->cmd[0], "exit", 4))
 		return (ft_exit(cmds));
     return (0);
