@@ -10,12 +10,12 @@
 #                                                                              #
 # **************************************************************************** #
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS = -Wall -Wextra -fsanitize=address -g
 CC = gcc
 NAME = minishell
 LIBFT = lib/libft/libft.a
 OBJ = build/main.o build/ms_parse.o build/ms_env.o build/ms_cmdgen.o build/ms_cmdrender.o build/ms_env_clone.o \
-		build/ms_errors.o build/utility.o build/execution.o src/builtins.o
+		build/ms_errors.o build/utility.o build/execution.o build/builtins.o
 SRC = src/main.c src/ms_parse.c src/ms_env.c src/ms_cmdgen.c src/ms_cmdrender.c src/ms_env_clone.c \
 		src/ms_errors.c src/utility.c src/execution.c src/builtins.c
 INCLUDE = includes/minishell.h

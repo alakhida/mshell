@@ -64,9 +64,9 @@ int	ft_strchar(const char *s, int c)
 	i = 0;
 	while (s[i] && s[i] != c)
 	{
-		i++;
 		if (s[i] == c)
 			break;
+		i++;
 	}
 	return (i);
 }
@@ -76,8 +76,8 @@ t_env	*add_node(char *var, char *value)
 	t_env* new = (t_env*)malloc(sizeof(t_env));
     if (new == NULL)
         return (NULL);
-    new->varname = ft_strdup(var);
-    new->value = ft_strdup(value);
+    new->varname = var;
+    new->value = value;
     new->next = NULL;
 	return (new);
 }
@@ -98,7 +98,7 @@ int		ft_env(t_env **env)
 	if (!env)
         return (0);
 	curr = *env;
-	while (curr->next != NULL)
+	while (curr)
 	{
 		printf("%s=%s\n",curr->varname, curr->value);
 		curr = curr->next;
@@ -106,7 +106,7 @@ int		ft_env(t_env **env)
 	return (0);
 }
 
-int		ft_export(t_cmd *cmds, t_env **envp)
+void ft_export(t_cmd *cmds, t_env **envp)
 {
 	int		i;
 	int		j;
@@ -122,30 +122,37 @@ int		ft_export(t_cmd *cmds, t_env **envp)
 	while (cmds->cmd[i] != NULL)
 	{
 		j = ft_strchar(cmds->cmd[i], '=');
-		if (j != 1)
+		if (j != 0)
 		{
-			var = (char *)malloc(j * sizeof(char));
+			var = (char *)malloc(j + 1 * sizeof(char));
 			ft_strlcpy(var, cmds->cmd[i], j + 1);
-			printf("%s\n", var);
-			value = (char *)malloc((ft_strlen(cmds->cmd[i]) - j + 1) * sizeof(char));
-			ft_strlcpy(value, (cmds->cmd[i] + j), ft_strlen(cmds->cmd[i]) - j + 1);
-			while (current->next != NULL)
+			value = (char *)malloc((ft_strlen(cmds->cmd[i]) - j) * sizeof(char));
+			ft_strlcpy(value, (cmds->cmd[i] + j + 1), ft_strlen(cmds->cmd[i]) - j);
+			while (current)
 			{
 				if (!ft_strcmp(var, current->varname))
+				{
+					free(current->value);
 					current->value = value;
-				else
-					add_node_to_back(envp, add_node(var, value));
+					break;
+				}
+				else if (current->next == NULL)
+				{
+					current->next = add_node(var, value);
+					break;
+				}
 				current = current->next;
 			}
 		}
 		else
 		{
-			printf("%s : not a valid identifier", cmds->cmd[i]);
-			return (0);
+			printf("%s : not a valid identifier\n", cmds->cmd[i]);
+			return ;
 		}
+		current = *envp;
 		i++;
 	}
-    return (0);
+    return ;
 }
 
 int		ft_unset(t_cmd *cmds, t_env **env)
@@ -195,16 +202,32 @@ void	update_pwd(t_env **env, char *var, char *value)
 	t_env *curr;
 	
 	curr = *env;
-	while (curr->next != NULL)
+	while (curr)
 	{
 		if (!ft_strcmp(curr->varname, var))
 		{
 			free (curr->value);
 			curr->value = ft_strdup(value);
+			break;
+		}
+		if (curr->next == NULL)
+		{
+			curr->next = add_node("OLDPWD", value);
+			break;
 		}
 		curr = curr->next;
 	}
-	add_node("OLDPWD", value);
+}
+
+char *env_search(char *ptr, t_env *head)
+{
+	while (head)
+	{
+		if (ft_strcmp(head->varname, ptr) == 0)
+			return (head->value);
+		head = head->next;
+	}
+	return (NULL);
 }
 
 void    ft_cd(t_cmd *cmds, t_env **env)
@@ -217,34 +240,30 @@ void    ft_cd(t_cmd *cmds, t_env **env)
 	oldpwd = getcwd(NULL, 0);
     if (cmds->cmd[1] == NULL)
 	{
-		chdir(getenv("HOME"));
-		pwd = getcwd(NULL,0);
-		printf("%s\n", pwd);
-		update_pwd(env, "OLDPWD", oldpwd);
-	    pwd = getenv("HOME");
-		if (!pwd)
+		if (chdir(env_search("HOME", current)) != 0)
 		{
 			printf("cd: HOME not set\n");
 			return ;
 		}
-		update_pwd(env, "PWD", pwd);
-		if (chdir(getenv("HOME")) != 0)
-			return ;
-	}
-	if (cmds->cmd[1])
-	{
-    if (access(cmds->cmd[1], F_OK) != 0)
-	{
-		printf("%s : NO such file or directory\n", cmds->cmd[1]);
-        return ;
-	}
-	else
-	{
-		chdir(cmds->cmd[1]);
 		pwd = getcwd(NULL,0);
-		update_pwd(env, "PWD", pwd);
 		update_pwd(env, "OLDPWD", oldpwd);
+	    pwd = env_search("HOME", current);
+		update_pwd(env, "PWD", pwd);
 	}
+	else if (cmds->cmd[1])
+	{
+    	if (access(cmds->cmd[1], F_OK) != 0)
+		{
+			printf("%s : NO such file or directory\n", cmds->cmd[1]);
+       		return ;
+		}
+		else
+		{
+			chdir(cmds->cmd[1]);
+			pwd = getcwd(NULL,0);
+			update_pwd(env, "PWD", pwd);
+			update_pwd(env, "OLDPWD", oldpwd);
+		}
 	}
 }
 
@@ -295,12 +314,12 @@ int		check_built_in(t_cmd *cmds, t_env **envp)
 	else if (!ft_strncmp(cmds->cmd[0], "pwd", 3))
 		ft_pwd(cmds);
 	else if (!ft_strncmp(cmds->cmd[0], "export", 6))
-		return (ft_export(cmds, envp));
+		ft_export(cmds, envp);
 	else if (!ft_strncmp(cmds->cmd[0], "unset", 5))
 		ft_unset(cmds, envp);
 	else if (!ft_strncmp(cmds->cmd[0], "cd", 2))
 		ft_cd(cmds, envp);
 	else if (!ft_strncmp(cmds->cmd[0], "exit", 4))
-		return (ft_exit(cmds));
+		ft_exit(cmds);
     return (0);
 }

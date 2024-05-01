@@ -68,7 +68,6 @@ int	ms_prompt(t_env **env)
 	ms_rendercmd(lexed, *env);
 	cmd2 = ms_cmdgen(lexed);
 	exec_cmd(env, cmd2);
-	(void)env;
 	return (0);
 }
 

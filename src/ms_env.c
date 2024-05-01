@@ -38,11 +38,12 @@ t_env	*ms_env_new(char **envp)
 	{
 		env->varname = ft_strldup(envp[i], ft_strchr(envp[i], '=') - envp[i]);
 		env->value = ft_strdup(ft_strchr(envp[i], '=') + 1);
-		if (envp[i] != NULL){
+		if (envp[i + 1] != NULL){
 			env->next = (t_env *)malloc(sizeof(t_env));
-			ft_bzero(env->next, sizeof(t_env));
 			env = env->next;
 		}
+		else
+			env->next = NULL;
 		i++;
 	}
 	return (head);
