@@ -91,19 +91,41 @@ void add_node_to_back(t_env **envp, t_env *node)
 		current = current->next;
 	current->next = node;
 }
-int		ft_env(t_env **env)
+void		ft_env(t_env **env)
 {
 	t_env *curr;
 
 	if (!env)
-        return (0);
+        return ;
 	curr = *env;
+	if (!curr)
+		return ;
 	while (curr)
 	{
-		printf("%s=%s\n",curr->varname, curr->value);
+		if (curr->value)
+			printf("%s=%s\n",curr->varname, curr->value);
 		curr = curr->next;
 	}
-	return (0);
+}
+
+void		ft_env_export(t_env **env)
+{
+	t_env *curr;
+
+	if (!env)
+        return ;
+	curr = *env;
+	if (!curr)
+		return ;
+	while (curr != NULL)
+	{
+		if (curr->varname)
+		printf("declare -x %s",curr->varname);
+		if (curr->value)
+			printf("=%s", curr->value);
+		printf("\n");
+		curr = curr->next;
+	}
 }
 
 void ft_export(t_cmd *cmds, t_env **envp)
@@ -118,41 +140,66 @@ void ft_export(t_cmd *cmds, t_env **envp)
 	j = 0;
 	current = *envp;
 	if (!cmds->cmd[1])
-		ft_env(envp);
+		ft_env_export(envp);
 	while (cmds->cmd[i] != NULL)
 	{
 		j = ft_strchar(cmds->cmd[i], '=');
-		if (j != 0)
+		var = (char *)malloc(j + 1 * sizeof(char));
+		ft_strlcpy(var, cmds->cmd[i], j + 1);
+		if (!var)
+			return ;
+		if (j != ft_strlen(cmds->cmd[i]))
 		{
-			var = (char *)malloc(j + 1 * sizeof(char));
-			ft_strlcpy(var, cmds->cmd[i], j + 1);
 			value = (char *)malloc((ft_strlen(cmds->cmd[i]) - j) * sizeof(char));
-			ft_strlcpy(value, (cmds->cmd[i] + j + 1), ft_strlen(cmds->cmd[i]) - j);
-			while (current)
+			if (j != 0)
 			{
-				if (!ft_strcmp(var, current->varname))
+				if (!value)
+					return ;
+				ft_strlcpy(value, (cmds->cmd[i] + j + 1), ft_strlen(cmds->cmd[i]) - j);
+				while (current)
 				{
-					free(current->value);
-					current->value = value;
-					break;
+					if (!ft_strcmp(var, current->varname))
+					{
+						free(current->value);
+						current->value = value;
+						break;
+					}
+					else if (current->next == NULL)
+					{
+						current->next = add_node(var, value);
+						break;
+					}
+					current = current->next;
 				}
-				else if (current->next == NULL)
-				{
-					current->next = add_node(var, value);
-					break;
-				}
-				current = current->next;
+			}
+			else
+			{
+				printf("%s : not a valid identifier\n", cmds->cmd[i]);
+				return ;
 			}
 		}
-		else
+		else if (j == ft_strlen(cmds->cmd[i]))
 		{
-			printf("%s : not a valid identifier\n", cmds->cmd[i]);
-			return ;
+			while (current)
+			{
+				if (var == current->varname)
+				{
+					current->varname = var;
+					current->value = NULL;
+					break;
+				}
+				else
+				{
+					current = add_node(var, NULL);
+					add_node_to_back(envp, current);
+					break;
+				}
+			current = current->next;
+			}
 		}
 		current = *envp;
 		i++;
 	}
-    return ;
 }
 
 int		ft_unset(t_cmd *cmds, t_env **env)
@@ -174,7 +221,7 @@ int		ft_unset(t_cmd *cmds, t_env **env)
 		}
 		else
 		{
-			while (curr)
+			while (curr->next)
 			{
 				if (!ft_strcmp(cmds->cmd[i], curr->next->varname))
 				{
