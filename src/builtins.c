@@ -3,15 +3,20 @@
 int		check_option(char *str)
 {
 	int		i;
+	bool	t;
 
+	t = false;
 	i = 1;
 	if (str[0] == '-')
+	{
+		if (str[i] == 'n')
+			t = true;
 		while (str[i] == 'n')
 			i++;
-	if (str[i] == '\0')
+	}
+	if (str[i] == '\0' && t == true)
 		return (1);
-	else
-		return (0);
+	return (0);
 }
 
 int		ft_echo(t_cmd *cmnd)
