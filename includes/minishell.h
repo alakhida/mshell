@@ -54,6 +54,6 @@ char				*ft_strreplace_all(char *src, char *dst, char *replacement);
 int                 ft_strcmp(char *s1, char *s2);
 
 void				exec_cmd(t_env **env, t_cmd *cmds);
-int					check_built_in(t_cmd *cmds, t_env **envp);
+int					exec_built_in(t_cmd *cmds, t_env **envp);
 
 #endif

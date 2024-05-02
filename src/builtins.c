@@ -352,7 +352,7 @@ int    ft_exit(t_cmd *cmds)
     return (0);
 }
 
-int		check_built_in(t_cmd *cmds, t_env **envp)
+int		exec_built_in(t_cmd *cmds, t_env **envp)
 {
 	if (!ft_strncmp(cmds->cmd[0], "echo", 4))
 		ft_echo(cmds);
