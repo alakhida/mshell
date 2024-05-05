@@ -27,6 +27,19 @@ bool    pipe_chain_present(t_cmd *cmds)
         return (true);
 }
 
+int    count_pipes(t_cmd *cmds)
+{
+    int i;
+
+    i = 0;
+    while (cmds)
+    {
+        i++;
+        cmds = cmds->next;
+    }
+    return (i);
+}
+
 char  *ft_strtok(char *str, const char *delim)
 {
     static char *s = NULL;
@@ -96,6 +109,34 @@ char     *cmd_path(char *cmd, t_env *env)
     return path;
 }
 
+// void	exec_pipes(t_cmd *cmds)
+// {
+// 	int		pip[2];
+// 	// pid_t	child;
+
+// 			puts("hh");
+//     while (cmds)
+//     {
+// 		// child = fork();
+//     	pipe(pip);
+// 		// if (child == 0)
+// 		// {
+// 			close(pip[1]);
+// 			if (dup2(pip[0], STDIN_FILENO) < 0)
+// 			{
+// 				printf("couldn't get input\n");
+// 				return ;
+// 			}
+//     // close (pip[1]);
+// 	// dup2(pip[1], STDOUT_FILENO);
+//    		// }
+// 	// close(pip[1]);
+//     //    if (cmds->next != NULL)
+//     //         dup2(pip[1], STDOUT_FILENO);
+//     // close(pip[0]);
+//     cmds = cmds->next;
+//     }
+// }
 void    exec_cmd(t_env **env, t_cmd *cmds)
 {
     bool    pipe_chain;
@@ -103,53 +144,52 @@ void    exec_cmd(t_env **env, t_cmd *cmds)
     pid_t   child;
     int     pip[2];
     int     save_stdout;
-    int     exit_status;
     t_cmd   *curr;
 
     pipe_chain = pipe_chain_present(cmds);
     curr = cmds;
     save_stdout = 0;
-    path = cmd_path(cmds->cmd[0], *env);
-    while (cmds)
+     while (cmds)
     {
+        path = cmd_path(cmds->cmd[0], *env);
+        if (path == NULL)
+        {
+            printf("Command not found: %s\n", cmds->cmd[0]);
+            cmds = cmds->next;
+            continue;
+        }
         if (cmd_is_builtin(cmds->cmd[0]) && !pipe_chain)
             exec_built_in(cmds, env);
-        else if (path != NULL)
-	    {
-	        child = fork();
-            pipe(pip);
+        else
+        {
+            if (pipe_chain && cmds->next)
+                pipe(pip);
+            child = fork();
             if (child == -1)
                 exit(EXIT_FAILURE);
             if (child == 0)
             {
-                dup2(save_stdout, STDIN_FILENO);
-                if (save_stdout)
-                    close(save_stdout);
-                if (cmds->next)
+                if (pipe_chain && cmds->next)
                 {
                     close(pip[0]);
                     dup2(pip[1], STDOUT_FILENO);
                     close(pip[1]);
                 }
+                if (save_stdout)
+                {
+                    dup2(save_stdout, STDIN_FILENO);
+                    close(save_stdout);
+                }
                 if (execve(path, cmds->cmd, NULL) == -1)
                     exit(EXIT_FAILURE);
             }
-            close(pip[1]);
-            if (save_stdout)
-                close(save_stdout);
-            if (cmds->next)
+            if (pipe_chain && cmds->next)
+            {
+                close(pip[1]);
                 save_stdout = pip[0];
-	    }
+            }
+        }
         cmds = cmds->next;
-        if (cmds)
-            path = cmd_path(cmds->cmd[0], *env);
     }
-    while (curr)
-    {
-        waitpid(-1, &exit_status, WNOHANG);
-        if (WIFSIGNALED(exit_status))
-            printf("%i\n", WTERMSIG(exit_status));
-        if (WIFEXITED(exit_status))
-            curr = curr->next;
-    }
+    while (wait(&child) > 0);
 }

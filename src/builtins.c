@@ -1,52 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/04 03:29:33 by alakhida          #+#    #+#             */
+/*   Updated: 2024/05/05 03:21:28 by alakhida         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "../includes/minishell.h"
-
-int		check_option(char *str)
-{
-	int		i;
-	bool	t;
-
-	t = false;
-	i = 1;
-	if (str[0] == '-')
-	{
-		if (str[i] == 'n')
-			t = true;
-		while (str[i] == 'n')
-			i++;
-	}
-	if (str[i] == '\0' && t == true)
-		return (1);
-	return (0);
-}
-
-int		ft_echo(t_cmd *cmnd)
-{
-	int		i;
-	int		n;
-
-	i = 0;
-	n = 0;
-	if (cmnd->cmd[1] != NULL)
-	{
-		if (check_option(cmnd->cmd[1]) == 1)
-		{
-				i += 2;
-				n = 1;
-		}
-		else
-			i += 1;
-		while (cmnd->cmd[i])
-		{
-			ft_putstr_fd(cmnd->cmd[i], 1);
-            if (cmnd->cmd[i + 1] != NULL)
-                ft_putchar_fd(' ', 1);
-			i++;
-		}
-	}
-	if (n == 0)
-		write(1, "\n", 1);
-	return (0);
-}
 
 int		ft_pwd(t_cmd *cmds)
 {
@@ -54,7 +19,7 @@ int		ft_pwd(t_cmd *cmds)
 
     if (cmds->cmd[1])
     {
-        printf("%s: Too many arguments\n", cmds->cmd[0]);
+        printf("%s: too many arguments\n", cmds->cmd[0]);
         return (0);
     }
     buff = getcwd(NULL,0);
@@ -96,22 +61,6 @@ void add_node_to_back(t_env **envp, t_env *node)
 		current = current->next;
 	current->next = node;
 }
-void		ft_env(t_env **env)
-{
-	t_env *curr;
-
-	if (!env)
-        return ;
-	curr = *env;
-	if (!curr)
-		return ;
-	while (curr)
-	{
-		if (curr->value)
-			printf("%s=%s\n",curr->varname, curr->value);
-		curr = curr->next;
-	}
-}
 
 void		ft_env_export(t_env **env)
 {
@@ -131,6 +80,26 @@ void		ft_env_export(t_env **env)
 		printf("\n");
 		curr = curr->next;
 	}
+}
+
+void	ft_export_var(char *var, t_env **envp, t_env *current)
+{
+	while (current)
+			{
+				if (var == current->varname)
+				{
+					current->varname = var;
+					current->value = NULL;
+					break;
+				}
+				else
+				{
+					current = add_node(var, NULL);
+					add_node_to_back(envp, current);
+					break;
+				}
+			current = current->next;
+			}
 }
 
 void ft_export(t_cmd *cmds, t_env **envp)
@@ -184,141 +153,11 @@ void ft_export(t_cmd *cmds, t_env **envp)
 			}
 		}
 		else if (j == ft_strlen(cmds->cmd[i]))
-		{
-			while (current)
-			{
-				if (var == current->varname)
-				{
-					current->varname = var;
-					current->value = NULL;
-					break;
-				}
-				else
-				{
-					current = add_node(var, NULL);
-					add_node_to_back(envp, current);
-					break;
-				}
-			current = current->next;
-			}
-		}
+			ft_export_var(var, envp, current);
 		current = *envp;
 		i++;
 	}
 }
-
-int		ft_unset(t_cmd *cmds, t_env **env)
-{
-	t_env *curr;
-	t_env *tmp;
-	int		i;
-
-	i = 1;
-	curr = *env;
-	while (cmds->cmd[i])
-	{
-		if (!ft_strcmp(cmds->cmd[i], curr->varname))
-		{
-			free(curr->value);
-			free(curr->varname);
-			*env = curr->next;
-			free(curr);
-		}
-		else
-		{
-			while (curr->next)
-			{
-				if (!ft_strcmp(cmds->cmd[i], curr->next->varname))
-				{
-					free(curr->next->value);
-					free(curr->next->varname);
-					tmp = curr->next;
-					if (curr->next->next)
-						curr->next = curr->next->next;
-					else
-						curr->next = NULL;
-					free(tmp);
-					break;
-				}
-				curr = curr->next;
-			}
-		}
-		i++;
-		curr = *env;
-	}
-	return (0);
-}
-
-void	update_pwd(t_env **env, char *var, char *value)
-{
-	t_env *curr;
-	
-	curr = *env;
-	while (curr)
-	{
-		if (!ft_strcmp(curr->varname, var))
-		{
-			free (curr->value);
-			curr->value = ft_strdup(value);
-			break;
-		}
-		if (curr->next == NULL)
-		{
-			curr->next = add_node("OLDPWD", value);
-			break;
-		}
-		curr = curr->next;
-	}
-}
-
-char *env_search(char *ptr, t_env *head)
-{
-	while (head)
-	{
-		if (ft_strcmp(head->varname, ptr) == 0)
-			return (head->value);
-		head = head->next;
-	}
-	return (NULL);
-}
-
-void    ft_cd(t_cmd *cmds, t_env **env)
-{
-	t_env	*current;
-	char	*oldpwd;
-	char	*pwd;
-
-	current = *env;
-	oldpwd = getcwd(NULL, 0);
-    if (cmds->cmd[1] == NULL)
-	{
-		if (chdir(env_search("HOME", current)) != 0)
-		{
-			printf("cd: HOME not set\n");
-			return ;
-		}
-		pwd = getcwd(NULL,0);
-		update_pwd(env, "OLDPWD", oldpwd);
-	    pwd = env_search("HOME", current);
-		update_pwd(env, "PWD", pwd);
-	}
-	else if (cmds->cmd[1])
-	{
-    	if (access(cmds->cmd[1], F_OK) != 0)
-		{
-			printf("%s : NO such file or directory\n", cmds->cmd[1]);
-       		return ;
-		}
-		else
-		{
-			chdir(cmds->cmd[1]);
-			pwd = getcwd(NULL,0);
-			update_pwd(env, "PWD", pwd);
-			update_pwd(env, "OLDPWD", oldpwd);
-		}
-	}
-}
-
 
 int		is_digit(char *str)
 {
