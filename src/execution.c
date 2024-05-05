@@ -1,4 +1,48 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/05 07:15:59 by alakhida          #+#    #+#             */
+/*   Updated: 2024/05/05 07:37:14 by alakhida         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
+
+char *ft_strcat(char *dest, char *src)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (dest[i] != '\0')
+		i++;
+	j = 0;
+	while (src[j] != '\0')
+	{
+		dest[i + j] = src[j];
+		j++;
+	}
+	dest[i + j] = '\0';
+	return (dest);
+}
+
+char *ft_strcpy(char *dest, char *src)
+{
+	int i;
+
+	i = 0;
+	while (src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
 
 bool    cmd_is_builtin(char *string)
 {
@@ -67,11 +111,29 @@ char  *ft_strtok(char *str, const char *delim)
     return (ret);
 }
 
+char	*copy_path(char *s1, char *s2)
+{
+	size_t	len;
+	size_t	len2;
+	char	*result;
+	
+	len = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	result = (char *)malloc((len + len2 + 2) * sizeof(char));
+	if (result == NULL)
+		return NULL;
+	ft_strcpy(result, s1);
+	ft_strcat(result, "/");
+	ft_strcat(result, s2);
+	return (result);
+}
+
 char     *cmd_path(char *cmd, t_env *env)
 {
     t_env  *curr; 
     char    *path;
     char    *dir;
+	char	*cmdpath;
 
     curr = env;
     if (!curr)
@@ -86,16 +148,7 @@ char     *cmd_path(char *cmd, t_env *env)
     dir = ft_strtok(path, ":");
      while (dir != NULL)
      {
-   
-        char *cmdpath = malloc(ft_strlen(dir) + ft_strlen(cmd) + 2);
-        if (!cmdpath)
-        {
-            perror("malloc");
-            exit(EXIT_FAILURE);
-        }
-        strcpy(cmdpath, dir);
-        strcat(cmdpath, "/");
-        strcat(cmdpath, cmd);
+        cmdpath = copy_path(dir, cmd);
         if (access(cmdpath, X_OK) == 0)
         {
             free (path);
@@ -109,34 +162,51 @@ char     *cmd_path(char *cmd, t_env *env)
     return path;
 }
 
-// void	exec_pipes(t_cmd *cmds)
-// {
-// 	int		pip[2];
-// 	// pid_t	child;
+char	**env_to_arr(t_env *list)
+{
+	int		cnt;
+	char	**arr;
+	t_env	*curr;
+	int		i;
+	int		j;
 
-// 			puts("hh");
-//     while (cmds)
-//     {
-// 		// child = fork();
-//     	pipe(pip);
-// 		// if (child == 0)
-// 		// {
-// 			close(pip[1]);
-// 			if (dup2(pip[0], STDIN_FILENO) < 0)
-// 			{
-// 				printf("couldn't get input\n");
-// 				return ;
-// 			}
-//     // close (pip[1]);
-// 	// dup2(pip[1], STDOUT_FILENO);
-//    		// }
-// 	// close(pip[1]);
-//     //    if (cmds->next != NULL)
-//     //         dup2(pip[1], STDOUT_FILENO);
-//     // close(pip[0]);
-//     cmds = cmds->next;
-//     }
-// }
+	curr = list;
+	cnt = 0;
+	i = 0;
+	j = 0;
+	while (curr != NULL)
+	{
+		cnt++;
+		curr = curr->next;
+	}
+	arr = (char **)malloc((cnt + 1) * sizeof(char *));
+	if (arr == NULL)
+		return NULL;
+	curr = list;
+	while (curr != NULL)
+	{
+		arr[i] = ft_strjoin(curr->varname, "=");
+		if (arr[i] == NULL)
+		{
+			while (j < i)
+				free(arr[j++]);
+			free(arr);
+			return (NULL);
+		}
+		arr[i] = ft_strjoin(arr[i], curr->value);
+		if (arr[i] == NULL)
+		{
+			while (j < i)
+				free(arr[j++]);
+			free(arr);
+			return (NULL);
+		}
+		i++;
+		curr = curr->next;
+	}
+	arr[cnt] = NULL;
+	return arr;
+}
 void    exec_cmd(t_env **env, t_cmd *cmds)
 {
     bool    pipe_chain;
@@ -145,12 +215,14 @@ void    exec_cmd(t_env **env, t_cmd *cmds)
     int     pip[2];
     int     save_stdout;
     t_cmd   *curr;
+	char	**envp;
 
     pipe_chain = pipe_chain_present(cmds);
     curr = cmds;
     save_stdout = 0;
      while (cmds)
     {
+		envp = env_to_arr(*env);
         path = cmd_path(cmds->cmd[0], *env);
         if (path == NULL)
         {
@@ -180,7 +252,7 @@ void    exec_cmd(t_env **env, t_cmd *cmds)
                     dup2(save_stdout, STDIN_FILENO);
                     close(save_stdout);
                 }
-                if (execve(path, cmds->cmd, NULL) == -1)
+                if (execve(path, cmds->cmd, envp) == -1)
                     exit(EXIT_FAILURE);
             }
             if (pipe_chain && cmds->next)

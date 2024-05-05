@@ -59,5 +59,6 @@ void				ft_env(t_env **env);
 int					ft_unset(t_cmd *cmds, t_env **env);
 void				ft_cd(t_cmd *cmds, t_env **env);
 t_env				*add_node(char *var, char *value);
+int					ft_pwd(t_cmd *cmds);
 
 #endif

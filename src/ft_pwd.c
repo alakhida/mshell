@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/05 07:16:08 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/05 07:16:09 by alakhida         ###   ########.fr       */
+/*   Created: 2024/05/05 06:47:08 by alakhida          #+#    #+#             */
+/*   Updated: 2024/05/05 07:12:40 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void		ft_env(t_env **env)
+int		ft_pwd(t_cmd *cmds)
 {
-	t_env *curr;
+	char    *buff;
 
-	if (!env)
-        return ;
-	curr = *env;
-	if (!curr)
-		return ;
-	while (curr != NULL)
-	{
-		if (curr->value != NULL)
-			printf("%s=%s\n",curr->varname, curr->value);
-		curr = curr->next;
-	}
+    if (cmds->cmd[1])
+    {
+        printf("%s: too many arguments\n", cmds->cmd[0]);
+        return (0);
+    }
+    buff = getcwd(NULL,0);
+    if (buff != NULL)
+        printf("%s\n", buff);
+	return (0);
 }

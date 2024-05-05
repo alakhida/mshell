@@ -6,27 +6,13 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 03:29:33 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/05 03:21:28 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/05 06:47:54 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../includes/minishell.h"
 
-int		ft_pwd(t_cmd *cmds)
-{
-	char    *buff;
-
-    if (cmds->cmd[1])
-    {
-        printf("%s: too many arguments\n", cmds->cmd[0]);
-        return (0);
-    }
-    buff = getcwd(NULL,0);
-    if (buff != NULL)
-        printf("%s\n", buff);
-	return (0);
-}
 int	ft_strchar(const char *s, int c)
 {
 	int		i;
