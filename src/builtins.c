@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 03:29:33 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/05 06:47:54 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/06 07:18:05 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,60 +90,63 @@ void	ft_export_var(char *var, t_env **envp, t_env *current)
 
 void ft_export(t_cmd *cmds, t_env **envp)
 {
-	int		i;
-	int		j;
-	t_env	*current;
-	char	*var;
-	char	*value;
-
-	i = 1;
-	j = 0;
-	current = *envp;
-	if (!cmds->cmd[1])
-		ft_env_export(envp);
-	while (cmds->cmd[i] != NULL)
-	{
-		j = ft_strchar(cmds->cmd[i], '=');
-		var = (char *)malloc(j + 1 * sizeof(char));
-		ft_strlcpy(var, cmds->cmd[i], j + 1);
-		if (!var)
-			return ;
-		if (j != ft_strlen(cmds->cmd[i]))
+    int     i;
+    int     j;
+    t_env   *current;
+    char    *var;
+    char    *value;
+    
+    i = 1;
+    current = *envp;
+    if (!cmds->cmd[1])
+        ft_env_export(envp);
+    while (cmds->cmd[i] != NULL)
+    {
+        j = ft_strchar(cmds->cmd[i], '=');
+        if (j >= 0)
 		{
-			value = (char *)malloc((ft_strlen(cmds->cmd[i]) - j) * sizeof(char));
-			if (j != 0)
+            var = (char *)malloc((j + 1) * sizeof(char));
+            if (!var)
+                return;
+            ft_strlcpy(var, cmds->cmd[i], j + 1);
+            value = (char *)malloc((ft_strlen(cmds->cmd[i]) - j) * sizeof(char) + 1);
+            if (!value)
 			{
-				if (!value)
-					return ;
-				ft_strlcpy(value, (cmds->cmd[i] + j + 1), ft_strlen(cmds->cmd[i]) - j);
-				while (current)
-				{
-					if (!ft_strcmp(var, current->varname))
-					{
-						free(current->value);
-						current->value = value;
-						break;
-					}
-					else if (current->next == NULL)
-					{
-						current->next = add_node(var, value);
-						break;
-					}
-					current = current->next;
-				}
-			}
-			else
+                free(var);
+                return;
+            }
+            ft_strlcpy(value, (cmds->cmd[i] + j + 1), ft_strlen(cmds->cmd[i]) - j + 1);
+        }
+		else
+		{
+            var = ft_strdup(cmds->cmd[i]);
+            if (!var)
+                return;
+            value = NULL;
+        }
+        while (current)
+		{
+            if (!ft_strcmp(var, current->varname))
 			{
-				printf("%s : not a valid identifier\n", cmds->cmd[i]);
-				return ;
-			}
-		}
-		else if (j == ft_strlen(cmds->cmd[i]))
-			ft_export_var(var, envp, current);
-		current = *envp;
-		i++;
-	}
+                free(current->value);
+                current->value = value;
+                free(var);
+                break;
+            }
+			else if (current->next == NULL)
+			{
+                current->next = add_node(var, value);
+                break;
+            }
+            current = current->next;
+        }
+        current = *envp;
+        i++;
+    }
 }
+
+
+
 
 int		is_digit(char *str)
 {

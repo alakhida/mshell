@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:59 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/05 07:37:14 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/06 08:12:25 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,7 +220,7 @@ void    exec_cmd(t_env **env, t_cmd *cmds)
     pipe_chain = pipe_chain_present(cmds);
     curr = cmds;
     save_stdout = 0;
-     while (cmds)
+    while (cmds)
     {
 		envp = env_to_arr(*env);
         path = cmd_path(cmds->cmd[0], *env);
