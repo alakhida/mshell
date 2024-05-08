@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 03:29:33 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/06 07:18:05 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/08 06:15:00 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,106 +47,6 @@ void add_node_to_back(t_env **envp, t_env *node)
 		current = current->next;
 	current->next = node;
 }
-
-void		ft_env_export(t_env **env)
-{
-	t_env *curr;
-
-	if (!env)
-        return ;
-	curr = *env;
-	if (!curr)
-		return ;
-	while (curr != NULL)
-	{
-		if (curr->varname)
-		printf("declare -x %s",curr->varname);
-		if (curr->value)
-			printf("=%s", curr->value);
-		printf("\n");
-		curr = curr->next;
-	}
-}
-
-void	ft_export_var(char *var, t_env **envp, t_env *current)
-{
-	while (current)
-			{
-				if (var == current->varname)
-				{
-					current->varname = var;
-					current->value = NULL;
-					break;
-				}
-				else
-				{
-					current = add_node(var, NULL);
-					add_node_to_back(envp, current);
-					break;
-				}
-			current = current->next;
-			}
-}
-
-void ft_export(t_cmd *cmds, t_env **envp)
-{
-    int     i;
-    int     j;
-    t_env   *current;
-    char    *var;
-    char    *value;
-    
-    i = 1;
-    current = *envp;
-    if (!cmds->cmd[1])
-        ft_env_export(envp);
-    while (cmds->cmd[i] != NULL)
-    {
-        j = ft_strchar(cmds->cmd[i], '=');
-        if (j >= 0)
-		{
-            var = (char *)malloc((j + 1) * sizeof(char));
-            if (!var)
-                return;
-            ft_strlcpy(var, cmds->cmd[i], j + 1);
-            value = (char *)malloc((ft_strlen(cmds->cmd[i]) - j) * sizeof(char) + 1);
-            if (!value)
-			{
-                free(var);
-                return;
-            }
-            ft_strlcpy(value, (cmds->cmd[i] + j + 1), ft_strlen(cmds->cmd[i]) - j + 1);
-        }
-		else
-		{
-            var = ft_strdup(cmds->cmd[i]);
-            if (!var)
-                return;
-            value = NULL;
-        }
-        while (current)
-		{
-            if (!ft_strcmp(var, current->varname))
-			{
-                free(current->value);
-                current->value = value;
-                free(var);
-                break;
-            }
-			else if (current->next == NULL)
-			{
-                current->next = add_node(var, value);
-                break;
-            }
-            current = current->next;
-        }
-        current = *envp;
-        i++;
-    }
-}
-
-
-
 
 int		is_digit(char *str)
 {

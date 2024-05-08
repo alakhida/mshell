@@ -18,9 +18,14 @@ typedef enum
 	PIPE,    // |
 }					e_type;
 
+typedef struct red{
+	e_type red;
+	char *file;
+} red;
 typedef struct ms_cmd
 {
 	char			**cmd;
+	red 			*redir;
 	e_type			input;
 	char			*infile;
 	e_type			output;
@@ -60,5 +65,10 @@ int					ft_unset(t_cmd *cmds, t_env **env);
 void				ft_cd(t_cmd *cmds, t_env **env);
 t_env				*add_node(char *var, char *value);
 int					ft_pwd(t_cmd *cmds);
+void				add_node_to_back(t_env **envp, t_env *node);
+void				ft_export(t_cmd *cmds, t_env **envp);
+int					ft_strchar(const char *s, int c);
+void				ft_export_var(char *var, t_env **envp, t_env *current);
+void				ft_env_export(t_env **env);
 
 #endif

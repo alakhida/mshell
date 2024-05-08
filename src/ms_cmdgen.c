@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_cmdgen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 06:38:46 by calmouht          #+#    #+#             */
-/*   Updated: 2024/04/16 15:30:54 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/08 08:28:17 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,30 @@ t_cmd	*ms_cmdgen(char **cmd)
 		else
 			i++;
 	}
+	// t_cmd *tmp;
+	// tmp = head;
+	// while(tmp)
+	// {
+	// 	i = 0;
+	// 	printf("------------------");
+	// 	while(tmp->cmd[i])
+	// 	{
+	// 		if(!ft_strcmp(tmp->cmd[i],">") && ft_strcmp(tmp->cmd[i],">>"))
+	// 		{
+	// 			tmp->redir = (red*)malloc(sizeof(red));
+	// 			tmp->redir->red = 1;
+	// 			tmp->redir->file = cmd[i + 1];
+	// 		}
+	// 		else if (!ft_strcmp(tmp->cmd[i],"<") && ft_strcmp(tmp->cmd[i],"<<"))
+	// 			printf("red in\n");
+	// 		else if (!ft_strcmp(tmp->cmd[i], "<<"))
+	// 			printf("double red in \n");
+	// 		else if(!ft_strcmp(tmp->cmd[i],">>"))
+	// 			printf("double red out");
+	// 		i++;
+	// 	}
+	// 	tmp = tmp->next;
+	// }
+	// exit(1);
 	return head;
 }
