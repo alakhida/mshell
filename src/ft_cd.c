@@ -6,13 +6,13 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:50 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/05 07:15:52 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/09 04:35:59 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char *env_search(char *ptr, t_env *head)
+char	*env_search(char *ptr, t_env *head)
 {
 	while (head)
 	{
@@ -25,8 +25,8 @@ char *env_search(char *ptr, t_env *head)
 
 void	update_pwd(t_env **env, char *var, char *value)
 {
-	t_env *curr;
-	
+	t_env	*curr;
+
 	curr = *env;
 	while (curr)
 	{
@@ -34,12 +34,12 @@ void	update_pwd(t_env **env, char *var, char *value)
 		{
 			free (curr->value);
 			curr->value = ft_strdup(value);
-			break;
+			break ;
 		}
 		if (curr->next == NULL)
 		{
 			curr->next = add_node("OLDPWD", value);
-			break;
+			break ;
 		}
 		curr = curr->next;
 	}
@@ -68,10 +68,10 @@ void	change_dir(char *cmd, t_env **env, char *pwd, char *oldpwd)
 		pwd = getcwd(NULL, 0);
 		update_pwd(env, "PWD", pwd);
 		update_pwd(env, "OLDPWD", oldpwd);
-	}	
+	}
 }
 
-void    ft_cd(t_cmd *cmds, t_env **env)
+void	ft_cd(t_cmd *cmds, t_env **env)
 {
 	t_env	*current;
 	char	*oldpwd;
@@ -80,15 +80,15 @@ void    ft_cd(t_cmd *cmds, t_env **env)
 	current = *env;
 	pwd = NULL;
 	oldpwd = getcwd(NULL, 0);
-    if (cmds->cmd[1] == NULL)
+	if (cmds->cmd[1] == NULL)
 	{
 		if (check_home(current) == 1)
 		{
-		update_pwd(env, "OLDPWD", oldpwd);
-	    pwd = env_search("HOME", current);
-		update_pwd(env, "PWD", pwd);
+			update_pwd(env, "OLDPWD", oldpwd);
+			pwd = env_search("HOME", current);
+			update_pwd(env, "PWD", pwd);
 		}
 	}
 	else if (cmds->cmd[1])
-    	change_dir(cmds->cmd[1], env, pwd, oldpwd);
+		change_dir(cmds->cmd[1], env, pwd, oldpwd);
 }

@@ -6,25 +6,23 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:16:08 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/05 07:16:09 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/09 04:11:56 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void		ft_env(t_env **env)
+void	ft_env(t_env **env)
 {
-	t_env *curr;
+	t_env	*curr;
 
-	if (!env)
-        return ;
-	curr = *env;
-	if (!curr)
+	if (!env || !(*env))
 		return ;
+	curr = *env;
 	while (curr != NULL)
 	{
-		if (curr->value != NULL)
-			printf("%s=%s\n",curr->varname, curr->value);
+		if (curr->value != NULL && curr->value[0] != '\0')
+			printf("%s=%s\n", curr->varname, curr->value);
 		curr = curr->next;
 	}
 }

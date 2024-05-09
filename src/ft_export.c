@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 06:03:57 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/08 07:59:35 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/09 04:22:19 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,18 +91,16 @@ char	*cpy_value(char *cmd, char *var, char *value, int j)
 	return (value);
 }
 
-void	ft_export(t_cmd *cmds, t_env **envp)
+void	exporting(t_cmd *cmds, t_env **envp)
 {
 	int		i;
-	int		j;
 	t_env	*current;
 	char	*var;
 	char	*value;
+	int		j;
 
 	i = 1;
 	current = *envp;
-	if (!cmds->cmd[1])
-		ft_env_export(envp);
 	while (cmds->cmd[i] != NULL)
 	{
 		j = ft_strchar(cmds->cmd[i], '=');
@@ -110,16 +108,22 @@ void	ft_export(t_cmd *cmds, t_env **envp)
 		{
 			var = ft_strcpy_env(cmds->cmd[i], var, j);
 			value = cpy_value(cmds->cmd[i], var, value, j);
+			export_to_list(current, var, value);
 		}
 		else if (j <= 0)
 		{
-			printf("%s: '%s': not a valid identifier\n", cmds->cmd[0], cmds->cmd[1]);
+			printf("%s: '%s': not a valid identifier\n",
+				cmds->cmd[0], cmds->cmd[i]);
 			return ;
 		}
-		else
-			strdup_var(cmds->cmd[i], var, value);
-		export_to_list(current, var, value);
-		current = *envp;
 		i++;
 	}
+}
+
+void	ft_export(t_cmd *cmds, t_env **envp)
+{
+	if (!cmds->cmd[1])
+		ft_env_export(envp);
+	else
+		exporting(cmds, envp);
 }

@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:59 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/06 08:12:25 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/09 07:25:24 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,25 +207,68 @@ char	**env_to_arr(t_env *list)
 	arr[cnt] = NULL;
 	return arr;
 }
-void    exec_cmd(t_env **env, t_cmd *cmds)
-{
-    bool    pipe_chain;
-    char    *path;
-    pid_t   child;
-    int     pip[2];
-    int     save_stdout;
-    t_cmd   *curr;
-	char	**envp;
 
-    pipe_chain = pipe_chain_present(cmds);
-    curr = cmds;
-    save_stdout = 0;
+void	handle_pipe_chain(t_cmd *cmd, int pip[], int *save_stdout, bool pipe_chain)
+{
+	if (pipe_chain && cmd->next)
+	{
+		close(pip[1]);
+		*save_stdout = pip[0];
+	}
+}
+
+void	handling_pipe(t_cmd *cmd, int pip[], int *save_stdout, bool pipe_chain)
+{
+	if (pipe_chain && cmd->next)
+	{
+		close(pip[0]);
+		dup2(pip[1], STDOUT_FILENO);
+		close(pip[1]);
+	}
+	if (*save_stdout)
+	{
+		dup2(*save_stdout, STDIN_FILENO);
+		close(*save_stdout);
+	}
+}
+
+void exec_bin(t_cmd *cmd, char **envp, char *path, int *save_stdout, pid_t *child, bool pipe_chain)
+{
+    int pip[2];
+
+    if (pipe_chain && cmd->next)
+        pipe(pip);
+
+    *child = fork();
+    if (*child == -1)
+        exit(EXIT_FAILURE);
+    if (*child == 0)
+	{
+        handling_pipe(cmd, pip, save_stdout, pipe_chain);
+        if (execve(path, cmd->cmd, envp) == -1)
+            exit(EXIT_FAILURE);
+    }
+    handle_pipe_chain(cmd, pip, save_stdout, pipe_chain);
+}
+
+void wait_child(pid_t *child)
+{
+    while (wait(child) > 0);
+}
+
+
+void exec_cmd(t_env **env, t_cmd *cmds)
+{
+    bool pipe_chain = pipe_chain_present(cmds);
+    int save_stdout = 0;
+    pid_t child;
+
     while (cmds)
-    {
-		envp = env_to_arr(*env);
-        path = cmd_path(cmds->cmd[0], *env);
+	{
+        char **envp = env_to_arr(*env);
+        char *path = cmd_path(cmds->cmd[0], *env);
         if (path == NULL)
-        {
+		{
             printf("Command not found: %s\n", cmds->cmd[0]);
             cmds = cmds->next;
             continue;
@@ -233,35 +276,9 @@ void    exec_cmd(t_env **env, t_cmd *cmds)
         if (cmd_is_builtin(cmds->cmd[0]) && !pipe_chain)
             exec_built_in(cmds, env);
         else
-        {
-            if (pipe_chain && cmds->next)
-                pipe(pip);
-            child = fork();
-            if (child == -1)
-                exit(EXIT_FAILURE);
-            if (child == 0)
-            {
-                if (pipe_chain && cmds->next)
-                {
-                    close(pip[0]);
-                    dup2(pip[1], STDOUT_FILENO);
-                    close(pip[1]);
-                }
-                if (save_stdout)
-                {
-                    dup2(save_stdout, STDIN_FILENO);
-                    close(save_stdout);
-                }
-                if (execve(path, cmds->cmd, envp) == -1)
-                    exit(EXIT_FAILURE);
-            }
-            if (pipe_chain && cmds->next)
-            {
-                close(pip[1]);
-                save_stdout = pip[0];
-            }
-        }
+            exec_bin(cmds, envp, path, &save_stdout, &child, pipe_chain);
         cmds = cmds->next;
     }
-    while (wait(&child) > 0);
+    wait_child(&child);
 }
+

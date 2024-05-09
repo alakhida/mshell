@@ -6,8 +6,8 @@
 # include <readline/readline.h>
 # include <stdbool.h>
 # include <stdio.h>
+#include <fcntl.h>
 # include <stdlib.h>
-
 typedef enum
 {
 	NONE,
@@ -17,15 +17,17 @@ typedef enum
 	APPEND,  // >>
 	PIPE,    // |
 }					e_type;
-
-typedef struct red{
-	e_type red;
+typedef struct t_red
+{
+	e_type type;
 	char *file;
-} red;
+} t_red;
+
 typedef struct ms_cmd
 {
+	t_red 			*red;
+	// char 			**args;
 	char			**cmd;
-	red 			*redir;
 	e_type			input;
 	char			*infile;
 	e_type			output;

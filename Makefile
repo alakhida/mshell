@@ -6,7 +6,7 @@
 #    By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/10 00:43:31 by calmouht          #+#    #+#              #
-#    Updated: 2024/05/08 07:28:49 by alakhida         ###   ########.fr        #
+#    Updated: 2024/05/09 04:34:26 by alakhida         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ OBJ = build/main.o build/ms_parse.o build/ms_env.o build/ms_cmdgen.o build/ms_cm
 		build/ft_env.o build/ft_unset.o build/ft_cd.o build/ft_pwd.o build/ft_export.o \
 		build/ft_export2.o
 SRC = src/main.c src/ms_parse.c src/ms_env.c src/ms_cmdgen.c src/ms_cmdrender.c src/ms_env_clone.c \
-		src/ms_errors.c src/utility.c src/execution.c src/builtins.c src/built_in/ft_echo.c \
+		src/ms_errors.c src/utility.c src/execution.c src/builtins.c src/ft_echo.c \
 		src/ft_env.c src/ft_unset.c src/ft_cd.c src/ft_pwd.c src/ft_export.c \
 		src/ft_export2.c
 INCLUDE = includes/minishell.h
