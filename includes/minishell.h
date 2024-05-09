@@ -72,5 +72,9 @@ void				ft_export(t_cmd *cmds, t_env **envp);
 int					ft_strchar(const char *s, int c);
 void				ft_export_var(char *var, t_env **envp, t_env *current);
 void				ft_env_export(t_env **env);
+void	handle_pipe_chain(t_cmd *cmd, int pip[], int *save_stdout, bool pipe_chain);
+void	handling_pipe(t_cmd *cmd, int pip[], int *save_stdout, bool pipe_chain);
+void	exec_bin(t_cmd *cmd, char **envp, char *path, int *save_stdout, pid_t *child, bool pipe_chain);
+void wait_child(pid_t *child);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 06:38:46 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/09 06:06:29 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/09 07:46:53 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ t_cmd	*ms_cmdgen(char **cmd)
 		else
 			i++;
 	}
-	// get_redir(&head);
+	get_redir(&head);
 	return head;
 }
 
