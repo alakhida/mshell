@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:28:51 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/11 06:35:34 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/11 12:01:47 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void get_new_args(t_cmd **cmd)
 		head->cmd = head->args;
 		head = head->next;
 	}
+	
 }
 
 int is_special(char *tab)

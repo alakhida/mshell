@@ -6,13 +6,14 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 07:47:35 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/11 07:24:07 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/11 11:47:34 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	handle_pipe_chain(t_cmd *cmd, int pip[], int *save_stdout, bool pipe_chain)
+void	handle_pipe_chain(t_cmd *cmd, int pip[], int *save_stdout, 
+		bool pipe_chain)
 {
 	if (pipe_chain && cmd->next)
 	{
@@ -21,7 +22,33 @@ void	handle_pipe_chain(t_cmd *cmd, int pip[], int *save_stdout, bool pipe_chain)
 	}
 }
 
+bool	pipe_chain_present(t_cmd *cmds)
+{
+	int	i;
 
+	i = 0;
+	while (cmds)
+	{
+		i++;
+		cmds = cmds->next;
+	}
+	if (i == 1)
+		return (false);
+	return (true);
+}
+
+int	count_pipes(t_cmd *cmds)
+{
+	int	i;
+
+	i = 0;
+	while (cmds)
+	{
+		i++;
+		cmds = cmds->next;
+	}
+	return (i);
+}
 
 void	handling_pipe(t_cmd *cmd, int pip[], int *save_stdout, bool pipe_chain)
 {
@@ -40,28 +67,31 @@ void	handling_pipe(t_cmd *cmd, int pip[], int *save_stdout, bool pipe_chain)
 		handle_redirections(cmd);
 }
 
-void	exec_bin(t_cmd *cmd, char **envp, char *path, int *save_stdout, pid_t *child, bool pipe_chain)
+void	exec_bin(t_cmd *cmd, t_info *info, t_env **env)
 {
 	int pip[2];
 
-	if (pipe_chain && cmd->next)
+	if (info->pipe_chain && cmd->next)
 		pipe(pip);
-	*child = fork();
-	if (*child == -1)
+	info->child = fork();
+	if (info->child == -1)
 		exit(EXIT_FAILURE);
-	if (*child == 0)
+	if (info->child == 0)
 	{
-		handling_pipe(cmd, pip, save_stdout, pipe_chain);
-		if (execve(path, cmd->cmd, envp) == -1)
+		handling_pipe(cmd, pip, &info->saved_stdin, info->pipe_chain);
+		if (cmd_is_builtin(cmd->cmd[0]))
+			exec_built_in(cmd, env);
+		else if (execve(info->path, cmd->cmd, info->envp) == -1)
 		{
 			printf("command not found\n");
 			exit(EXIT_FAILURE);
 		}
+		exit(0);
 	}
-	handle_pipe_chain(cmd, pip, save_stdout, pipe_chain);
+	handle_pipe_chain(cmd, pip, &info->save_stdout, info->pipe_chain);
 }
 
-void wait_child(pid_t *child)
+void	wait_child(pid_t *child)
 {
-    while (wait(child) > 0);
+	while (wait(child) > 0);
 }

@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 07:27:22 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/11 07:30:18 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/11 11:01:50 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,40 @@ void	ft_env_export(t_env **env)
 		printf("\n");
 		curr = curr->next;
 	}
+}
+
+void	export_to_list(t_env *current, char *var, char *value)
+{
+	while (current)
+	{
+		if (!ft_strcmp(var, current->varname))
+		{
+			free(current->value);
+			current->value = value;
+			free(var);
+			break ;
+		}
+		else if (current->next == NULL)
+		{
+			current->next = add_node(var, value);
+			break ;
+		}
+		current = current->next;
+	}
+}
+
+char	*cpy_value(char *cmd, char *var, char *value, int j)
+{
+	int		i;
+
+	i = ft_strlen(cmd);
+	if (i <= 0)
+		return (NULL);
+	value = val_malloc(cmd, var, j);
+	if (!value)
+		return (NULL);
+	ft_strlcpy(value, (cmd + j + 1), i - j + 1);
+	return (value);
 }
 
 void	ft_export_var(char *var, t_env **envp, t_env *current)

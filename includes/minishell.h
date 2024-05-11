@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 00:25:16 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/11 07:25:00 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/11 11:47:02 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,15 @@ typedef struct t_red
 	struct t_red *next;
 } t_red;
 
+
 typedef struct ms_cmd
 {
-	t_red 			*red;
-	char 			**args;
+	t_red			*red;
+	char			**args;
 	char			**cmd;
+	char			*path;
+	int				*std_out;
+	char			**env;
 	e_type			input;
 	char			*infile;
 	e_type			output;
@@ -58,7 +62,21 @@ typedef struct t_env
 	struct t_env	*next;
 }					t_env;
 
+typedef struct s_info
+{
+	char 	**envp;
+	char	*path;	
+	int		save_stdout;
+	pid_t	child;
+	bool	pipe_chain;
+	int		saved_stdin;
+	int		saved_stdout;
+}	t_info;
 // function defs
+char				*val_malloc(char *cmd, char *var, int j);
+char				*cpy_value(char *cmd, char *var, char *value, int j);
+bool				pipe_chain_present(t_cmd *cmds);
+void				export_to_list(t_env *current, char *var, char *value);
 void				exits(int code);
 void				get_redir(t_cmd **cmd);
 char				**ms_parse(char *cmd);
@@ -76,7 +94,7 @@ e_type				ms_ctrlop(char *str);
 char				**ft_arrslice(char **arr, int start, int end);
 char				*ft_strreplace(char *src, char *dst, char *replacement);
 char				*ft_strreplace_all(char *src, char *dst, char *replacement);
-int                 ft_strcmp(char *s1, char *s2);
+int					ft_strcmp(char *s1, char *s2);
 int					ft_echo(t_cmd *cmnd);
 void				exec_cmd(t_env **env, t_cmd *cmds);
 int					exec_built_in(t_cmd *cmds, t_env **envp);
@@ -90,8 +108,14 @@ void				ft_export(t_cmd *cmds, t_env **envp);
 int					ft_strchar(const char *s, int c);
 void				ft_env_export(t_env **env);
 void				add_node_to_back(t_env **envp, t_env *node);
-void				exec_bin(t_cmd *cmd, char **envp, char *path, int *save_stdout, pid_t *child, bool pipe_chain);
+void				exec_bin(t_cmd *cmd, t_info *info, t_env **env);
 void				wait_child(pid_t *child);
+void				handle_redirections(t_cmd *cmds);
+char				*ft_strtok(char *str, const char *delim);
+char				*ft_strcpy(char *dest, char *src);
+char				*ft_strcat(char *dest, char *src);
+void				exporting(t_cmd *cmds, t_env **envp);
+bool				cmd_is_builtin(char *string);
 void				handle_redirections(t_cmd *cmds);
 
 #endif
