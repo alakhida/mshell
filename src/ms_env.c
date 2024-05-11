@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:15 by calmouht          #+#    #+#             */
-/*   Updated: 2024/04/16 15:33:41 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/11 05:03:09 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,15 @@ t_env	*ms_env_search(char *ptr, t_env *head)
 	{
 		if (ft_strcmp(head->varname, ptr) == 0)
 		{
-			// printf("returned %s %s \n", head->varname, head->value);
 			return (head);
 		}
 		head = head->next;
 	}
-	printf("return NULL\n");
 	return(NULL);
 }
 
 char	*expanded(char *cmd)
 {
-	// printf("expanded =>%s",cmd);
 	int		i;
 	int		k;
 	int		ex_len;

@@ -1,39 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_errors.c                                        :+:      :+:    :+:   */
+/*   exits.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/19 03:18:27 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/11 00:40:18 by calmouht         ###   ########.fr       */
+/*   Created: 2024/05/05 05:46:15 by calmouht          #+#    #+#             */
+/*   Updated: 2024/05/11 00:40:45 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-bool	ms_errors(char **cmd)
+void	exits(int code)
 {
-	int	i;
-
-	i = 0;
-	while (cmd[i + 1])
-	{
-		if (ms_ctrlop(cmd[i]) != NONE && ms_ctrlop(cmd[i + 1]) != NONE)
-		{
-			printf("minishell: syntax error\n");
-
-			// printf("Syntax error near expected token `%s\'", cmd[i + 1]);
-			return (false);
-		}
-		i++;
-	}
-	if (ms_ctrlop(cmd[i + 1]) != NONE)
+	if (code == 1)
 	{
 		printf("minishell: syntax error\n");
 
-		// printf("Syntax error near unexpected token `newline\'");
-		return (false);
+		// printf("syntax error near unexpected token `<'");
+		exit(0);
 	}
-	return (true);
+	if (code == 2)
+	{
+		printf("minishell: syntax error\n");
+
+		// printf("syntax error near unexpected token `newline'\n");
+		exit (0);
+	}
 }

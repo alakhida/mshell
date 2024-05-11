@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 07:47:35 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/09 07:49:53 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/11 07:24:07 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	handle_pipe_chain(t_cmd *cmd, int pip[], int *save_stdout, bool pipe_chain)
 	}
 }
 
+
+
 void	handling_pipe(t_cmd *cmd, int pip[], int *save_stdout, bool pipe_chain)
 {
 	if (pipe_chain && cmd->next)
@@ -34,6 +36,8 @@ void	handling_pipe(t_cmd *cmd, int pip[], int *save_stdout, bool pipe_chain)
 		dup2(*save_stdout, STDIN_FILENO);
 		close(*save_stdout);
 	}
+	if (cmd->red)
+		handle_redirections(cmd);
 }
 
 void	exec_bin(t_cmd *cmd, char **envp, char *path, int *save_stdout, pid_t *child, bool pipe_chain)
@@ -49,7 +53,10 @@ void	exec_bin(t_cmd *cmd, char **envp, char *path, int *save_stdout, pid_t *chil
 	{
 		handling_pipe(cmd, pip, save_stdout, pipe_chain);
 		if (execve(path, cmd->cmd, envp) == -1)
+		{
+			printf("command not found\n");
 			exit(EXIT_FAILURE);
+		}
 	}
 	handle_pipe_chain(cmd, pip, save_stdout, pipe_chain);
 }

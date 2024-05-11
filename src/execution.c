@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:59 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/09 08:00:50 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/11 07:59:57 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ char *ft_strcat(char *dest, char *src)
 	return (dest);
 }
 
-char *ft_strcpy(char *dest, char *src)
+char	*ft_strcpy(char *dest, char *src)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (src[i] != '\0')
@@ -44,47 +44,45 @@ char *ft_strcpy(char *dest, char *src)
 	return (dest);
 }
 
-bool    cmd_is_builtin(char *string)
+bool	cmd_is_builtin(char *string)
 {
-    if (!ft_strcmp(string, "cd") || !ft_strcmp(string, "echo")
-        || !ft_strcmp(string, "env") || !ft_strcmp(string, "unset")
-        || !ft_strcmp(string, "export") || !ft_strcmp(string, "pwd")
-        || !ft_strcmp(string, "exit"))
-        return (true);
-    else
-        return (false);
+	if (!ft_strcmp(string, "cd") || !ft_strcmp(string, "echo")
+		|| !ft_strcmp(string, "env") || !ft_strcmp(string, "unset")
+		|| !ft_strcmp(string, "export") || !ft_strcmp(string, "pwd")
+		|| !ft_strcmp(string, "exit"))
+		return (true);
+	return (false);
 }
 
-bool    pipe_chain_present(t_cmd *cmds)
+bool	pipe_chain_present(t_cmd *cmds)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (cmds)
-    {
-        i++;
-        cmds = cmds->next;
-    }
-    if (i == 1)
-        return (false);
-    else
-        return (true);
+	i = 0;
+	while (cmds)
+	{
+		i++;
+		cmds = cmds->next;
+	}
+	if (i == 1)
+		return (false);
+	return (true);
 }
 
-int    count_pipes(t_cmd *cmds)
+int	count_pipes(t_cmd *cmds)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (cmds)
-    {
-        i++;
-        cmds = cmds->next;
-    }
-    return (i);
+	i = 0;
+	while (cmds)
+	{
+		i++;
+		cmds = cmds->next;
+	}
+	return (i);
 }
 
-char  *ft_strtok(char *str, const char *delim)
+char	*ft_strtok(char *str, const char *delim)
 {
     static char *s = NULL;
     char *ret;
@@ -162,52 +160,6 @@ char     *cmd_path(char *cmd, t_env *env)
     return path;
 }
 
-char	**env_to_arr(t_env *list)
-{
-	int		cnt;
-	char	**arr;
-	t_env	*curr;
-	int		i;
-	int		j;
-
-	curr = list;
-	cnt = 0;
-	i = 0;
-	j = 0;
-	while (curr != NULL)
-	{
-		cnt++;
-		curr = curr->next;
-	}
-	arr = (char **)malloc((cnt + 1) * sizeof(char *));
-	if (arr == NULL)
-		return NULL;
-	curr = list;
-	while (curr != NULL)
-	{
-		arr[i] = ft_strjoin(curr->varname, "=");
-		if (arr[i] == NULL)
-		{
-			while (j < i)
-				free(arr[j++]);
-			free(arr);
-			return (NULL);
-		}
-		arr[i] = ft_strjoin(arr[i], curr->value);
-		if (arr[i] == NULL)
-		{
-			while (j < i)
-				free(arr[j++]);
-			free(arr);
-			return (NULL);
-		}
-		i++;
-		curr = curr->next;
-	}
-	arr[cnt] = NULL;
-	return arr;
-}
-
 void exec_cmd(t_env **env, t_cmd *cmds)
 {
     bool pipe_chain = pipe_chain_present(cmds);
@@ -216,7 +168,7 @@ void exec_cmd(t_env **env, t_cmd *cmds)
 
     while (cmds)
 	{
-        char **envp = env_to_arr(*env);
+        char **envp = ms_env_dup(*env);
         char *path = cmd_path(cmds->cmd[0], *env);
         if (path == NULL)
 		{

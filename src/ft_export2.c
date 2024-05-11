@@ -6,11 +6,21 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 07:27:22 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/08 07:38:04 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/11 07:30:18 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	add_node_to_back(t_env **envp, t_env *node)
+{
+	t_env	*current;
+
+	current = *envp;
+	while (current->next != NULL)
+		current = current->next;
+	current->next = node;
+}
 
 void	ft_env_export(t_env **env)
 {

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/10 00:25:16 by calmouht          #+#    #+#             */
+/*   Updated: 2024/05/11 07:25:00 by alakhida         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -6,8 +18,9 @@
 # include <readline/readline.h>
 # include <stdbool.h>
 # include <stdio.h>
-#include <fcntl.h>
 # include <stdlib.h>
+# include <fcntl.h>
+
 typedef enum
 {
 	NONE,
@@ -17,21 +30,24 @@ typedef enum
 	APPEND,  // >>
 	PIPE,    // |
 }					e_type;
+
 typedef struct t_red
 {
 	e_type type;
-	char *file;
+	char	*file;
+	struct t_red *next;
 } t_red;
 
 typedef struct ms_cmd
 {
 	t_red 			*red;
-	// char 			**args;
+	char 			**args;
 	char			**cmd;
 	e_type			input;
 	char			*infile;
 	e_type			output;
 	char			*outfile;
+	int				count;
 	struct ms_cmd	*next;
 }					t_cmd;
 
@@ -43,6 +59,8 @@ typedef struct t_env
 }					t_env;
 
 // function defs
+void				exits(int code);
+void				get_redir(t_cmd **cmd);
 char				**ms_parse(char *cmd);
 t_env				*ms_env_new(char **envp);
 int					ms_prompt(t_env **env);
@@ -66,15 +84,14 @@ void				ft_env(t_env **env);
 int					ft_unset(t_cmd *cmds, t_env **env);
 void				ft_cd(t_cmd *cmds, t_env **env);
 t_env				*add_node(char *var, char *value);
+void				printlist(t_cmd **head);
 int					ft_pwd(t_cmd *cmds);
-void				add_node_to_back(t_env **envp, t_env *node);
 void				ft_export(t_cmd *cmds, t_env **envp);
 int					ft_strchar(const char *s, int c);
-void				ft_export_var(char *var, t_env **envp, t_env *current);
 void				ft_env_export(t_env **env);
-void	handle_pipe_chain(t_cmd *cmd, int pip[], int *save_stdout, bool pipe_chain);
-void	handling_pipe(t_cmd *cmd, int pip[], int *save_stdout, bool pipe_chain);
-void	exec_bin(t_cmd *cmd, char **envp, char *path, int *save_stdout, pid_t *child, bool pipe_chain);
-void wait_child(pid_t *child);
+void				add_node_to_back(t_env **envp, t_env *node);
+void				exec_bin(t_cmd *cmd, char **envp, char *path, int *save_stdout, pid_t *child, bool pipe_chain);
+void				wait_child(pid_t *child);
+void				handle_redirections(t_cmd *cmds);
 
 #endif
