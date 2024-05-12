@@ -6,11 +6,12 @@
 #    By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/10 00:43:31 by calmouht          #+#    #+#              #
-#    Updated: 2024/05/11 10:01:39 by alakhida         ###   ########.fr        #
+#    Updated: 2024/05/12 21:52:26 by alakhida         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -I ~/homebrew/opt/readline/include
+RDLINE = -L ~/homebrew/opt/readline/lib
 CC = gcc
 NAME = minishell
 LIBFT = lib/libft/libft.a
@@ -37,7 +38,7 @@ $(LIBFT):
 	$(MAKE) -C lib/libft
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -lreadline -o $(NAME)
+	$(CC) $(CFLAGS) $(RDLINE) $(OBJ) $(LIBFT) -lreadline -o $(NAME)
 
 clean:
 	$(MAKE) fclean -C lib/libft; rm -rf build/

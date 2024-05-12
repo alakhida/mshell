@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 00:25:16 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/12 08:08:21 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/12 21:41:43 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@
 # include "../lib/libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
+// # incl/Users/alakhida/homebrew/Cellar/readline/8.2.10/include/readline
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <signal.h>
 # include <fcntl.h>
 
 typedef enum
