@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:08 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/11 11:38:15 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/12 07:09:59 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ int	ms_prompt(t_env **env)
 	}
 	lexed = ms_parse(cmd);
 	ms_rendercmd(lexed, *env);
+	printf("ggg\n");
+	if(check_errors(lexed)== 1)
+		return 0;
 	cmd2 = ms_cmdgen(lexed);
 	exec_cmd(env, cmd2);
 	ms_errors(lexed);

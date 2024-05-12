@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:28:51 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/11 12:01:47 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/12 07:12:57 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,19 +82,20 @@ int is_special(char *tab)
 	return 0;
 }
 
-void check_errors(char ** tab)
+int check_errors(char ** tab)
 {
 	int i = 0;
 	while (tab[i])
 	{
-	if (ms_ctrlop(tab[i+1])!= NONE)
+	if (ms_ctrlop(tab[i+1])!= NONE /*|| tab[i+1] == NULL*/)
 			{
-			if (is_special(tab[i]) && is_special(tab[i+1]) )
+			if ((is_special(tab[i]) && is_special(tab[i+1])) || (is_special(tab[i]) && tab[i+1] == NULL) )
 				exits(2);
+				return 1;
 			}
 		i++;
 	}
-	
+	return 0;
 }
 
 void printlist(t_cmd **head)

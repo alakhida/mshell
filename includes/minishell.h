@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 00:25:16 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/12 05:18:45 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/12 07:06:31 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,5 +118,6 @@ void				exporting(t_cmd *cmds, t_env **envp);
 bool				cmd_is_builtin(char *string);
 void				handle_redirections(t_cmd *cmds);
 char				*cmd_path(char *cmd, t_env *env);
-
+int is_special(char *tab);
+int check_errors(char ** tab);
 #endif
