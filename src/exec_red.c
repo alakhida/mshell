@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 07:23:51 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/11 11:22:42 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/12 04:54:26 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ void	handle_here_doc(t_cmd *cmds)
 		free(str);
 		str = readline("> "); 
 	}
+	close(pip[1]);
 	dup2(pip[0], STDIN_FILENO);
 	close(pip[0]);
-	close(pip[1]);
 }
 
 void	handle_redirections(t_cmd *cmds)

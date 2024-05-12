@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:59 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/11 12:01:04 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/12 05:17:47 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,6 @@ void	exec_cmd(t_env **env, t_cmd *cmds)
 	while (cmds)
 	{
 		info->envp = ms_env_dup(*env);
-		info->path = cmd_path(cmds->cmd[0], *env);
-		if (info->path == NULL)
-		{
-			printf("Command not found: %s\n", cmds->cmd[0]);
-			cmds = cmds->next;
-			continue ;
-		}
 		if (cmd_is_builtin(cmds->cmd[0]) && !info->pipe_chain)
 		{
 			exec_built_in(cmds, env);
