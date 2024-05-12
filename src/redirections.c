@@ -6,7 +6,7 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:28:51 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/12 07:12:57 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/12 08:12:26 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,18 +82,25 @@ int is_special(char *tab)
 	return 0;
 }
 
-int check_errors(char ** tab)
+int check_errors(char **tab)
 {
 	int i = 0;
 	while (tab[i])
 	{
-	if (ms_ctrlop(tab[i+1])!= NONE /*|| tab[i+1] == NULL*/)
-			{
-			if ((is_special(tab[i]) && is_special(tab[i+1])) || (is_special(tab[i]) && tab[i+1] == NULL) )
+		// printf("%d ;; %s\n", i , tab[i]);
+		if ((is_special(tab[i]) == 1 && is_special(tab[i+1]) == 1) ){
 				exits(2);
 				return 1;
-			}
+		}
 		i++;
+		// continue;
+	// if (ms_ctrlop(tab[i+1])!= NONE /*|| tab[i+1] == NULL*/)
+	// 		{
+	// 		if ((is_special(tab[i]) && is_special(tab[i+1])) )
+	// 			exits(2);
+	// 			return 1;
+	// 		}
+	// 	i++;
 	}
 	return 0;
 }
@@ -129,12 +136,17 @@ void get_redir(t_cmd **cmd)
 			if ((!strcmp((head)->cmd[i],"|") || !strcmp((head)->cmd[i],">")|| !strcmp((head)->cmd[i],">>")|| !strcmp((head)->cmd[i],"<")|| !strcmp((head)->cmd[i],"<<")) && head->count == 1)
 			{
 				printf("idkfih\n");
-				exit(1);
+				head->flag = 1;
+				return;
+				// exit(1);
 			}
 			if ((!strcmp((head)->cmd[i],">") || !strcmp((head)->cmd[i],"<") ) && !(head)->cmd[i+1])
 			{
 				printf("tabnk\n");
-				exit(1);
+				head->flag = 1;
+				return;
+
+				// exit(1);
 			}
 			if(!strcmp((head)->cmd[i],">") && strcmp(head->cmd[i],">>"))
 				{	
@@ -171,4 +183,32 @@ void get_redir(t_cmd **cmd)
 	}
 	get_new_args(cmd);
 	
+}
+
+int ma3rftch(t_cmd **cmd)
+{
+	t_cmd *head = *cmd;
+	head->red = NULL;
+	int i = 0;
+	while(head)
+	{
+		i = 0;
+		while(head->cmd[i])
+		{
+			if ((!strcmp((head)->cmd[i],"|") || !strcmp((head)->cmd[i],">")|| !strcmp((head)->cmd[i],">>")|| !strcmp((head)->cmd[i],"<")|| !strcmp((head)->cmd[i],"<<")) && head->count == 1)
+			{
+				printf("idkfih\n");
+				return 1;
+			}
+			if ((!strcmp((head)->cmd[i],">") || !strcmp((head)->cmd[i],"<") ) && !(head)->cmd[i+1])
+			{
+				printf("tabnk\n");
+								return 1;
+
+			}
+			i++;
+		}
+		head = head->next;
+	}
+	return 					0						;
 }

@@ -6,7 +6,7 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 00:25:16 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/12 07:06:31 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/12 08:08:21 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct ms_cmd
 	char			*outfile;
 	int				count;
 	struct ms_cmd	*next;
+	int flag;
 }					t_cmd;
 
 typedef struct t_env
@@ -118,6 +119,5 @@ void				exporting(t_cmd *cmds, t_env **envp);
 bool				cmd_is_builtin(char *string);
 void				handle_redirections(t_cmd *cmds);
 char				*cmd_path(char *cmd, t_env *env);
-int is_special(char *tab);
-int check_errors(char ** tab);
+int 				is_special(char *tab);int ma3rftch(t_cmd **cmd);int check_errors(char ** tab);
 #endif
