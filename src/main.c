@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:08 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/13 17:33:48 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/13 19:33:47 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,8 +195,8 @@ int	ms_prompt(t_env **env, int *exit_status)
 	{
 		return (0);
 	}
-	// if(pre_syntax_check(cmd))
-	// 	return 0;
+	if(pre_syntax_check(cmd))
+		return 0;
 	lexed = ms_parse(cmd);
 	
 	if(check_errors(lexed)== 1)

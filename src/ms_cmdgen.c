@@ -6,11 +6,13 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 06:38:46 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/13 11:25:10 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/13 19:33:24 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+
 
 t_cmd	*ms_cmdgen(char **cmd)
 {

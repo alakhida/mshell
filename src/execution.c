@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:59 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/13 12:48:11 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/13 18:41:06 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void	exec_cmd(t_env **env, t_cmd *cmds, int *exit_status)
 	info->saved_stdout = dup(STDOUT_FILENO);
 	info->saved_stdin = dup(STDIN_FILENO);
 	info->ex_status = exit_status;
+	info->child = 0;
 	while (cmds)
 	{
 		info->envp = ms_env_dup(*env);
@@ -111,5 +112,6 @@ void	exec_cmd(t_env **env, t_cmd *cmds, int *exit_status)
 	}
 	dup2(info->saved_stdout, STDOUT_FILENO);
 	dup2(info->saved_stdin, STDIN_FILENO);
-	wait_child(&info->child, info);
+	if (info->child)
+		wait_child(&info->child, info);
 }

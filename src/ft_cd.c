@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:50 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/13 11:53:41 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/13 18:44:54 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,18 @@ int	check_home(t_env *home)
 {
 	if (chdir(env_search("HOME", home)) != 0)
 	{
-		printf("cd: HOME not set\n");
+		write(2, "bash : cd : HOME not set\n", 26);
 		return (0);
 	}
 	return (1);
 }
 
-void	change_dir(char *cmd, t_env **env, char *pwd, char *oldpwd)
+int	change_dir(char *cmd, t_env **env, char *pwd, char *oldpwd)
 {
 	if (access(cmd, F_OK) != 0)
 	{
 		printf("%s : no such file or directory\n", cmd);
-		return ;
+		return (1);
 	}
 	else
 	{
@@ -69,6 +69,7 @@ void	change_dir(char *cmd, t_env **env, char *pwd, char *oldpwd)
 		update_pwd(env, "PWD", pwd);
 		update_pwd(env, "OLDPWD", oldpwd);
 	}
+	return (0);
 }
 
 int	ft_cd(t_cmd *cmds, t_env **env)
@@ -90,6 +91,7 @@ int	ft_cd(t_cmd *cmds, t_env **env)
 		}
 	}
 	else if (cmds->cmd[1])
-		change_dir(cmds->cmd[1], env, pwd, oldpwd);
+		if (change_dir(cmds->cmd[1], env, pwd, oldpwd))
+			return (1);
 	return (0);
 }

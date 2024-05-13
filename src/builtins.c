@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 03:29:33 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/13 11:39:48 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/13 19:42:21 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,21 +58,24 @@ int	ft_exit(t_cmd *cmds)
 
 	ex = 0;
 	if (!cmds->cmd[1])
+	{
+		printf("\033[0;32mEXIT...!\n");
 		exit(0);
+	}
 	if (cmds->cmd[2])
 	{
-		printf("too many argument\n");
+		printf("\033[0;31mtoo many argument\n");
 		exit(ex);
 	}
 	if (!is_digit(cmds->cmd[1]))
 	{
 		ex = ft_atoi(cmds->cmd[1]);
-		printf("exiting...\n");
+		printf("\033[0;32mexiting...\n");
 		exit(ex);
 	}
 	if (is_digit(cmds->cmd[1]))
 	{
-		printf("%s: numeric argument required\n", cmds->cmd[1]);
+		printf("\033[0;33m%s: numeric argument required\n", cmds->cmd[1]);
 		exit(1);
 	}
 	return (0);
