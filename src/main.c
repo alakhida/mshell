@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:08 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/12 22:52:31 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/13 17:33:48 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ int pre_syntax_check(char *str)
 	}
 	return 0;
 }
-int	ms_prompt(t_env **env)
+int	ms_prompt(t_env **env, int *exit_status)
 {
 	char	*cmd;
 	char	**lexed;
@@ -202,7 +202,7 @@ int	ms_prompt(t_env **env)
 	if(check_errors(lexed)== 1)
 		return 0;
 	// printf("adsfadsf\n");.
-	ms_rendercmd(lexed, *env);
+	ms_rendercmd(lexed, *env, exit_status);
 	// lexed = fix_args(lexed);
 	cmd2 = ms_cmdgen(lexed);
 	if(sear(&cmd2)== 1)
@@ -211,7 +211,7 @@ int	ms_prompt(t_env **env)
 	}
 	// if (ma3rftch(&cmd2)==1)
 	// 	return 0;
-	exec_cmd(env, cmd2);
+	exec_cmd(env, cmd2, exit_status);
 	ms_errors(lexed);
 	return (0);
 }
@@ -229,11 +229,13 @@ void	sig(int signal)
 int	main(int argc, char **argv, char **envp)
 {
 	int		cmd_status;
+	int		*exit_status;
 	t_env	*env;
 	struct sigaction	minisignols; 
 	
 	(void)argv;
 	(void)argc;
+	exit_status = (int *)malloc(sizeof(int));
 	minisignols.sa_handler = sig;
 	sigemptyset(&minisignols.sa_mask);
 	sigaddset(&minisignols.sa_mask, SIGQUIT);
@@ -245,7 +247,7 @@ int	main(int argc, char **argv, char **envp)
 	env = ms_env_new(envp);
 	while (true)
 	{
-		cmd_status = ms_prompt(&env);
+		cmd_status = ms_prompt(&env, exit_status);
 		if (cmd_status != 0)
 			return (cmd_status);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:28:51 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/12 08:12:26 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/13 16:22:48 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,18 +135,15 @@ void get_redir(t_cmd **cmd)
 		{
 			if ((!strcmp((head)->cmd[i],"|") || !strcmp((head)->cmd[i],">")|| !strcmp((head)->cmd[i],">>")|| !strcmp((head)->cmd[i],"<")|| !strcmp((head)->cmd[i],"<<")) && head->count == 1)
 			{
-				printf("idkfih\n");
+				write(2, "minishell :syntax error\n", 25);
 				head->flag = 1;
 				return;
-				// exit(1);
 			}
 			if ((!strcmp((head)->cmd[i],">") || !strcmp((head)->cmd[i],"<") ) && !(head)->cmd[i+1])
 			{
-				printf("tabnk\n");
+				write(2, "minishell :syntax error\n", 25);
 				head->flag = 1;
 				return;
-
-				// exit(1);
 			}
 			if(!strcmp((head)->cmd[i],">") && strcmp(head->cmd[i],">>"))
 				{	
@@ -197,18 +194,17 @@ int ma3rftch(t_cmd **cmd)
 		{
 			if ((!strcmp((head)->cmd[i],"|") || !strcmp((head)->cmd[i],">")|| !strcmp((head)->cmd[i],">>")|| !strcmp((head)->cmd[i],"<")|| !strcmp((head)->cmd[i],"<<")) && head->count == 1)
 			{
-				printf("idkfih\n");
-				return 1;
+				write(2, "minishell :syntax error\n", 25);
+				return (1);
 			}
 			if ((!strcmp((head)->cmd[i],">") || !strcmp((head)->cmd[i],"<") ) && !(head)->cmd[i+1])
 			{
-				printf("tabnk\n");
-								return 1;
-
+				write(2, "minishell :syntax error\n", 25);
+				return (1);
 			}
 			i++;
 		}
 		head = head->next;
 	}
-	return 					0						;
+	return (0);
 }

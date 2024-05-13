@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 07:47:35 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/12 07:38:30 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/13 12:49:10 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,18 @@ int	count_pipes(t_cmd *cmds)
 	return (i);
 }
 
-void	handling_pipe(t_cmd *cmd, int pip[], int *save_stdout, bool pipe_chain)
+void	handling_pipe(t_cmd *cmd, int pip[], t_info *info)
 {
-	if (pipe_chain && cmd->next)
+	if (info->pipe_chain && cmd->next)
 	{
 		close(pip[0]);
 		dup2(pip[1], STDOUT_FILENO);
 		close(pip[1]);
 	}
-	if (*save_stdout)
+	if (info->save_stdout)
 	{
-		dup2(*save_stdout, STDIN_FILENO);
-		close(*save_stdout);
+		dup2(info->save_stdout, STDIN_FILENO);
+		close(info->save_stdout);
 	}
 	if (cmd->red)
 		handle_redirections(cmd);
@@ -78,7 +78,7 @@ void	exec_bin(t_cmd *cmd, t_info *info, t_env **env)
 		exit(EXIT_FAILURE);
 	if (info->child == 0)
 	{
-		handling_pipe(cmd, pip, &info->saved_stdin, info->pipe_chain);
+		handling_pipe(cmd, pip, info);
 		info->path = cmd_path(cmd->cmd[0], *env);
 		if (cmd_is_builtin(cmd->cmd[0]))
 			exec_built_in(cmd, env);
@@ -92,7 +92,8 @@ void	exec_bin(t_cmd *cmd, t_info *info, t_env **env)
 	handle_pipe_chain(cmd, pip, &info->save_stdout, info->pipe_chain);
 }
 
-void	wait_child(pid_t *child)
+void	wait_child(pid_t *child, t_info *info)
 {
 	while (wait(child) > 0);
+	*(info->ex_status) = *child >> 8;
 }

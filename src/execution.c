@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:59 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/12 05:17:47 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/13 12:48:11 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	*cmd_path(char *cmd, t_env *env)
 //
 // }
 
-void	exec_cmd(t_env **env, t_cmd *cmds)
+void	exec_cmd(t_env **env, t_cmd *cmds, int *exit_status)
 {
 	t_info	*info;
 
@@ -97,12 +97,13 @@ void	exec_cmd(t_env **env, t_cmd *cmds)
 	info->pipe_chain = pipe_chain_present(cmds);
 	info->saved_stdout = dup(STDOUT_FILENO);
 	info->saved_stdin = dup(STDIN_FILENO);
+	info->ex_status = exit_status;
 	while (cmds)
 	{
 		info->envp = ms_env_dup(*env);
 		if (cmd_is_builtin(cmds->cmd[0]) && !info->pipe_chain)
 		{
-			exec_built_in(cmds, env);
+			*(info->ex_status) = exec_built_in(cmds, env);
 		}
 		else
 			exec_bin(cmds, info, env);
@@ -110,5 +111,5 @@ void	exec_cmd(t_env **env, t_cmd *cmds)
 	}
 	dup2(info->saved_stdout, STDOUT_FILENO);
 	dup2(info->saved_stdin, STDIN_FILENO);
-	wait_child(&info->child);
+	wait_child(&info->child, info);
 }

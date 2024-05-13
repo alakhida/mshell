@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 06:38:46 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/11 05:03:51 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/13 11:25:10 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ t_cmd	*ms_cmdgen(char **cmd)
 		}
 		else{
 			i++;
-		}
-		// printf("ggg %s ggg\n", cmd[i]);
+		}		// printf("ggg %s ggg\n", cmd[i]);
 
 	}
 	// printf("tab %d\n",i);

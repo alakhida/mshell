@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:42 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/11 10:59:14 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/13 11:58:11 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,23 @@ int	check_option(char *str)
 	return (0);
 }
 
+int	print_string_fd(char *s, int fd)
+{	
+	int	i;
+	int	ret;
+
+	i = 0;
+	ret = 0;
+	while (s[i] > '\0')
+	{
+		ret = write(fd, &s[i], 1);
+		if (ret == -1)
+			return (-1);
+		i++;
+	}
+	return (ret);
+}
+
 int	ft_echo(t_cmd *cmnd)
 {
 	int		i;
@@ -49,9 +66,13 @@ int	ft_echo(t_cmd *cmnd)
 			i += 1;
 		while (cmnd->cmd[i])
 		{
-			ft_putstr_fd(cmnd->cmd[i], 1);
+			if(print_string_fd(cmnd->cmd[i], 1) == -1)
+				return (EXIT_FAILURE);
 			if (cmnd->cmd[i + 1] != NULL)
-				ft_putchar_fd(' ', 1);
+			{
+				if (print_string_fd(" ", 1) == -1)
+					return (EXIT_FAILURE);
+			}
 			i++;
 		}
 	}

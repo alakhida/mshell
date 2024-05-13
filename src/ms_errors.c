@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_errors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:27 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/11 00:40:18 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/13 16:25:28 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ bool	ms_errors(char **cmd)
 		if (ms_ctrlop(cmd[i]) != NONE && ms_ctrlop(cmd[i + 1]) != NONE)
 		{
 			printf("minishell: syntax error\n");
-
-			// printf("Syntax error near expected token `%s\'", cmd[i + 1]);
 			return (false);
 		}
 		i++;
@@ -31,8 +29,6 @@ bool	ms_errors(char **cmd)
 	if (ms_ctrlop(cmd[i + 1]) != NONE)
 	{
 		printf("minishell: syntax error\n");
-
-		// printf("Syntax error near unexpected token `newline\'");
 		return (false);
 	}
 	return (true);

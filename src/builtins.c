@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 03:29:33 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/12 04:47:31 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/13 11:39:48 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,18 +84,18 @@ int	exec_built_in(t_cmd *cmds, t_env **envp)
 		if (cmds->red)
 			handle_redirections(cmds);
 	if (!ft_strncmp(cmds->cmd[0], "echo", 4))
-		ft_echo(cmds);
+		return(ft_echo(cmds));
 	else if (!ft_strncmp(cmds->cmd[0], "env", 3))
-		ft_env(envp);
+		return(ft_env(envp));
 	else if (!ft_strncmp(cmds->cmd[0], "pwd", 3))
-		ft_pwd(cmds);
+		return(ft_pwd(cmds));
 	else if (!ft_strncmp(cmds->cmd[0], "export", 6))
-		ft_export(cmds, envp);
+		return(ft_export(cmds, envp));
 	else if (!ft_strncmp(cmds->cmd[0], "unset", 5))
-		ft_unset(cmds, envp);
+		return(ft_unset(cmds, envp));
 	else if (!ft_strncmp(cmds->cmd[0], "cd", 2))
-		ft_cd(cmds, envp);
+		return(ft_cd(cmds, envp));
 	else if (!ft_strncmp(cmds->cmd[0], "exit", 4))
-		ft_exit(cmds);
+		return(ft_exit(cmds));
 	return (0);
 }

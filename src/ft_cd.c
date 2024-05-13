@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:50 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/11 10:58:25 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/13 11:53:41 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	change_dir(char *cmd, t_env **env, char *pwd, char *oldpwd)
 	}
 }
 
-void	ft_cd(t_cmd *cmds, t_env **env)
+int	ft_cd(t_cmd *cmds, t_env **env)
 {
 	t_env	*current;
 	char	*oldpwd;
@@ -91,4 +91,5 @@ void	ft_cd(t_cmd *cmds, t_env **env)
 	}
 	else if (cmds->cmd[1])
 		change_dir(cmds->cmd[1], env, pwd, oldpwd);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:15 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/11 05:03:09 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/13 17:31:45 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_env	*ms_env_search(char *ptr, t_env *head)
 	return(NULL);
 }
 
-char	*expanded(char *cmd)
+char	*expanded(char *cmd, int *exit_status)
 {
 	int		i;
 	int		k;
@@ -73,6 +73,11 @@ char	*expanded(char *cmd)
 	k = 0;
 	while ((cmd[i]))
 	{
+		if (cmd[i] == '$' && cmd[i + 1] == '?')
+		{
+			k = 2;
+			break;
+		}
 		if (cmd[i] == '$')
 		{
 			i++;
@@ -95,6 +100,8 @@ char	*expanded(char *cmd)
 		// printf("return NULL \n");
 		return (NULL);
 	}
+	else if (k == 2)
+		return(ft_itoa(*exit_status));
 	ex_len = k - i;
 	l7asol = malloc(sizeof(char) * (ex_len + 1));
 	ft_strlcpy(l7asol, &cmd[i], ex_len + 1);
