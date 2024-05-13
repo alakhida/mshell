@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:28:51 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/13 16:22:48 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/13 23:09:44 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,61 +125,41 @@ void printlist(t_cmd **head)
 
 void get_redir(t_cmd **cmd)
 {
-	t_cmd *head = *cmd;
-	head->red = NULL;
-	int i = 0;
-	while(head)
-	{
-		i = 0;
-		while(head->cmd[i])
-		{
-			if ((!strcmp((head)->cmd[i],"|") || !strcmp((head)->cmd[i],">")|| !strcmp((head)->cmd[i],">>")|| !strcmp((head)->cmd[i],"<")|| !strcmp((head)->cmd[i],"<<")) && head->count == 1)
-			{
-				write(2, "minishell :syntax error\n", 25);
-				head->flag = 1;
-				return;
-			}
-			if ((!strcmp((head)->cmd[i],">") || !strcmp((head)->cmd[i],"<") ) && !(head)->cmd[i+1])
-			{
-				write(2, "minishell :syntax error\n", 25);
-				head->flag = 1;
-				return;
-			}
-			if(!strcmp((head)->cmd[i],">") && strcmp(head->cmd[i],">>"))
-				{	
-					head->red = malloc(sizeof(t_red));
-					head->red->file = ft_strdup(head->cmd[i + 1]);
-					head->red->type = RREDIR;
-					head->red->next  = NULL;
-				}
-			else if(!strcmp(head->cmd[i],"<") && strcmp(head->cmd[i],"<<"))
-				{
-					head->red = malloc(sizeof(t_red));
-					head->red->file = ft_strdup(head->cmd[i + 1]);
-					head->red->type = LREDIR;
-					head->red->next  = NULL;
-				}
+    t_cmd *head = *cmd;
+    head->red = NULL;
+    int i = 0;
+    while(head)
+    {
+        i = 0;
+        while(head->cmd[i] != NULL)
+        {
+            if (ms_ctrlop(head->cmd[i]) != NONE && ms_ctrlop(head->cmd[i]) != PIPE){
+                if ( head->cmd[i + 1] == NULL){
+                    write(2, "minishell : syntax error near"
+                        " unexpected token `newline'\n", 57);
+                    head->flag = 1;
+                }
+                else if (ms_ctrlop(head->cmd[i + 1]) != NONE) {
+                    write(2, "minishell : syntax error near unexpected token `", 48);
+                    write(2, head->cmd[i], ft_strlen(head->cmd[i]));
+                    write(2, "'\n", 2);
+                    head->flag = 1;
+                } else {
+                    head->red = malloc(sizeof(t_red));
+                    head->red->file = ft_strdup(head->cmd[i + 1]);
+                    head->red->type = ms_ctrlop(head->cmd[i]);
+                    head->red->next  = NULL;
+                }
+                i += 2;
+            } else  {
+                i++;
 
-			else if(!strcmp(head->cmd[i],"<<"))
-				{
-					head->red = malloc(sizeof(t_red));
-					head->red->file = ft_strdup(head->cmd[i + 1]);
-					head->red->type = HEREDOC;
-					head->red->next  = NULL;
-				}
-			else if(!strcmp(head->cmd[i],">>"))
-				{
-					head->red = malloc(sizeof(t_red));
-					head->red->file = ft_strdup(head->cmd[i + 1]);
-					head->red->type = APPEND;
-					head->red->next  = NULL;
-				}
-			i++;
-		}
-		head = head->next;
-	}
-	get_new_args(cmd);
-	
+            }
+        }
+        head = head->next;
+    }
+    get_new_args(cmd);
+    
 }
 
 int ma3rftch(t_cmd **cmd)

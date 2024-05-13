@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:08 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/13 19:33:47 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/13 23:03:23 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,13 +192,10 @@ int	ms_prompt(t_env **env, int *exit_status)
 	if (cmd == NULL)
 		return (2);
 	if (is_tab(cmd) == 1 || ft_strlen(cmd) == 0)
-	{
 		return (0);
-	}
 	if(pre_syntax_check(cmd))
 		return 0;
 	lexed = ms_parse(cmd);
-	
 	if(check_errors(lexed)== 1)
 		return 0;
 	// printf("adsfadsf\n");.
@@ -221,7 +218,7 @@ void	sig(int signal)
 	{
 		printf("\n");
 		rl_on_new_line();
-		rl_replace_line("", 0);
+		// rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }
