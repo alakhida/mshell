@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:42 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/13 18:32:21 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/14 07:10:50 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,9 @@ int	ft_echo(t_cmd *cmnd)
 		}
 		else
 			i += 1;
+		// printf("%s\n",cmnd->cmd[0]);
+		// prnttab(cmnd->args);
+
 		while (cmnd->cmd[i])
 		{
 			if(print_string_fd(cmnd->cmd[i], 1) == -1)

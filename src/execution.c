@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:59 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/14 03:22:08 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/14 08:01:32 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ char	*cmd_path(char *cmd, t_env *env)
 	if (!curr)
 		return (NULL);
 	path = get_cmd_path(curr);
+	
 	dir = ft_strtok(path, ":");
 	while (dir != NULL)
 	{
@@ -129,8 +130,10 @@ void	exec_cmd(t_env **env, t_cmd *cmds, int *exit_status)
 		{
 			*(info->ex_status) = exec_built_in(cmds, env);
 		}
-		else
+		else{
+
 			exec_bin(cmds, info, env);
+		}
 		cmds = cmds->next;
 	}
 	dup2(info->saved_stdout, STDOUT_FILENO);

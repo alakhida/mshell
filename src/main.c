@@ -6,7 +6,7 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:08 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/13 23:03:23 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/14 05:07:24 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,7 @@ int	ms_prompt(t_env **env, int *exit_status)
 	{
 		return 0;
 	}
+	
 	// if (ma3rftch(&cmd2)==1)
 	// 	return 0;
 	exec_cmd(env, cmd2, exit_status);

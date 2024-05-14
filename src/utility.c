@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   utility.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 09:38:43 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/11 09:59:48 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/14 05:03:33 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void prnttab(char **tab)
+{
+	int i =0;
+	while (tab[i])
+	{
+		printf("%s\n",tab[i]);
+		i++;
+		/* code */
+	}
+	
+}
+
 
 e_type	ms_ctrlop(char *str)
 {
