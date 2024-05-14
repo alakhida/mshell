@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:59 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/13 18:41:06 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/14 03:22:08 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,28 @@ char	*cmd_path(char *cmd, t_env *env)
 //
 // }
 
+void	handle_heredoc(t_cmd *cmds)
+{
+	t_red *curr;
+
+	while (cmds)
+	{
+		if (cmds->red)
+		{
+			curr = cmds->red;
+			while (curr)
+			{
+				if (curr->type == HEREDOC)
+					cmds->heredoc = handle_here_doc(cmds);
+				curr = curr->next;
+				if (curr)
+					close(cmds->heredoc);
+			}
+		}
+		cmds = cmds->next;
+	}
+}
+
 void	exec_cmd(t_env **env, t_cmd *cmds, int *exit_status)
 {
 	t_info	*info;
@@ -99,6 +121,7 @@ void	exec_cmd(t_env **env, t_cmd *cmds, int *exit_status)
 	info->saved_stdin = dup(STDIN_FILENO);
 	info->ex_status = exit_status;
 	info->child = 0;
+	handle_heredoc(cmds);
 	while (cmds)
 	{
 		info->envp = ms_env_dup(*env);

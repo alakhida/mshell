@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 00:25:16 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/13 12:53:22 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/14 03:08:31 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct ms_cmd
 	e_type			output;
 	char			*outfile;
 	int				count;
+	int				heredoc;
 	struct ms_cmd	*next;
 	int flag;
 }					t_cmd;
@@ -114,13 +115,13 @@ void				ft_env_export(t_env **env);
 void				add_node_to_back(t_env **envp, t_env *node);
 void				exec_bin(t_cmd *cmd, t_info *info, t_env **env);
 void				wait_child(pid_t *child, t_info *info);
-void				handle_redirections(t_cmd *cmds);
+int					handle_redirections(t_cmd *cmds);
 char				*ft_strtok(char *str, const char *delim);
 char				*ft_strcpy(char *dest, char *src);
 char				*ft_strcat(char *dest, char *src);
 void				exporting(t_cmd *cmds, t_env **envp);
 bool				cmd_is_builtin(char *string);
-void				handle_redirections(t_cmd *cmds);
 char				*cmd_path(char *cmd, t_env *env);
+int					handle_here_doc(t_cmd *cmds);
 int 				is_special(char *tab);int ma3rftch(t_cmd **cmd);int check_errors(char ** tab);
 #endif

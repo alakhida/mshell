@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 03:29:33 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/13 19:42:21 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/14 03:06:47 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ int	ft_exit(t_cmd *cmds)
 int	exec_built_in(t_cmd *cmds, t_env **envp)
 {
 	if (!cmds->next)
-		if (cmds->red)
-			handle_redirections(cmds);
+		if (cmds->red && handle_redirections(cmds))
+			return (1);
 	if (!ft_strncmp(cmds->cmd[0], "echo", 4))
 		return(ft_echo(cmds));
 	else if (!ft_strncmp(cmds->cmd[0], "env", 3))
