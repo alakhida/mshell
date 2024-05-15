@@ -6,7 +6,7 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:15 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/13 23:10:05 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/14 07:36:33 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ char	*expanded(char *cmd, int *exit_status)
 
 	i = 0;
 	k = 0;
+	printf("%s\n=====================================\n", cmd);
 	while ((cmd[i]))
 	{
 		if (cmd[i] == '$' && (cmd[i + 1] == '>' || cmd[i + 1] == '<'
@@ -88,7 +89,7 @@ char	*expanded(char *cmd, int *exit_status)
 			while (ft_isalnum(cmd[k]) || cmd[k] == '_' || cmd[k] == '?'
 				|| cmd[k] == '=')
 				k++;
-			break ;
+			break;
 		}
 		if (cmd[i] == '\'')
 		{

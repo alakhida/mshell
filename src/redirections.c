@@ -6,7 +6,7 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:28:51 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/13 23:09:44 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/14 05:08:41 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,12 +138,14 @@ void get_redir(t_cmd **cmd)
                     write(2, "minishell : syntax error near"
                         " unexpected token `newline'\n", 57);
                     head->flag = 1;
+					return;
                 }
                 else if (ms_ctrlop(head->cmd[i + 1]) != NONE) {
                     write(2, "minishell : syntax error near unexpected token `", 48);
                     write(2, head->cmd[i], ft_strlen(head->cmd[i]));
                     write(2, "'\n", 2);
                     head->flag = 1;
+					return;
                 } else {
                     head->red = malloc(sizeof(t_red));
                     head->red->file = ft_strdup(head->cmd[i + 1]);
