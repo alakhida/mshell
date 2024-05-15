@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 06:47:08 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/15 07:56:24 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/15 09:22:25 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ int	ft_pwd(t_cmd *cmds)
 	buff = getcwd(NULL, 0);
 	if (buff != NULL)
 		printf("%s\n", buff);
-    free(buff);
+	free(buff);
 	return (0);
 }

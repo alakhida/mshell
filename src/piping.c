@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 07:47:35 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/15 07:36:21 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/15 09:40:50 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void	handle_pipe_chain(t_cmd *cmd, int pip[], int *save_stdout,
 		bool pipe_chain)
 {
+	if (*save_stdout)
+		close(*save_stdout);
 	if (pipe_chain && cmd->next)
 	{
 		close(pip[1]);

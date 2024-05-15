@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 06:03:57 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/11 11:04:39 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/15 09:24:11 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,7 @@ void	exporting(t_cmd *cmds, t_env **envp)
 		else if (j <= 0)
 		{
 			printf("%s: '%s': not a valid identifier\n",
-					cmds->cmd[0],
-					cmds->cmd[i]);
+				cmds->cmd[0], cmds->cmd[i]);
 			return ;
 		}
 		i++;
