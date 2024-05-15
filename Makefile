@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+         #
+#    By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/10 00:43:31 by calmouht          #+#    #+#              #
-#    Updated: 2024/05/14 08:02:13 by calmouht         ###   ########.fr        #
+#    Updated: 2024/05/15 07:24:01 by alakhida         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CFLAGS = -Wall -Wextra -Werror -I ~/homebrew/opt/readline/include #-g -fsanitize=address
-# RDLINE = -L ~/homebrew/opt/readline/lib
+RDLINE = -L ~/homebrew/opt/readline/lib
 CC = gcc
 NAME = minishell
 LIBFT = lib/libft/libft.a

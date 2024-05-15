@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:59 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/15 02:45:58 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/15 07:13:00 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,29 @@ void	handle_heredoc(t_cmd *cmds)
 	}
 }
 
+void	free_dbl_ptr(char **ptr)
+{
+	int	i;
+
+	i = 0;
+	while (ptr && ptr[i])
+	{
+		free(ptr[i]);
+		i++;
+	}
+	if (ptr)
+		free(ptr);
+}
+
+void	free_info(t_info *info)
+{
+	if(info->envp)
+		free_dbl_ptr(info->envp);
+	if (info->path)
+		free(info->path);
+	free(info);
+}
+
 void	exec_cmd(t_env **env, t_cmd *cmds, int *exit_status)
 {
 	t_info	*info;
@@ -117,6 +140,8 @@ void	exec_cmd(t_env **env, t_cmd *cmds, int *exit_status)
 	info->saved_stdin = dup(STDIN_FILENO);
 	info->ex_status = exit_status;
 	info->child = 0;
+	info->envp = NULL;
+	info->path = NULL;
 	handle_heredoc(cmds);
 	while (cmds)
 	{
@@ -135,4 +160,5 @@ void	exec_cmd(t_env **env, t_cmd *cmds, int *exit_status)
 	dup2(info->saved_stdin, STDIN_FILENO);
 	if (info->child)
 		wait_child(&info->child, info);
+	free_info(info);
 }

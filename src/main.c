@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:08 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/14 05:07:24 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/15 07:23:46 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,7 @@ int	ms_prompt(t_env **env, int *exit_status)
 	// 	return 0;
 	exec_cmd(env, cmd2, exit_status);
 	ms_errors(lexed);
+	free (cmd);
 	return (0);
 }
 void	sig(int signal)
@@ -219,7 +220,13 @@ void	sig(int signal)
 	{
 		printf("\n");
 		rl_on_new_line();
-		// rl_replace_line("", 0);
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	else if (signal == SIGQUIT)
+	{
+		rl_on_new_line();
+		rl_replace_line("",0);
 		rl_redisplay();
 	}
 }
