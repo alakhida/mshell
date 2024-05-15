@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 07:47:35 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/15 09:53:35 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/15 23:58:27 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ void	exec_bin(t_cmd *cmd, t_info *info, t_env **env)
 
 void	wait_child(pid_t *child, t_info *info)
 {
-	while (wait(child) > 0)
-		;
+	while (wait(child) > 0);
 	*(info->ex_status) = *child >> 8;
 }

@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:08 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/15 09:59:06 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/15 23:58:53 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,7 @@ int	ms_prompt(t_env **env, int *exit_status)
 	if (check_errors(lexed) == 1)
 		return (0);
 	ms_rendercmd(lexed, *env, exit_status);
+	lexed = fix_args(lexed);
 	cmd2 = ms_cmdgen(lexed);
 	if (sear(&cmd2) == 1)
 	{
@@ -206,19 +207,20 @@ int	ms_prompt(t_env **env, int *exit_status)
 }
 void	sig(int signal)
 {
+	int	status;
+
+	status = 0;
+	wait(&status);
 	if (signal == SIGINT)
 	{
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		rl_redisplay();
 	}
-	else if (signal == SIGQUIT)
-	{
-		rl_on_new_line();
-		rl_replace_line("", 0);
+	if (status && WIFSIGNALED(status))
+		signal_number = signal;
+	else
 		rl_redisplay();
-	}
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -236,14 +238,17 @@ int	main(int argc, char **argv, char **envp)
 	sigaddset(&minisignols.sa_mask, SIGQUIT);
 	minisignols.sa_flags = 0;
 	sigaction(SIGINT, &minisignols, NULL);
-	sigaction(SIGQUIT, &minisignols, NULL);
+	signal(SIGQUIT, SIG_IGN);
 	if (envp == NULL)
 		return (EXIT_FAILURE);
 	env = ms_env_new(envp);
 	while (true)
 	{
+		signal_number = 0;
 		cmd_status = ms_prompt(&env, exit_status);
 		if (cmd_status != 0)
 			return (cmd_status);
+		if (signal_number)
+			*exit_status = signal_number + 128;
 	}
 }

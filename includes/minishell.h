@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 00:25:16 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/15 06:37:08 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/15 23:54:02 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ typedef struct s_info
 	int				saved_stdout;
 	int				*ex_status;
 }					t_info;
+
+int					signal_number;
 
 int					double_expansion(char *str, int *exit_stat);
 char				*val_malloc(char *cmd, char *var, int j);
