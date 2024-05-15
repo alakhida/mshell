@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:50 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/13 18:44:54 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/15 07:53:26 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	update_pwd(t_env **env, char *var, char *value)
 		}
 		curr = curr->next;
 	}
+	free(value);
 }
 
 int	check_home(t_env *home)
