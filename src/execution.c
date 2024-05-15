@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:59 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/14 03:22:08 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/15 02:18:14 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,6 @@ char	*cmd_path(char *cmd, t_env *env)
 	}
 	return (path);
 }
-
-// void	init_args(t_cmd *cmds, t_env *env)
-// {
-//
-// }
 
 void	handle_heredoc(t_cmd *cmds)
 {
