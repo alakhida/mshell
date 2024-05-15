@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 09:58:48 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/11 10:00:26 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/15 07:44:00 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 
 char	*ft_strtok(char *str, const char *delim)
 {
-	static char	*s;
+	static char	*s = NULL;
 	char		*ret;
 	int			i;
 
-	s = NULL;
 	if (str)
 		s = str;
 	if (!s)
