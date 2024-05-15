@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:08 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/15 07:52:08 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/15 09:59:06 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,13 @@ int	sear(t_cmd **hh)
 	return (0);
 }
 
+void	print_err(char token)
+{
+	ft_putstr_fd("syntax error near unexpected token .", 2);
+	ft_putchar_fd(token, 2);
+	ft_putendl_fd(".", 2);
+}
+
 int	pre_syntax_check(char *str)
 {
 	int	i;
@@ -153,7 +160,7 @@ int	pre_syntax_check(char *str)
 	{
 		if (str[i] == '|' && str[i + 1] && str[i + 1] == '|')
 		{
-			write(2, "syntax err : | \n", 17);
+			print_err(str[i]);
 			return (1);
 		}
 		i++;
@@ -162,8 +169,8 @@ int	pre_syntax_check(char *str)
 	while (i >= 0 && (str[i] == ' ' || str[i] == '\t'))
 		i--;
 	if (str[i] == '|')
-	{
-		write(2, "syntax err : | \n", 17);
+	{	
+		print_err(str[i]);
 		return (1);
 	}
 	return (0);
@@ -202,6 +209,12 @@ void	sig(int signal)
 	if (signal == SIGINT)
 	{
 		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	else if (signal == SIGQUIT)
+	{
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();

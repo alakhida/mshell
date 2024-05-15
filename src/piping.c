@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 07:47:35 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/15 09:40:50 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/15 09:53:35 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,10 @@ void	exec_bin(t_cmd *cmd, t_info *info, t_env **env)
 	if (info->child == 0)
 	{
 		handling_pipe(cmd, pip, info);
-		info->path = cmd_path(cmd->cmd[0], *env);
+		if (access(cmd->cmd[0], F_OK) == 0)
+			info->path = cmd->cmd[0];
+		else
+			info->path = cmd_path(cmd->cmd[0], *env);
 		if (cmd_is_builtin(cmd->cmd[0]))
 			exec_built_in(cmd, env);
 		else if (execve(info->path, cmd->cmd, info->envp) == -1)
