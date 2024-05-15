@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:08 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/15 07:23:46 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/15 07:28:14 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,12 @@ int sear(t_cmd **hh)
 	return 0;
 }
 
+// void	print_error(char *token)
+// {
+// 	ft_putstr_fd("syntax error near unexpected token .", 2);
+	
+// }
+
 int pre_syntax_check(char *str)
 {
 	int i = 0;
@@ -166,7 +172,7 @@ int pre_syntax_check(char *str)
 	{
 		if(str[i] == '|' && str[i+1]   && str[i + 1] == '|')
 		{
-			write(2,"syntax err : | \n",17);
+			write(2,"syntax error near unexpected token ..\n",17);
 			return 1;
 		}
 		i++;
