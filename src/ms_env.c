@@ -6,7 +6,7 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:15 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/14 07:36:33 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/15 06:16:39 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ t_env	*ms_env_new(char **envp)
 	{
 		env->varname = ft_strldup(envp[i], ft_strchr(envp[i], '=') - envp[i]);
 		env->value = ft_strdup(ft_strchr(envp[i], '=') + 1);
-		if (envp[i + 1] != NULL){
+		if (envp[i + 1] != NULL)
+		{
 			env->next = (t_env *)malloc(sizeof(t_env));
 			env = env->next;
 		}
@@ -59,7 +60,7 @@ t_env	*ms_env_search(char *ptr, t_env *head)
 		}
 		head = head->next;
 	}
-	return(NULL);
+	return (NULL);
 }
 
 char	*expanded(char *cmd, int *exit_status)
@@ -71,16 +72,15 @@ char	*expanded(char *cmd, int *exit_status)
 
 	i = 0;
 	k = 0;
-	printf("%s\n=====================================\n", cmd);
 	while ((cmd[i]))
 	{
-		if (cmd[i] == '$' && (cmd[i + 1] == '>' || cmd[i + 1] == '<'
-			|| cmd[i + 1] == '|'))
+		if (cmd[i] == '$' && (cmd[i + 1] == '>' || cmd[i + 1] == '<' || cmd[i
+				+ 1] == '|'))
 			return (NULL);
 		if (cmd[i] == '$' && cmd[i + 1] == '?')
 		{
 			k = 2;
-			break;
+			break ;
 		}
 		if (cmd[i] == '$')
 		{
@@ -89,7 +89,7 @@ char	*expanded(char *cmd, int *exit_status)
 			while (ft_isalnum(cmd[k]) || cmd[k] == '_' || cmd[k] == '?'
 				|| cmd[k] == '=')
 				k++;
-			break;
+			break ;
 		}
 		if (cmd[i] == '\'')
 		{
@@ -105,11 +105,10 @@ char	*expanded(char *cmd, int *exit_status)
 	}
 	else if (k == 2)
 	{
-		return(ft_itoa(*exit_status));
+		return (ft_itoa(*exit_status));
 	}
 	ex_len = k - i;
 	l7asol = malloc(sizeof(char) * (ex_len + 1));
 	ft_strlcpy(l7asol, &cmd[i], ex_len + 1);
-	// printf("%s\n----------------------------\n", l7asol);
 	return (l7asol);
 }

@@ -12,47 +12,50 @@
 
 #include "../includes/minishell.h"
 
-
-
 t_cmd	*ms_cmdgen(char **cmd)
 {
-	t_cmd *head = NULL;
-	t_cmd *current = NULL;
-	int checkpoint = 0;
+	t_cmd	*head;
+	t_cmd	*current;
+	int		checkpoint;
+	int		i;
 
-	int i = 0;
+	head = NULL;
+	current = NULL;
+	checkpoint = 0;
+	i = 0;
 	current = (t_cmd *)malloc(sizeof(t_cmd));
 	while (cmd && cmd[i])
 	{
 		if (ms_ctrlop(cmd[i]) == PIPE || cmd[i + 1] == NULL)
 		{
-			if (cmd[i + 1] == NULL) {
+			if (cmd[i + 1] == NULL)
+			{
 				current->cmd = ft_arrslice(cmd, checkpoint, i + 1);
 			}
-			else 
+			else
 				current->cmd = ft_arrslice(cmd, checkpoint, i);
-				if (checkpoint == 0)
-					head = current;
+			if (checkpoint == 0)
+				head = current;
 			checkpoint = i + 1;
 			current->next = NULL;
 			if (cmd[i + 1] != NULL)
 			{
-					current->next = (t_cmd *)malloc(sizeof(t_cmd));
-					ft_bzero(current->next, sizeof(t_cmd));
-					current = current->next;
+				current->next = (t_cmd *)malloc(sizeof(t_cmd));
+				ft_bzero(current->next, sizeof(t_cmd));
+				current = current->next;
 			}
 			i = checkpoint;
 		}
-		else{
+		else
+		{
 			i++;
 		}
 		//   printf("ggg %s ggg\n", cmd[i]);
-
 	}
 	// printf("tab %d\n",i);
 	current->count = i;
 	head->red = NULL;
 	get_redir(&head);
 	// printf("%s\n00000000000000000000000000\n", head->args[i]);
-	return head;
+	return (head);
 }

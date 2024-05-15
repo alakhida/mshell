@@ -12,13 +12,13 @@
 
 #include "../includes/minishell.h"
 
-void    ft_unset_norm(t_cmd *cmds, t_env *curr)
+void	ft_unset_norm(t_cmd *cmds, t_env *curr)
 {
-    t_env *tmp;
-    int     i;
+	t_env	*tmp;
+	int		i;
 
-    i = 1;
-    while (curr->next)
+	i = 1;
+	while (curr->next)
 	{
 		if (!ft_strcmp(cmds->cmd[i], curr->next->varname))
 		{
@@ -30,16 +30,16 @@ void    ft_unset_norm(t_cmd *cmds, t_env *curr)
 			else
 				curr->next = NULL;
 			free(tmp);
-			break;
+			break ;
 		}
 		curr = curr->next;
 	}
 }
 
-int		ft_unset(t_cmd *cmds, t_env **env)
+int	ft_unset(t_cmd *cmds, t_env **env)
 {
 	t_env *curr;
-	int		i;
+	int i;
 
 	i = 1;
 	curr = *env;

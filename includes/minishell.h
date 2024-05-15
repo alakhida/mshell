@@ -6,7 +6,7 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 00:25:16 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/14 05:03:55 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/15 03:08:41 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_info
 	int		*ex_status;
 }	t_info;
 // function defs
+int					double_expansion(char *str, int *exit_stat);
 char				*val_malloc(char *cmd, char *var, int j);
 char				*cpy_value(char *cmd, char *var, char *value, int j);
 bool				pipe_chain_present(t_cmd *cmds);

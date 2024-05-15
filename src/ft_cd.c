@@ -32,7 +32,7 @@ void	update_pwd(t_env **env, char *var, char *value)
 	{
 		if (!ft_strcmp(curr->varname, var))
 		{
-			free (curr->value);
+			free(curr->value);
 			curr->value = ft_strdup(value);
 			break ;
 		}

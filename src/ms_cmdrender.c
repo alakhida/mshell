@@ -6,7 +6,7 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:28:27 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/14 07:47:26 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/15 06:09:35 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,47 +30,67 @@ void	ms_rendercmd(char **command, t_env *head, int *exit_status)
 {
 	int		i;
 	int		j;
+	char	*replacement;
 	char	*var_name;
 	t_env	*var_value;
 
 	i = 0;
 	while (command[i] != NULL)
 	{
-		// var_name = expanded(command[i], exit_status);
 		j = 0;
-			prnttab(command);
-		while (command[i][j])
+		while (command[i][j] != '\0')
 		{
-			// printf("|%s|\n", command)
-			if (command[i][j] == '$' && (ft_isalnum(command[i][j+1])|| command[i][j+1] == '?') )
+			if (command[i][j] == '$' && (ft_isalnum(command[i][j + 1])
+					|| command[i][j + 1] == '?'))
 			{
+				printf("i:  %d\nj: %d \n", i, j);
 				var_name = expanded(&command[i][j], exit_status);
-				var_value = ms_env_search(var_name, head);
-				
-				if (var_value == NULL && string_is_allnum(var_name))
+				if (var_name != NULL)
 				{
-					command[i] = ft_strreplace(command[i], "$?", var_name);
-				}
-				else if (var_value == NULL)
-				{
-					command[i] = ft_strreplace(command[i] + 1 , var_name, "");
-					break;
+					var_value = ms_env_search(var_name, head);
+					if (var_value != NULL || string_is_allnum(var_name))
+					{
+						if (var_value != NULL)
+							replacement = ft_strtrim(var_value->value, "\"$\'");
+						else
+							replacement = var_name;
+						command[i] = ft_strreplace_all(command[i], var_name,
+								replacement);
+						command[i] = ft_strtrim(command[i], "\"$\'");
+						j += ft_strlen(replacement);
+					}
+					else
+						command[i] = ft_strreplace(command[i] + 1, var_name,
+								"");
+					free(var_name);
 				}
 				else
-				{
-					command[i] = ft_strreplace_all(command[i], var_name, var_value->value);
-					command[i] = ft_strtrim(command[i],"\"$\'");
-					break;
-				}
-				// prnttab(co\mmand);
-
+					break ;
 			}
 			j++;
 		}
 		i++;
 	}
-	// printf("command : %s\n****************************\n", command[j]);
-	// printf("var_value>value :%s\n****************************\n", var_value->value);
-	// printf("var_name : %s\n****************************\n", var_name);
-	// printf("%s\n****************************\n", command[j]);
+}
+
+int	double_expansion(char *str, int *exit_stat)
+{
+	char *if_dbl_expand;
+	int i;
+
+	i = 0;
+	if_dbl_expand = expanded(str, exit_stat);
+	if (if_dbl_expand == NULL)
+		return (0);
+	while (if_dbl_expand[i])
+	{
+		if (if_dbl_expand[i] == '$')
+		{
+			free(if_dbl_expand);
+			return (1);
+		}
+		i++;
+	}
+	free(if_dbl_expand);
+	return (0);
 }

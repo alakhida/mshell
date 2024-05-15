@@ -33,7 +33,7 @@ char	*val_malloc(char *cmd, char *var, int j)
 	value = (char *)malloc((i - j) * sizeof(char) + 1);
 	if (!value)
 	{
-		free (var);
+		free(var);
 		return (NULL);
 	}
 	return (value);
@@ -79,7 +79,8 @@ void	exporting(t_cmd *cmds, t_env **envp)
 		else if (j <= 0)
 		{
 			printf("%s: '%s': not a valid identifier\n",
-				cmds->cmd[0], cmds->cmd[i]);
+					cmds->cmd[0],
+					cmds->cmd[i]);
 			return ;
 		}
 		i++;

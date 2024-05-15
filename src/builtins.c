@@ -14,7 +14,7 @@
 
 int	ft_strchar(const char *s, int c)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (s[i] && s[i] != c)
@@ -41,20 +41,20 @@ t_env	*add_node(char *var, char *value)
 
 int	is_digit(char *str)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (str[i] && (str[i] >= '0' && str[i] <= '9'))
 		i++;
 	if (str[i] == '\0')
 		return (0);
-	else 
+	else
 		return (1);
 }
 
 int	ft_exit(t_cmd *cmds)
 {
-	int		ex;
+	int	ex;
 
 	ex = 0;
 	if (!cmds->cmd[1])
@@ -87,18 +87,18 @@ int	exec_built_in(t_cmd *cmds, t_env **envp)
 		if (cmds->red && handle_redirections(cmds))
 			return (1);
 	if (!ft_strncmp(cmds->cmd[0], "echo", 4))
-		return(ft_echo(cmds));
+		return (ft_echo(cmds));
 	else if (!ft_strncmp(cmds->cmd[0], "env", 3))
-		return(ft_env(envp));
+		return (ft_env(envp));
 	else if (!ft_strncmp(cmds->cmd[0], "pwd", 3))
-		return(ft_pwd(cmds));
+		return (ft_pwd(cmds));
 	else if (!ft_strncmp(cmds->cmd[0], "export", 6))
-		return(ft_export(cmds, envp));
+		return (ft_export(cmds, envp));
 	else if (!ft_strncmp(cmds->cmd[0], "unset", 5))
-		return(ft_unset(cmds, envp));
+		return (ft_unset(cmds, envp));
 	else if (!ft_strncmp(cmds->cmd[0], "cd", 2))
-		return(ft_cd(cmds, envp));
+		return (ft_cd(cmds, envp));
 	else if (!ft_strncmp(cmds->cmd[0], "exit", 4))
-		return(ft_exit(cmds));
+		return (ft_exit(cmds));
 	return (0);
 }

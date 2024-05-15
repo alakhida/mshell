@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:16:08 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/13 11:56:21 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/15 06:16:01 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_env(t_env **env)
 {
 	t_env	*curr;
-	
+
 	if (!env || !(*env))
 		return (-1);
 	curr = *env;
@@ -27,7 +27,6 @@ int	ft_env(t_env **env)
 	}
 	return (0);
 }
-
 
 int	ft_export(t_cmd *cmds, t_env **envp)
 {

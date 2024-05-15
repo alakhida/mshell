@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-void	handle_pipe_chain(t_cmd *cmd, int pip[], int *save_stdout, 
+void	handle_pipe_chain(t_cmd *cmd, int pip[], int *save_stdout,
 		bool pipe_chain)
 {
 	if (pipe_chain && cmd->next)
@@ -71,7 +71,7 @@ void	handling_pipe(t_cmd *cmd, int pip[], t_info *info)
 
 void	exec_bin(t_cmd *cmd, t_info *info, t_env **env)
 {
-	int pip[2];
+	int	pip[2];
 
 	if (info->pipe_chain && cmd->next)
 		pipe(pip);
@@ -97,6 +97,7 @@ void	exec_bin(t_cmd *cmd, t_info *info, t_env **env)
 
 void	wait_child(pid_t *child, t_info *info)
 {
-	while (wait(child) > 0);
+	while (wait(child) > 0)
+		;
 	*(info->ex_status) = *child >> 8;
 }

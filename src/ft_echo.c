@@ -6,7 +6,7 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:42 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/14 07:10:50 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/15 06:15:56 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_option(char *str)
 }
 
 int	print_string_fd(char *s, int fd)
-{	
+{
 	int	i;
 	int	ret;
 
@@ -50,8 +50,8 @@ int	print_string_fd(char *s, int fd)
 
 int	ft_echo(t_cmd *cmnd)
 {
-	int		i;
-	int		n;
+	int	i;
+	int	n;
 
 	i = 0;
 	n = 0;
@@ -64,12 +64,9 @@ int	ft_echo(t_cmd *cmnd)
 		}
 		else
 			i += 1;
-		// printf("%s\n",cmnd->cmd[0]);
-		// prnttab(cmnd->args);
-
 		while (cmnd->cmd[i])
 		{
-			if(print_string_fd(cmnd->cmd[i], 1) == -1)
+			if (print_string_fd(cmnd->cmd[i], 1) == -1)
 				return (EXIT_FAILURE);
 			if (cmnd->cmd[i + 1] != NULL)
 			{

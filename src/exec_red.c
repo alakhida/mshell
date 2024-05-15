@@ -14,7 +14,7 @@
 
 int	handle_red_out(t_cmd *cmds)
 {
-	int		fd;
+	int	fd;
 
 	if (access(cmds->red->file, X_OK) == -1)
 		fd = open(cmds->red->file, O_WRONLY | O_CREAT, 0644);
@@ -33,6 +33,7 @@ int	handle_red_out(t_cmd *cmds)
 int	handle_red_in(t_cmd *cmds)
 {
 	int	fd;
+
 	if (access(cmds->red->file, F_OK) == -1)
 	{
 		ft_putstr_fd("minishell: No such file or directory\n", 2);
@@ -51,7 +52,7 @@ int	handle_red_in(t_cmd *cmds)
 
 int	handle_red_append(t_cmd *cmds)
 {
-	int		fd;
+	int	fd;
 
 	if (access(cmds->red->file, F_OK) == -1)
 		fd = open(cmds->red->file, O_WRONLY | O_CREAT, 0644);
@@ -60,7 +61,7 @@ int	handle_red_append(t_cmd *cmds)
 	if (fd == -1)
 	{
 		ft_putstr_fd("minishell: permission denied\n", 2);
-		return(1);
+		return (1);
 	}
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
@@ -83,7 +84,7 @@ int	handle_here_doc(t_cmd *cmds)
 		}
 		ft_putendl_fd(str, pip[1]);
 		free(str);
-		str = readline("> "); 
+		str = readline("> ");
 	}
 	close(pip[1]);
 	return (pip[0]);
@@ -107,4 +108,3 @@ int	handle_redirections(t_cmd *cmds)
 	}
 	return (1);
 }
-

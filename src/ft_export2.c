@@ -64,7 +64,7 @@ void	export_to_list(t_env *current, char *var, char *value)
 
 char	*cpy_value(char *cmd, char *var, char *value, int j)
 {
-	int		i;
+	int	i;
 
 	i = ft_strlen(cmd);
 	if (i <= 0)

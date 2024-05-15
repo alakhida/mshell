@@ -14,10 +14,11 @@
 
 char	*ft_strtok(char *str, const char *delim)
 {
-	static char	*s = NULL;
+	static char	*s;
 	char		*ret;
 	int			i;
 
+	s = NULL;
 	if (str)
 		s = str;
 	if (!s)
@@ -59,7 +60,7 @@ char	*ft_strcat(char *dest, char *src)
 
 char	*ft_strcpy(char *dest, char *src)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (src[i] != '\0')
