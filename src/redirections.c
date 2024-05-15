@@ -6,7 +6,7 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:28:51 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/14 05:08:41 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/15 06:25:34 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,43 +98,14 @@ int	check_errors(char **tab)
 	i = 0;
 	while (tab[i])
 	{
-		// printf("%d ;; %s\n", i , tab[i]);
 		if ((is_special(tab[i]) == 1 && is_special(tab[i + 1]) == 1))
 		{
 			exits(2);
 			return (1);
 		}
 		i++;
-		// continue ;
-		// if (ms_ctrlop(tab[i+1])!= NONE /*|| tab[i+1] == NULL*/)
-		// 		{
-		// 		if ((is_special(tab[i]) && is_special(tab[i+1])) )
-		// 			exits(2);
-		// 			return (1);
-		// 		}
-		// 	i++;
 	}
 	return (0);
-}
-
-void	printlist(t_cmd **head)
-{
-	t_cmd	*curr;
-	int		i;
-
-	curr = *head;
-	i = 0;
-	// printf("count = %d\n ", curr->count);
-	while (curr)
-	{
-		while (i < curr->count)
-		{
-			printf("%d %s\n", i, curr->cmd[i]);
-			i++;
-		}
-		i = 0;
-		curr = curr->next;
-	}
 }
 
 void	get_redir(t_cmd **cmd)

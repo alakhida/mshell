@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   utility2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/11 23:09:02 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/15 06:32:34 by calmouht         ###   ########.fr       */
+/*   Created: 2024/05/15 06:35:31 by calmouht          #+#    #+#             */
+/*   Updated: 2024/05/15 06:36:11 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/minishell.h"
 
-char	*ft_strrchr(const char *s, int c)
+char	*ft_strstr(char *str, char *to_find)
 {
-	unsigned int	i;
-	char			*str;
+	int	i;
+	int	j;
 
-	str = NULL;
 	i = 0;
-	while (s[i])
+	if (to_find[0] == '\0')
+		return (str);
+	while (str[i] != '\0')
 	{
-		if (s[i] == (char)c)
-			str = (char *)&s[i];
-		i++;
+		j = 0;
+		while (str[i + j] != '\0' && str[i + j] == to_find[j])
+		{
+			if (to_find[j + 1] == '\0')
+				return (&str[i]);
+			++j;
+		}
+		++i;
 	}
-	if ((char)c == s[i])
-		return ((char *)&s[i]);
-	return (str);
+	return (0);
 }

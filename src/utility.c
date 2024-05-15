@@ -6,25 +6,13 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 09:38:43 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/15 06:12:23 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/15 06:37:17 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	prnttab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-	{
-		printf("%s\n", tab[i]);
-		i++;
-	}
-}
-
-e_type	ms_ctrlop(char *str)
+t_type	ms_ctrlop(char *str)
 {
 	if (ft_strcmp(str, "<<") == 0)
 		return (HEREDOC);
@@ -67,9 +55,9 @@ char	*ft_strreplace(char *src, char *dst, char *replacement)
 					+ ft_strlen(replacement) + 1));
 		ft_strlcpy(ptr, src, strstr(src, dst) - src);
 		ft_strlcat(ptr, replacement, ft_strlen(ptr) + ft_strlen(replacement)
-				+ 1);
+			+ 1);
 		ft_strlcat(ptr, strstr(src, dst) + ft_strlen(dst), ft_strlen(ptr)
-				+ ft_strlen(strstr(src, dst) + ft_strlen(dst)) + 1);
+			+ ft_strlen(strstr(src, dst) + ft_strlen(dst)) + 1);
 	}
 	else
 		ptr = ft_strdup(src);

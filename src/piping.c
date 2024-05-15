@@ -6,7 +6,7 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 07:47:35 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/14 07:58:06 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/15 06:18:16 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void	exec_bin(t_cmd *cmd, t_info *info, t_env **env)
 	{
 		handling_pipe(cmd, pip, info);
 		info->path = cmd_path(cmd->cmd[0], *env);
-		// printf("|%s|\n",info->path);
 		if (cmd_is_builtin(cmd->cmd[0]))
 			exec_built_in(cmd, env);
 		else if (execve(info->path, cmd->cmd, info->envp) == -1)

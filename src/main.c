@@ -6,7 +6,7 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:08 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/14 05:07:24 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/15 06:25:04 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,6 @@ int	count_var(char *str, char c)
 	}
 	return (count);
 }
-
-#define SINGLE_Q 39
-#define DOUBLE_Q 34
-#define NO_Q 0
-
-// typedef struct _container{
-// 	char **ptr;
-// 	// int type ;
-// 	struct _container *next;
-// } _container;
-
-// _container *creat_container(char **args)
-// {
-// 	_container *container;
-// 	container = malloc(sizeof(_container));
-// 	container->ptr = args;
-// 	return (container);
-// }
 
 void	remove_q(char *str)
 {
@@ -101,11 +83,7 @@ char	**fix_args(char **args)
 {
 	int	i;
 
-	// _container * container = NULL;
-	// _container *head =  container;
-	// char **new_args;
 	i = 0;
-	// char **tmp;
 	while (args && args[i])
 	{
 		if (count_var(args[i], SINGLE_Q) > 0 || count_var(args[i],
@@ -160,12 +138,8 @@ int	sear(t_cmd **hh)
 	while (curr)
 	{
 		if (curr->flag == 1)
-		{
 			return (1);
-			/* code */
-		}
 		curr = curr->next;
-		/* code */
 	}
 	return (0);
 }
@@ -211,16 +185,13 @@ int	ms_prompt(t_env **env, int *exit_status)
 	lexed = ms_parse(cmd);
 	if (check_errors(lexed) == 1)
 		return (0);
-	// printf("adsfadsf\n");.
 	ms_rendercmd(lexed, *env, exit_status);
-	// lexed = fix_args(lexed);
 	cmd2 = ms_cmdgen(lexed);
 	if (sear(&cmd2) == 1)
 	{
 		return (0);
 	}
-	// if (ma3rftch(&cmd2)==1)
-	// 	return (0);
+
 	exec_cmd(env, cmd2, exit_status);
 	ms_errors(lexed);
 	return (0);
@@ -262,4 +233,3 @@ int	main(int argc, char **argv, char **envp)
 			return (cmd_status);
 	}
 }
-/*expansion lakant wst double kyyakhhd akhir quote */

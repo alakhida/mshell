@@ -31,9 +31,9 @@ size_t	get_len(int n)
 
 char	*ft_itoa(int n)
 {
-	size_t		len;
-	char		*result;
-	long		nbr;
+	size_t	len;
+	char	*result;
+	long	nbr;
 
 	nbr = n;
 	len = get_len(nbr);

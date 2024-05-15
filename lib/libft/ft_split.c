@@ -28,13 +28,13 @@ static size_t	echar(const char *s, char c, size_t l)
 
 static size_t	count(char const *s, char c)
 {
-	size_t		i;
-	size_t		b;
-	size_t		cnt;
+	size_t	i;
+	size_t	b;
+	size_t	cnt;
 
 	i = 0;
 	cnt = 0;
-	while (i < (size_t) ft_strlen((char *) s))
+	while (i < (size_t)ft_strlen((char *)s))
 	{
 		i = schar(s, c, i);
 		b = echar(s, c, i);

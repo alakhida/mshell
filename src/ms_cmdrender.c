@@ -6,7 +6,7 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:28:27 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/15 06:09:35 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/15 06:23:53 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	ms_rendercmd(char **command, t_env *head, int *exit_status)
 			if (command[i][j] == '$' && (ft_isalnum(command[i][j + 1])
 					|| command[i][j + 1] == '?'))
 			{
-				printf("i:  %d\nj: %d \n", i, j);
 				var_name = expanded(&command[i][j], exit_status);
 				if (var_name != NULL)
 				{

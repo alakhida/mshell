@@ -6,40 +6,41 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 00:25:16 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/15 03:08:41 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/15 06:37:08 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define SINGLE_Q 39
+# define DOUBLE_Q 34
+# define NO_Q 0
 
 # include "../lib/libft/libft.h"
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-// # incl/Users/alakhida/homebrew/Cellar/readline/8.2.10/include/readline
+# include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <signal.h>
-# include <fcntl.h>
 
-typedef enum
+typedef enum e_type
 {
 	NONE,
-	HEREDOC, //<<
-	LREDIR,  // <
-	RREDIR,  // >
-	APPEND,  // >>
-	PIPE,    // |
-}					e_type;
+	HEREDOC,
+	LREDIR,
+	RREDIR,
+	APPEND,
+	PIPE,
+}					t_type;
 
 typedef struct t_red
 {
-	e_type type;
-	char	*file;
-	struct t_red *next;
-} t_red;
-
+	t_type			type;
+	char			*file;
+	struct t_red	*next;
+}					t_red;
 
 typedef struct ms_cmd
 {
@@ -49,14 +50,14 @@ typedef struct ms_cmd
 	char			*path;
 	int				*std_out;
 	char			**env;
-	e_type			input;
+	t_type			input;
 	char			*infile;
-	e_type			output;
+	t_type			output;
 	char			*outfile;
 	int				count;
 	int				heredoc;
 	struct ms_cmd	*next;
-	int flag;
+	int				flag;
 }					t_cmd;
 
 typedef struct t_env
@@ -68,16 +69,16 @@ typedef struct t_env
 
 typedef struct s_info
 {
-	char 	**envp;
-	char	*path;	
-	int		save_stdout;
-	pid_t	child;
-	bool	pipe_chain;
-	int		saved_stdin;
-	int		saved_stdout;
-	int		*ex_status;
-}	t_info;
-// function defs
+	char			**envp;
+	char			*path;
+	int				save_stdout;
+	pid_t			child;
+	bool			pipe_chain;
+	int				saved_stdin;
+	int				saved_stdout;
+	int				*ex_status;
+}					t_info;
+
 int					double_expansion(char *str, int *exit_stat);
 char				*val_malloc(char *cmd, char *var, int j);
 char				*cpy_value(char *cmd, char *var, char *value, int j);
@@ -96,7 +97,7 @@ t_env				*ms_env_search(char *ptr, t_env *head);
 char				*expanded(char *cmd, int *exit_status);
 bool				ms_errors(char **cmd);
 int					ms_count(char *s);
-e_type				ms_ctrlop(char *str);
+t_type				ms_ctrlop(char *str);
 char				**ft_arrslice(char **arr, int start, int end);
 char				*ft_strreplace(char *src, char *dst, char *replacement);
 char				*ft_strreplace_all(char *src, char *dst, char *replacement);
@@ -108,7 +109,6 @@ int					ft_env(t_env **env);
 int					ft_unset(t_cmd *cmds, t_env **env);
 int					ft_cd(t_cmd *cmds, t_env **env);
 t_env				*add_node(char *var, char *value);
-void				printlist(t_cmd **head);
 int					ft_pwd(t_cmd *cmds);
 int					ft_export(t_cmd *cmds, t_env **envp);
 int					ft_strchar(const char *s, int c);
@@ -124,8 +124,9 @@ void				exporting(t_cmd *cmds, t_env **envp);
 bool				cmd_is_builtin(char *string);
 char				*cmd_path(char *cmd, t_env *env);
 int					handle_here_doc(t_cmd *cmds);
-int 				is_special(char *tab);
-int ma3rftch(t_cmd **cmd);
-int check_errors(char ** tab);
-void prnttab(char **tab);
+int					is_special(char *tab);
+int					ma3rftch(t_cmd **cmd);
+int					check_errors(char **tab);
+char				*ft_strstr(char *str, char *to_find);
+
 #endif

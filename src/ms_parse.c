@@ -6,7 +6,7 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:12 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/14 07:07:57 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/15 06:18:10 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,12 @@ int	ms_count(char *s)
 
 	iter = 0;
 	count = 0;
-	// iterates over the whole string
 	while (s[iter] != '\0')
 	{
-		// skips spaces
 		while (s[iter] == ' ' || s[iter] == '\t')
 			iter++;
-		// well if the string is empty cut it out
 		if (s[iter] != '\0')
 			count++;
-		// now we skip the parsable part
 		iter += ms_lexlen(&s[iter]);
 	}
 	return (count);

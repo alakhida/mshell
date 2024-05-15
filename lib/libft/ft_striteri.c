@@ -12,9 +12,9 @@
 
 #include "libft.h"
 
-void	ft_striteri(char *s, void (*f) (unsigned int, char*))
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
-	size_t		i;
+	size_t	i;
 
 	i = 0;
 	while (s[i])
@@ -30,10 +30,9 @@ void	ft_striteri(char *s, void (*f) (unsigned int, char*))
 	{
 		mys[i] = 'X';
 	}
-
 }
 
-int main()
+int	main(void)
 {
 	char str[]="HASSAN";
 	ft_striteri(str , myf);
