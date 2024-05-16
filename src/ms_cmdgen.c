@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_cmdgen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 06:38:46 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/16 06:06:59 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/16 19:58:58 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,10 @@ t_cmd	*ms_cmdgen(char **cmd)
 	t_cmd	*current;
 	int		checkpoint;
 	int		i;
-
-	head = NULL;
-	current = NULL;
+	
 	checkpoint = 0;
 	i = 0;
-	current = (t_cmd *)malloc(sizeof(t_cmd));
+	current = (t_cmd *)ft_calloc(sizeof(t_cmd), 1);
 	while (cmd && cmd[i])
 	{
 		if (ms_ctrlop(cmd[i]) == PIPE || cmd[i + 1] == NULL)
@@ -35,11 +33,9 @@ t_cmd	*ms_cmdgen(char **cmd)
 			if (checkpoint == 0)
 				head = current;
 			checkpoint = i + 1;
-			current->next = NULL;
 			if (cmd[i + 1] != NULL)
 			{
-				current->next = (t_cmd *)malloc(sizeof(t_cmd));
-				ft_bzero(current->next, sizeof(t_cmd));
+				current->next = (t_cmd *)ft_calloc(sizeof(t_cmd), 1);
 				current = current->next;
 			}
 			i = checkpoint;
@@ -48,8 +44,6 @@ t_cmd	*ms_cmdgen(char **cmd)
 			i++;
 	}
 	current->count = i;
-	head->red = NULL;
-
 	get_redir(&head);
 	return (head);
 }

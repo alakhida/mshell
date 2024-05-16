@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:08 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/16 16:44:09 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 19:50:42 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,26 +47,17 @@ void	remove_q(char *str)
 	char	*tmp;
 	int		i;
 	int		j;
+	char	qtype;
 
-	tmp = malloc(sizeof(char) * (ft_strlen(str) + 1));
-	if (tmp == NULL)
-		return ;
+	tmp = ft_calloc(sizeof(char) * (ft_strlen(str) + 1), 1);
 	i = 0;
 	j = 0;
 	while (str[i])
 	{
-		if (str[i] == SINGLE_Q)
+		if (str[i] == SINGLE_Q || str[i] == DOUBLE_Q)
 		{
-			i++;
-			while (str[i] && str[i] != SINGLE_Q)
-				tmp[j++] = str[i++];
-			if (str[i])
-				i++;
-		}
-		else if (str[i] == DOUBLE_Q)
-		{
-			i++;
-			while (str[i] && str[i] != DOUBLE_Q)
+			qtype = str[i++];
+			while (str[i] && str[i] != qtype)
 				tmp[j++] = str[i++];
 			if (str[i])
 				i++;
@@ -74,9 +65,6 @@ void	remove_q(char *str)
 		else
 			tmp[j++] = str[i++];
 	}
-	tmp[j] = '\0';
-	free(str);
-	str = (char *)malloc(j * sizeof(char));
 	ft_strcpy(str, tmp);
 	free(tmp);
 }
@@ -198,63 +186,34 @@ int	ms_prompt(t_env **env, int *exit_status)
 	char	**tmp;
 	t_cmd	*cmd2;
 
-	cmd = readline("bash0-0$: ");
+	cmd = readline("M0NG14L170_6-9$: ");
 	if (cmd == NULL)
 		return (2);
 	add_history(cmd);
-	if (is_tab(cmd) == 1 || ft_strlen(cmd) == 0)
-	{
-		free(cmd);
-		return (0);
-	}
-	if (pre_syntax_check(cmd))
-	{
-		free(cmd);
-		return (0);
-	}
+	if ((is_tab(cmd) == 1 || ft_strlen(cmd) == 0) && pre_syntax_check(cmd))
+		return (free(cmd), 0);
 	lexed = ms_parse(cmd);
 	if (check_errors(lexed) == 1)
-	{
-		free_dbl_ptr(lexed);
-		free(cmd);
-		return (0);
-	}
+		return (free_dbl_ptr(lexed),free(cmd), 0);
 	ms_rendercmd(lexed, *env, exit_status);
 	lexed = fix_args(lexed);
 	if (lexed == NULL)
-	{
-		free(cmd);
-		return (0);
-	}
+		return (free(cmd), 0);
 	cmd2 = ms_cmdgen(lexed);
 	if (sear(&cmd2) == 1)
-	{
-		free(cmd);
-		return (0);
-	}
+		return (free(cmd), 0);
 	ms_errors(lexed);
 	exec_cmd(env, cmd2, exit_status);
-	free(cmd);
-	free_dbl_ptr(lexed);
-	free_all(cmd2);
-	return (0);
+	return (free(cmd),free_dbl_ptr(lexed), free_all(cmd2),  0);
 }
 
-int	main(int argc, char **argv, char **envp)
+int	main(int __unused argc, char __unused **argv, char **envp)
 {
 	int					cmd_status;
-	int					*exit_status;
+	int					exit_status;
 	t_env				*env;
-	struct sigaction	minisignols;
 
-	(void)argv;
-	(void)argc;
-	exit_status = (int *)malloc(sizeof(int));
-	minisignols.sa_handler = sig;
-	sigemptyset(&minisignols.sa_mask);
-	sigaddset(&minisignols.sa_mask, SIGQUIT);
-	minisignols.sa_flags = 0;
-	sigaction(SIGINT, &minisignols, NULL);
+	signal(SIGINT, sig);
 	signal(SIGQUIT, SIG_IGN);
 	if (envp == NULL)
 		return (EXIT_FAILURE);
@@ -262,12 +221,12 @@ int	main(int argc, char **argv, char **envp)
 	while (true)
 	{
 		signal_number = 0;
-		cmd_status = ms_prompt(&env, exit_status);
+		cmd_status = ms_prompt(&env, &exit_status);
 		if (cmd_status != 0)
 			return (cmd_status);
 		if (signal_number)
-			*exit_status = signal_number + 128;
-		update_exit(&env,*exit_status);
+			exit_status = signal_number + 128;
+		update_exit(&env, exit_status);
 	}
 }
 
