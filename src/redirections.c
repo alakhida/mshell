@@ -6,7 +6,7 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:28:51 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/16 06:28:48 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/16 07:29:34 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,14 +104,17 @@ int	check_errors(char **tab)
 void	get_redir(t_cmd **cmd)
 {
 	t_cmd	*head;
+	t_red	*trv;
 	int		i;
 
 	head = *cmd;
+	trv = NULL;
 	head->red = NULL;
 	i = 0;
 	while (head)
 	{
 		i = 0;
+		trv = head->red;
 		while (head->cmd[i] != NULL)
 		{
 			if (ms_ctrlop(head->cmd[i]) != NONE
@@ -136,12 +139,21 @@ void	get_redir(t_cmd **cmd)
 				}
 				else
 				{
-					head->red = malloc(sizeof(t_red));
-					head->red->file = ft_strdup(head->cmd[i + 1]);
-					head->red->type = ms_ctrlop(head->cmd[i]);
-					if (head->red->type != HEREDOC)
-						open(head->red->file, O_CREAT, 0644);
-					head->red->next = NULL;
+					if (!trv)
+					{
+						head->red = malloc(sizeof(t_red));
+						head->red->file = ft_strdup(head->cmd[i + 1]);
+						head->red->type = ms_ctrlop(head->cmd[i]);
+						head->red->next = NULL;
+					}
+					else
+					{
+						trv->next = malloc(sizeof(t_red));
+						trv->next->file = ft_strdup(head->cmd[i + 1]);
+						trv->next->type = ms_ctrlop(head->cmd[i]);
+						trv->next->next = NULL;
+						trv = trv->next;
+					}
 				}
 				i += 2;
 			}
