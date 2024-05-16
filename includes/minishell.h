@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 00:25:16 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/16 01:20:26 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 01:39:52 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ char				*ft_strcat(char *dest, char *src);
 void				exporting(t_cmd *cmds, t_env **envp);
 bool				cmd_is_builtin(char *string);
 char				*cmd_path(char *cmd, t_env *env);
+void				sig(int signal);
 int					handle_here_doc(t_cmd *cmds);
 int					is_special(char *tab);
 int					ma3rftch(t_cmd **cmd);

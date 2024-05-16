@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 07:47:35 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/16 01:05:46 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 01:41:05 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,4 @@ void	exec_bin(t_cmd *cmd, t_info *info, t_env **env)
 		exit(0);
 	}
 	handle_pipe_chain(cmd, pip, &info->save_stdout, info->pipe_chain);
-}
-
-void	wait_child(pid_t *child, t_info *info)
-{
-	while (wait(child) > 0);
-	*(info->ex_status) = *child >> 8;
 }

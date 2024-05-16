@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 06:35:31 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/16 01:24:09 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 01:42:57 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,11 @@ void	free_dbl_ptr(char **ptr)
 	}
 	if (ptr)
 		free(ptr);
+}
+
+void	wait_child(pid_t *child, t_info *info)
+{
+	while (wait(child) > 0)
+		;
+	*(info->ex_status) = *child >> 8;
 }

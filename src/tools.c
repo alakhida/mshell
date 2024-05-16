@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 09:58:48 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/15 07:44:00 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 01:42:36 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*ft_strcat(char *dest, char *src)
 
 char	*ft_strcpy(char *dest, char *src)
 {
-	int i;
+	int		i;
 
 	i = 0;
 	while (src[i] != '\0')
@@ -69,4 +69,22 @@ char	*ft_strcpy(char *dest, char *src)
 	}
 	dest[i] = '\0';
 	return (dest);
+}
+
+void	sig(int signal)
+{
+	int	status;
+
+	status = 0;
+	wait(&status);
+	if (signal == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+	}
+	if (status && WIFSIGNALED(status))
+		signal_number = signal;
+	else
+		rl_redisplay();
 }

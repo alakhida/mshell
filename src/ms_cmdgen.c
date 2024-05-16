@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_cmdgen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 06:38:46 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/14 07:00:24 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/16 02:02:27 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,7 @@ t_cmd	*ms_cmdgen(char **cmd)
 		if (ms_ctrlop(cmd[i]) == PIPE || cmd[i + 1] == NULL)
 		{
 			if (cmd[i + 1] == NULL)
-			{
 				current->cmd = ft_arrslice(cmd, checkpoint, i + 1);
-			}
 			else
 				current->cmd = ft_arrslice(cmd, checkpoint, i);
 			if (checkpoint == 0)
@@ -47,15 +45,10 @@ t_cmd	*ms_cmdgen(char **cmd)
 			i = checkpoint;
 		}
 		else
-		{
 			i++;
-		}
-		//   printf("ggg %s ggg\n", cmd[i]);
 	}
-	// printf("tab %d\n",i);
 	current->count = i;
 	head->red = NULL;
 	get_redir(&head);
-	// printf("%s\n00000000000000000000000000\n", head->args[i]);
 	return (head);
 }

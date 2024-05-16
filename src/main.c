@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:08 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/16 01:19:14 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 01:39:28 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,23 +207,6 @@ int	ms_prompt(t_env **env, int *exit_status)
 	// free_dbl_ptr(lexed); POSSIBLE KHSK TZID HDCHI 3LA 9BL LEAKS
 	// free_all(cmd2);
 	return (0);
-}
-void	sig(int signal)
-{
-	int	status;
-
-	status = 0;
-	wait(&status);
-	if (signal == SIGINT)
-	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-	}
-	if (status && WIFSIGNALED(status))
-		signal_number = signal;
-	else
-		rl_redisplay();
 }
 
 int	main(int argc, char **argv, char **envp)
