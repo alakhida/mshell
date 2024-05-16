@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:08 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/16 06:17:31 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:16:16 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	free_all(t_cmd *cmd)
 	{
 		tmp = cmd;
 		if (cmd->cmd)
-			free_cmd(cmd->cmd);
+			free_dbl_ptr(cmd->cmd);
 		cmd = cmd->next;
 		free(tmp);
 	}
@@ -175,6 +175,7 @@ int	pre_syntax_check(char *str)
 	}
 	return (0);
 }
+
 int	ms_prompt(t_env **env, int *exit_status)
 {
 	char	*cmd;
@@ -204,7 +205,7 @@ int	ms_prompt(t_env **env, int *exit_status)
 	ms_errors(lexed);
 	exec_cmd(env, cmd2, exit_status);
 	free(cmd);
-	free_dbl_ptr(lexed); //POSSIBLE KHSK TZID HDCHI 3LA 9BL LEAKS
+	free_dbl_ptr(lexed);
 	free_all(cmd2);
 	return (0);
 }

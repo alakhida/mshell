@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 09:38:43 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/15 06:37:17 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:09:02 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ char	*ft_strreplace(char *src, char *dst, char *replacement)
 	}
 	else
 		ptr = ft_strdup(src);
+	if (src)
+		free(src);
 	return (ptr);
 }
 
@@ -69,13 +71,7 @@ char	*ft_strreplace_all(char *src, char *dst, char *replacement)
 	char	*ptr;
 	char	*tmp;
 
-	ptr = ft_strdup(src);
-	while (strstr(ptr, dst))
-	{
-		tmp = ft_strreplace(ptr, dst, replacement);
-		free(ptr);
-		ptr = tmp;
-	}
+	ptr = ft_strreplace(src, dst, replacement);
 	return (ptr);
 }
 

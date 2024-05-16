@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:28:51 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/16 07:46:25 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 11:44:53 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	get_new_args(t_cmd **cmd)
 	i = 0;
 	while (head)
 	{
+		head->args = NULL;
 		if (head->red)
 			while (head->cmd && head->cmd[i])
 			{
@@ -78,6 +79,8 @@ void	get_new_args(t_cmd **cmd)
 			}
 		else
 			head->args = tarray_copy(head->cmd);
+		if (head->cmd)
+			free_dbl_ptr(head->cmd);
 		head->cmd = head->args;
 		head = head->next;
 	}
@@ -119,7 +122,6 @@ static void	add_node_back(t_red **red, t_red *new, char *file, t_type type)
 void	get_redir(t_cmd **cmd)
 {
 	t_cmd	*head;
-	t_red	*trv;
 	int		i;
 
 	head = *cmd;
@@ -128,7 +130,6 @@ void	get_redir(t_cmd **cmd)
 	{
 		i = 0;
 		head->red = NULL;
-		trv = head->red;
 		while (head->cmd[i] != NULL)
 		{
 			if (ms_ctrlop(head->cmd[i]) != NONE
