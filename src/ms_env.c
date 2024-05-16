@@ -6,7 +6,7 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:15 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/15 06:16:39 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/16 06:17:41 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ t_env	*ms_env_new(char **envp)
 			env->next = NULL;
 		i++;
 	}
+	env->next = (t_env *)malloc(sizeof(t_env));
+	env->next->varname = ft_strdup("?");
+	env->next->value = ft_itoa(0);
 	return (head);
 }
 
@@ -105,10 +108,22 @@ char	*expanded(char *cmd, int *exit_status)
 	}
 	else if (k == 2)
 	{
-		return (ft_itoa(*exit_status));
+		return (ft_strdup("?"));
 	}
 	ex_len = k - i;
 	l7asol = malloc(sizeof(char) * (ex_len + 1));
 	ft_strlcpy(l7asol, &cmd[i], ex_len + 1);
 	return (l7asol);
+}
+
+void update_exit(t_env **env, int exit)
+{
+	t_env *l9ito;
+
+	l9ito = ms_env_search("?", *env);
+	if (l9ito->value)
+	{
+		free(l9ito->value);
+		l9ito->value = ft_itoa(exit);
+	}
 }

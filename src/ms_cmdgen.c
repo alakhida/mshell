@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_cmdgen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 06:38:46 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/16 02:02:27 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 06:06:59 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_cmd	*ms_cmdgen(char **cmd)
 	}
 	current->count = i;
 	head->red = NULL;
+
 	get_redir(&head);
 	return (head);
 }

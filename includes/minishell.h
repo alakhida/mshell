@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 00:25:16 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/16 01:39:52 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 05:04:29 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,6 @@ char				*ft_strstr(char *str, char *to_find);
 void				free_dbl_ptr(char **ptr);
 char				*copy_path(char *s1, char *s2);
 char				*get_cmd_path(t_env *env);
-
+void				update_exit(t_env **env, int exit);
 
 #endif

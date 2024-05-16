@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:28:51 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/16 01:13:10 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 06:28:48 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ void	get_redir(t_cmd **cmd)
 					head->red = malloc(sizeof(t_red));
 					head->red->file = ft_strdup(head->cmd[i + 1]);
 					head->red->type = ms_ctrlop(head->cmd[i]);
+					if (head->red->type != HEREDOC)
+						open(head->red->file, O_CREAT, 0644);
 					head->red->next = NULL;
 				}
 				i += 2;
@@ -152,34 +154,3 @@ void	get_redir(t_cmd **cmd)
 	}
 	get_new_args(cmd);
 }
-
-// int	ma3rftch(t_cmd **cmd)
-// {
-// 	t_cmd *head = *cmd;
-// 	head->red = NULL;
-// 	int i = 0;
-// 	while (head)
-// 	{
-// 		i = 0;
-// 		while (head->cmd[i])
-// 		{
-// 			if ((!strcmp((head)->cmd[i], "|") || !strcmp((head)->cmd[i], ">")
-// 					|| !strcmp((head)->cmd[i], ">>") || !strcmp((head)->cmd[i],
-// 						"<") || !strcmp((head)->cmd[i], "<<"))
-// 				&& head->count == 1)
-// 			{
-// 				write(2, "minishell :syntax error\n", 25);
-// 				return (1);
-// 			}
-// 			if ((!strcmp((head)->cmd[i], ">") || !strcmp((head)->cmd[i], "<"))
-// 				&& !(head)->cmd[i + 1])
-// 			{
-// 				write(2, "minishell :syntax error\n", 25);
-// 				return (1);
-// 			}
-// 			i++;
-// 		}
-// 		head = head->next;
-// 	}
-// 	return (0);
-// }

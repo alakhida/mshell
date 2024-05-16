@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:08 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/16 01:39:28 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 06:17:31 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,11 +201,11 @@ int	ms_prompt(t_env **env, int *exit_status)
 	{
 		return (0);
 	}
-	// ms_errors(lexed);
+	ms_errors(lexed);
 	exec_cmd(env, cmd2, exit_status);
-	// free(cmd);
-	// free_dbl_ptr(lexed); POSSIBLE KHSK TZID HDCHI 3LA 9BL LEAKS
-	// free_all(cmd2);
+	free(cmd);
+	free_dbl_ptr(lexed); //POSSIBLE KHSK TZID HDCHI 3LA 9BL LEAKS
+	free_all(cmd2);
 	return (0);
 }
 
@@ -236,5 +236,6 @@ int	main(int argc, char **argv, char **envp)
 			return (cmd_status);
 		if (signal_number)
 			*exit_status = signal_number + 128;
+		update_exit(&env,*exit_status);
 	}
 }
