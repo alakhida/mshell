@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:28:27 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/16 12:25:49 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:44:49 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	ms_rendercmd(char **command, t_env *head, int *exit_status)
 							replacement = ft_strdup(var_name);
 						command[i] = ft_strreplace_all(command[i], var_name, replacement);
 						string = ft_strtrim(command[i], "\"$\'");
-						j += ft_strlen(replacement);
+						j += ft_strlen(replacement) - 1;
 						free(command[i]);
 						command[i] = string;
 						free(replacement);

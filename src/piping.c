@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 07:47:35 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/16 13:21:02 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:15:46 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,7 @@ void	exec_bin(t_cmd *cmd, t_info *info, t_env **env)
 		}
 		exit(0);
 	}
+	if (info->path && !ft_strcmp(info->path, cmd->cmd[0]) && cmd->next)
+		free(info->path);
 	handle_pipe_chain(cmd, pip, &info->save_stdout, info->pipe_chain);
 }

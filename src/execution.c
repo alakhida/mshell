@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:59 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/16 13:19:42 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:13:45 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,11 @@ void	exec_cmd(t_env **env, t_cmd *cmds, int *exit_status)
 	info->saved_stdin = dup(STDIN_FILENO);
 	info->ex_status = exit_status;
 	info->child = 0;
-	info->envp = NULL;
 	info->path = NULL;
 	handle_heredoc(cmds);
+	info->envp = ms_env_dup(*env);
 	while (cmds)
 	{
-		info->envp = ms_env_dup(*env);
 		if (cmd_is_builtin(cmds->cmd[0]) && !info->pipe_chain)
 			*(info->ex_status) = exec_built_in(cmds, env);
 		else

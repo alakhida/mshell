@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:08 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/16 13:16:16 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:41:55 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	remove_q(char *str)
 	int		i;
 	int		j;
 
-	tmp = malloc(sizeof(char) * (strlen(str) + 1));
+	tmp = malloc(sizeof(char) * (ft_strlen(str) + 1));
 	if (tmp == NULL)
 		return ;
 	i = 0;
@@ -75,6 +75,8 @@ void	remove_q(char *str)
 			tmp[j++] = str[i++];
 	}
 	tmp[j] = '\0';
+	free(str);
+	str = (char *)malloc(j * sizeof(char));
 	ft_strcpy(str, tmp);
 	free(tmp);
 }
@@ -93,6 +95,7 @@ char	**fix_args(char **args)
 					DOUBLE_Q) % 2 != 0)
 			{
 				write(2, "syntax error\n", 14);
+				free_dbl_ptr(args);
 				return (NULL);
 			}
 			else
@@ -119,12 +122,24 @@ void	free_cmd(char **av)
 void	free_all(t_cmd *cmd)
 {
 	t_cmd	*tmp;
+	t_red	*tmp2;
 
 	while (cmd)
 	{
 		tmp = cmd;
 		if (cmd->cmd)
 			free_dbl_ptr(cmd->cmd);
+		while (cmd->red)
+		{
+			tmp2 = cmd->red;
+			if (cmd->red)
+			{
+				if (cmd->red->file)
+					free(cmd->red->file);
+			}
+			cmd->red = cmd->red->next;
+			free(tmp2);
+		}
 		cmd = cmd->next;
 		free(tmp);
 	}
@@ -180,26 +195,41 @@ int	ms_prompt(t_env **env, int *exit_status)
 {
 	char	*cmd;
 	char	**lexed;
+	char	**tmp;
 	t_cmd	*cmd2;
 
 	cmd = readline("$> ");
-	add_history(cmd);
 	if (cmd == NULL)
 		return (2);
+	add_history(cmd);
 	if (is_tab(cmd) == 1 || ft_strlen(cmd) == 0)
+	{
+		free(cmd);
 		return (0);
+	}
 	if (pre_syntax_check(cmd))
+	{
+		free(cmd);
 		return (0);
+	}
 	lexed = ms_parse(cmd);
 	if (check_errors(lexed) == 1)
+	{
+		free_dbl_ptr(lexed);
+		free(cmd);
 		return (0);
+	}
 	ms_rendercmd(lexed, *env, exit_status);
 	lexed = fix_args(lexed);
 	if (lexed == NULL)
+	{
+		free(cmd);
 		return (0);
+	}
 	cmd2 = ms_cmdgen(lexed);
 	if (sear(&cmd2) == 1)
 	{
+		free(cmd);
 		return (0);
 	}
 	ms_errors(lexed);
