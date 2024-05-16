@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_cmdrender.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:28:27 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/15 06:23:53 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/16 00:01:27 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,26 +70,4 @@ void	ms_rendercmd(char **command, t_env *head, int *exit_status)
 		}
 		i++;
 	}
-}
-
-int	double_expansion(char *str, int *exit_stat)
-{
-	char *if_dbl_expand;
-	int i;
-
-	i = 0;
-	if_dbl_expand = expanded(str, exit_stat);
-	if (if_dbl_expand == NULL)
-		return (0);
-	while (if_dbl_expand[i])
-	{
-		if (if_dbl_expand[i] == '$')
-		{
-			free(if_dbl_expand);
-			return (1);
-		}
-		i++;
-	}
-	free(if_dbl_expand);
-	return (0);
 }

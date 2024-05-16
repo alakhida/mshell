@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:42 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/15 06:15:56 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/16 01:33:29 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,20 @@ int	print_string_fd(char *s, int fd)
 	return (ret);
 }
 
+int	ft_echo_norm(t_cmd *cmnd, int i)
+{
+	while (cmnd->cmd[i])
+	{
+		if (print_string_fd(cmnd->cmd[i], 1) == -1)
+			return (EXIT_FAILURE);
+		if (cmnd->cmd[i + 1] != NULL)
+			if (print_string_fd(" ", 1) == -1)
+				return (EXIT_FAILURE);
+		i++;
+	}
+	return (EXIT_SUCCESS);
+}
+
 int	ft_echo(t_cmd *cmnd)
 {
 	int	i;
@@ -64,17 +78,7 @@ int	ft_echo(t_cmd *cmnd)
 		}
 		else
 			i += 1;
-		while (cmnd->cmd[i])
-		{
-			if (print_string_fd(cmnd->cmd[i], 1) == -1)
-				return (EXIT_FAILURE);
-			if (cmnd->cmd[i + 1] != NULL)
-			{
-				if (print_string_fd(" ", 1) == -1)
-					return (EXIT_FAILURE);
-			}
-			i++;
-		}
+		ft_echo_norm(cmnd, i);
 	}
 	if (n == 0)
 		write(1, "\n", 1);

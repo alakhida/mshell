@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:59 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/15 10:00:26 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 01:24:02 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,40 +20,6 @@ bool	cmd_is_builtin(char *string)
 		|| !ft_strcmp(string, "exit"))
 		return (true);
 	return (false);
-}
-
-char	*copy_path(char *s1, char *s2)
-{
-	size_t	len;
-	size_t	len2;
-	char	*result;
-
-	len = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	result = (char *)malloc((len + len2 + 2) * sizeof(char));
-	if (result == NULL)
-		return (NULL);
-	ft_strcpy(result, s1);
-	ft_strcat(result, "/");
-	ft_strcat(result, s2);
-	return (result);
-}
-
-char	*get_cmd_path(t_env *env)
-{
-	char	*path;
-
-	path = NULL;
-	while (env)
-	{
-		if (!ft_strcmp(env->varname, "PATH"))
-		{
-			path = ft_strdup(env->value);
-			return (path);
-		}
-		env = env->next;
-	}
-	return (NULL);
 }
 
 char	*cmd_path(char *cmd, t_env *env)
@@ -106,23 +72,9 @@ void	handle_heredoc(t_cmd *cmds)
 	}
 }
 
-void	free_dbl_ptr(char **ptr)
-{
-	int	i;
-
-	i = 0;
-	while (ptr && ptr[i])
-	{
-		free(ptr[i]);
-		i++;
-	}
-	if (ptr)
-		free(ptr);
-}
-
 void	free_info(t_info *info)
 {
-	if(info->envp)
+	if (info->envp)
 		free_dbl_ptr(info->envp);
 	if (info->path)
 		free(info->path);

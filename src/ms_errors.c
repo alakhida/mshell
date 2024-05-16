@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:27 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/13 16:25:28 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 00:57:46 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ bool	ms_errors(char **cmd)
 	{
 		if (ms_ctrlop(cmd[i]) != NONE && ms_ctrlop(cmd[i + 1]) != NONE)
 		{
-			printf("minishell: syntax error\n");
+			ft_putstr_fd("minishell: syntax error\n", 2);
 			return (false);
 		}
 		i++;
 	}
 	if (ms_ctrlop(cmd[i + 1]) != NONE)
 	{
-		printf("minishell: syntax error\n");
+			ft_putstr_fd("minishell: syntax error\n", 2);
 		return (false);
 	}
 	return (true);

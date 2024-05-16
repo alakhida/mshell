@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:28:51 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/15 06:25:34 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/16 01:13:10 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,16 @@ char	**tarray_copy(char **a)
 	return (cpy);
 }
 
+int	is_special(char *tab)
+{
+	if (ms_ctrlop(tab) == RREDIR || ms_ctrlop(tab) == LREDIR ||
+		ms_ctrlop(tab) == PIPE || ms_ctrlop(tab) == HEREDOC ||
+		ms_ctrlop(tab) == APPEND)
+	{
+		return (1);
+	}
+	return (0);
+}
 void	get_new_args(t_cmd **cmd)
 {
 	t_cmd	*head;
@@ -54,12 +64,9 @@ void	get_new_args(t_cmd **cmd)
 	while (head)
 	{
 		if (head->red)
-		{
 			while (head->cmd && head->cmd[i])
 			{
-				if (head->cmd[i] && (!strcmp(head->cmd[i], ">>")
-						|| !strcmp(head->cmd[i], ">") || !strcmp(head->cmd[i],
-							"<<") || !strcmp(head->cmd[i], "<")))
+				if (head->cmd[i] && (is_special(head->cmd[i]) == 1))
 				{
 					tmp = head->cmd[i];
 					head->cmd[i] = NULL;
@@ -69,27 +76,13 @@ void	get_new_args(t_cmd **cmd)
 				}
 				i++;
 			}
-		}
 		else
-		{
 			head->args = tarray_copy(head->cmd);
-		}
-		// fe had ster gha bdelt cmd b args bash n testy makhnach nkhdmo hka khask tsift args l serghini o tfreeeyi **cmd o **args
 		head->cmd = head->args;
 		head = head->next;
 	}
 }
 
-int	is_special(char *tab)
-{
-	if (ms_ctrlop(tab) == RREDIR || ms_ctrlop(tab) == LREDIR ||
-		ms_ctrlop(tab) == PIPE || ms_ctrlop(tab) == HEREDOC ||
-		ms_ctrlop(tab) == APPEND)
-	{
-		return (1);
-	}
-	return (0);
-}
 
 int	check_errors(char **tab)
 {
@@ -160,33 +153,33 @@ void	get_redir(t_cmd **cmd)
 	get_new_args(cmd);
 }
 
-int	ma3rftch(t_cmd **cmd)
-{
-	t_cmd *head = *cmd;
-	head->red = NULL;
-	int i = 0;
-	while (head)
-	{
-		i = 0;
-		while (head->cmd[i])
-		{
-			if ((!strcmp((head)->cmd[i], "|") || !strcmp((head)->cmd[i], ">")
-					|| !strcmp((head)->cmd[i], ">>") || !strcmp((head)->cmd[i],
-						"<") || !strcmp((head)->cmd[i], "<<"))
-				&& head->count == 1)
-			{
-				write(2, "minishell :syntax error\n", 25);
-				return (1);
-			}
-			if ((!strcmp((head)->cmd[i], ">") || !strcmp((head)->cmd[i], "<"))
-				&& !(head)->cmd[i + 1])
-			{
-				write(2, "minishell :syntax error\n", 25);
-				return (1);
-			}
-			i++;
-		}
-		head = head->next;
-	}
-	return (0);
-}
+// int	ma3rftch(t_cmd **cmd)
+// {
+// 	t_cmd *head = *cmd;
+// 	head->red = NULL;
+// 	int i = 0;
+// 	while (head)
+// 	{
+// 		i = 0;
+// 		while (head->cmd[i])
+// 		{
+// 			if ((!strcmp((head)->cmd[i], "|") || !strcmp((head)->cmd[i], ">")
+// 					|| !strcmp((head)->cmd[i], ">>") || !strcmp((head)->cmd[i],
+// 						"<") || !strcmp((head)->cmd[i], "<<"))
+// 				&& head->count == 1)
+// 			{
+// 				write(2, "minishell :syntax error\n", 25);
+// 				return (1);
+// 			}
+// 			if ((!strcmp((head)->cmd[i], ">") || !strcmp((head)->cmd[i], "<"))
+// 				&& !(head)->cmd[i + 1])
+// 			{
+// 				write(2, "minishell :syntax error\n", 25);
+// 				return (1);
+// 			}
+// 			i++;
+// 		}
+// 		head = head->next;
+// 	}
+// 	return (0);
+// }

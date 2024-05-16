@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:16:16 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/05 07:16:17 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 01:35:27 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	ft_unset_norm(t_cmd *cmds, t_env *curr)
 
 int	ft_unset(t_cmd *cmds, t_env **env)
 {
-	t_env *curr;
-	int i;
+	t_env	*curr;
+	int		i;
 
 	i = 1;
 	curr = *env;

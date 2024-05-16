@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 07:47:35 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/15 23:58:27 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 01:05:46 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	exec_bin(t_cmd *cmd, t_info *info, t_env **env)
 			exec_built_in(cmd, env);
 		else if (execve(info->path, cmd->cmd, info->envp) == -1)
 		{
-			printf("command not found\n");
+			ft_putendl_fd("command not found", 2);
 			exit(EXIT_FAILURE);
 		}
 		exit(0);

@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 00:25:16 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/15 23:54:02 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 01:20:26 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,5 +130,9 @@ int					is_special(char *tab);
 int					ma3rftch(t_cmd **cmd);
 int					check_errors(char **tab);
 char				*ft_strstr(char *str, char *to_find);
+void				free_dbl_ptr(char **ptr);
+char				*copy_path(char *s1, char *s2);
+char				*get_cmd_path(t_env *env);
+
 
 #endif

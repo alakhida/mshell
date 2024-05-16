@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:08 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/15 23:58:53 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 01:19:14 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	remove_q(char *str)
 			tmp[j++] = str[i++];
 	}
 	tmp[j] = '\0';
-	strcpy(str, tmp);
+	ft_strcpy(str, tmp);
 	free(tmp);
 }
 
@@ -92,8 +92,8 @@ char	**fix_args(char **args)
 			if (count_var(args[i], SINGLE_Q) % 2 != 0 || count_var(args[i],
 					DOUBLE_Q) % 2 != 0)
 			{
-				write(2, "syntax err\n", 12);
-				exit(1);
+				write(2, "syntax error\n", 14);
+				return (NULL);
 			}
 			else
 				remove_q(args[i]);
@@ -194,15 +194,18 @@ int	ms_prompt(t_env **env, int *exit_status)
 		return (0);
 	ms_rendercmd(lexed, *env, exit_status);
 	lexed = fix_args(lexed);
+	if (lexed == NULL)
+		return (0);
 	cmd2 = ms_cmdgen(lexed);
 	if (sear(&cmd2) == 1)
 	{
 		return (0);
 	}
-
+	// ms_errors(lexed);
 	exec_cmd(env, cmd2, exit_status);
-	ms_errors(lexed);
-	free(cmd);
+	// free(cmd);
+	// free_dbl_ptr(lexed); POSSIBLE KHSK TZID HDCHI 3LA 9BL LEAKS
+	// free_all(cmd2);
 	return (0);
 }
 void	sig(int signal)

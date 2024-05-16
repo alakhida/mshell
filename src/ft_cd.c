@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:50 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/15 07:53:26 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 01:21:48 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	check_home(t_env *home)
 {
 	if (chdir(env_search("HOME", home)) != 0)
 	{
-		write(2, "bash : cd : HOME not set\n", 26);
+		ft_putendl_fd("bash : cd : HOME not set", 2);
 		return (0);
 	}
 	return (1);
@@ -60,7 +60,8 @@ int	change_dir(char *cmd, t_env **env, char *pwd, char *oldpwd)
 {
 	if (access(cmd, F_OK) != 0)
 	{
-		printf("%s : no such file or directory\n", cmd);
+		ft_putstr_fd(cmd, 2);
+		ft_putendl_fd("no such file or directory", 2);
 		return (1);
 	}
 	else
