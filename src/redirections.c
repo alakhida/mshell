@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:28:51 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/16 07:29:34 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/16 07:46:25 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,21 @@ int	check_errors(char **tab)
 	return (0);
 }
 
+static void	add_node_back(t_red **red, t_red *new, char *file, t_type type)
+{
+	t_red	*current;
+
+	current = *red;
+	while (current->next != NULL)
+	{
+		current = current->next;
+	}
+	current->next = new;
+	current->next->file = file;
+	current->next->type = type;
+	current->next->next = NULL;
+}
+
 void	get_redir(t_cmd **cmd)
 {
 	t_cmd	*head;
@@ -108,12 +123,11 @@ void	get_redir(t_cmd **cmd)
 	int		i;
 
 	head = *cmd;
-	trv = NULL;
-	head->red = NULL;
 	i = 0;
 	while (head)
 	{
 		i = 0;
+		head->red = NULL;
 		trv = head->red;
 		while (head->cmd[i] != NULL)
 		{
@@ -139,7 +153,7 @@ void	get_redir(t_cmd **cmd)
 				}
 				else
 				{
-					if (!trv)
+					if (!head->red)
 					{
 						head->red = malloc(sizeof(t_red));
 						head->red->file = ft_strdup(head->cmd[i + 1]);
@@ -148,11 +162,7 @@ void	get_redir(t_cmd **cmd)
 					}
 					else
 					{
-						trv->next = malloc(sizeof(t_red));
-						trv->next->file = ft_strdup(head->cmd[i + 1]);
-						trv->next->type = ms_ctrlop(head->cmd[i]);
-						trv->next->next = NULL;
-						trv = trv->next;
+						add_node_back(&(head->red), malloc(sizeof(t_red)), ft_strdup(head->cmd[i + 1]), ms_ctrlop(head->cmd[i]));
 					}
 				}
 				i += 2;

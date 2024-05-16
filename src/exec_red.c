@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 07:23:51 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/14 03:20:11 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 08:12:31 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	handle_red_append(t_cmd *cmds)
 	return (0);
 }
 
-int	handle_here_doc(t_cmd *cmds)
+int	handle_here_doc(t_red *red)
 {
 	char	*str;
 	int		pip[2];
@@ -77,7 +77,7 @@ int	handle_here_doc(t_cmd *cmds)
 	str = readline("> ");
 	while (str)
 	{
-		if (!ft_strcmp(cmds->red->file, str))
+		if (!ft_strcmp(red->file, str))
 		{
 			free(str);
 			break ;
@@ -88,23 +88,4 @@ int	handle_here_doc(t_cmd *cmds)
 	}
 	close(pip[1]);
 	return (pip[0]);
-}
-
-int	handle_redirections(t_cmd *cmds)
-{
-	if (cmds->red->type == RREDIR)
-		return (handle_red_out(cmds));
-	else if (cmds->red->type == LREDIR)
-	{
-		return (handle_red_in(cmds));
-	}
-	else if (cmds->red->type == APPEND)
-		return (handle_red_append(cmds));
-	else if (cmds->red->type == HEREDOC)
-	{
-		dup2(cmds->heredoc, STDIN_FILENO);
-		close(cmds->heredoc);
-		return (0);
-	}
-	return (1);
 }

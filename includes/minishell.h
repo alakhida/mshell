@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 00:25:16 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/16 05:04:29 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/16 08:15:11 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void				exporting(t_cmd *cmds, t_env **envp);
 bool				cmd_is_builtin(char *string);
 char				*cmd_path(char *cmd, t_env *env);
 void				sig(int signal);
-int					handle_here_doc(t_cmd *cmds);
+int					handle_here_doc(t_red *red);
 int					is_special(char *tab);
 int					ma3rftch(t_cmd **cmd);
 int					check_errors(char **tab);
@@ -135,5 +135,8 @@ void				free_dbl_ptr(char **ptr);
 char				*copy_path(char *s1, char *s2);
 char				*get_cmd_path(t_env *env);
 void				update_exit(t_env **env, int exit);
+int					handle_red_out(t_cmd *cmds);
+int					handle_red_in(t_cmd *cmds);
+int					handle_red_append(t_cmd *cmds);
 
 #endif
