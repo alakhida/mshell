@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 09:58:48 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/16 08:17:13 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 22:25:00 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,35 @@ void	sig(int signal)
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 	if (status && WIFSIGNALED(status))
 		signal_number = signal;
-	else
-		rl_redisplay();
+}
+
+void	remove_q(char *str)
+{
+	char	*tmp;
+	int		i;
+	int		j;
+	char	qtype;
+
+	tmp = ft_calloc(sizeof(char) * (ft_strlen(str) + 1), 1);
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] == SINGLE_Q || str[i] == DOUBLE_Q)
+		{
+			qtype = str[i++];
+			while (str[i] && str[i] != qtype)
+				tmp[j++] = str[i++];
+			if (str[i])
+				i++;
+		}
+		else
+			tmp[j++] = str[i++];
+	}
+	ft_strcpy(str, tmp);
+	free(tmp);
 }

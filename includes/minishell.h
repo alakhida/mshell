@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 00:25:16 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/16 11:41:26 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 22:37:08 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 # define SINGLE_Q 39
 # define DOUBLE_Q 34
+# define SYNT_ERR "minishell : syntax error near unexpected token `newline'\n"
 # define NO_Q 0
 
 # include "../lib/libft/libft.h"
@@ -47,13 +48,6 @@ typedef struct ms_cmd
 	t_red			*red;
 	char			**args;
 	char			**cmd;
-	char			*path;
-	int				*std_out;
-	char			**env;
-	t_type			input;
-	char			*infile;
-	t_type			output;
-	char			*outfile;
 	int				count;
 	int				heredoc;
 	struct ms_cmd	*next;
@@ -81,7 +75,7 @@ typedef struct s_info
 
 int					signal_number;
 
-int					double_expansion(char *str, int *exit_stat);
+int					pre_syntax_check(char *str);
 char				*val_malloc(char *cmd, char *var, int j);
 char				*cpy_value(char *cmd, char *var, char *value, int j);
 bool				pipe_chain_present(t_cmd *cmds);
@@ -98,7 +92,6 @@ int					node_count(t_env *env);
 t_env				*ms_env_search(char *ptr, t_env *head);
 char				*expanded(char *cmd, int *exit_status);
 bool				ms_errors(char **cmd);
-int					ms_count(char *s);
 t_type				ms_ctrlop(char *str);
 char				**ft_arrslice(char **arr, int start, int end);
 char				*ft_strreplace(char *src, char *dst, char *replacement);
@@ -128,7 +121,6 @@ char				*cmd_path(char *cmd, t_env *env);
 void				sig(int signal);
 int					handle_here_doc(t_red *red);
 int					is_special(char *tab);
-int					ma3rftch(t_cmd **cmd);
 int					check_errors(char **tab);
 char				*ft_strstr(char *str, char *to_find);
 void				free_dbl_ptr(char **ptr);
@@ -137,6 +129,10 @@ char				*get_cmd_path(t_env *env);
 void				update_exit(t_env **env, int exit);
 int					handle_red_out(t_cmd *cmds);
 int					handle_red_in(t_cmd *cmds);
+void				free_all(t_cmd *cmd);
 int					handle_red_append(t_cmd *cmds);
+char				**fix_args(char **args);
+void				remove_q(char *str);
+int					count_var(char *str, char c);
 
 #endif

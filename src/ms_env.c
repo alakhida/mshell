@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:15 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/16 16:46:25 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 21:40:49 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ char	*expanded(char *cmd, int *exit_status)
 	int		ex_len;
 	char	*l7asol;
 
-	i = 0;
+	i = -1;
 	k = 0;
-	while ((cmd[i]))
+	while ((cmd[++i]))
 	{
 		if (cmd[i] == '$' && is_special(&cmd[i + 1]))
 			return (NULL);
@@ -93,8 +93,7 @@ char	*expanded(char *cmd, int *exit_status)
 		{
 			i++;
 			k = i;
-			while (ft_isalnum(cmd[k]) || cmd[k] == '_' || cmd[k] == '?'
-				|| cmd[k] == '=')
+			while (ft_isalnum(cmd[k]) || ft_strchr("_?=", cmd[k]) != NULL)
 				k++;
 			break ;
 		}
@@ -104,16 +103,11 @@ char	*expanded(char *cmd, int *exit_status)
 			while (cmd[i] != '\'')
 				i++;
 		}
-		i++;
 	}
 	if (k == 0)
-	{
 		return (NULL);
-	}
 	else if (k == 2)
-	{
 		return (ft_strdup("?"));
-	}
 	ex_len = k - i;
 	l7asol = malloc(sizeof(char) * (ex_len + 1));
 	ft_strlcpy(l7asol, &cmd[i], ex_len + 1);

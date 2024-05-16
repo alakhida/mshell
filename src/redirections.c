@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 23:28:51 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/16 11:44:53 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 22:57:16 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	check_errors(char **tab)
 	{
 		if ((is_special(tab[i]) == 1 && is_special(tab[i + 1]) == 1))
 		{
-			exits(2);
+			write(2, "minishell : syntax error near unexpected token\n", 48);
 			return (1);
 		}
 		i++;
@@ -137,9 +137,7 @@ void	get_redir(t_cmd **cmd)
 			{
 				if (head->cmd[i + 1] == NULL)
 				{
-					write(2, "minishell : syntax error near"
-								" unexpected token `newline'\n",
-							57);
+					write(2, SYNT_ERR, 57);
 					head->flag = 1;
 					return ;
 				}
@@ -169,9 +167,7 @@ void	get_redir(t_cmd **cmd)
 				i += 2;
 			}
 			else
-			{
 				i++;
-			}
 		}
 		head = head->next;
 	}
