@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:50 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/16 01:21:48 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:00:25 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	check_home(t_env *home)
 		ft_putendl_fd("bash : cd : HOME not set", 2);
 		return (0);
 	}
+	free(home);
 	return (1);
 }
 
@@ -66,7 +67,11 @@ int	change_dir(char *cmd, t_env **env, char *pwd, char *oldpwd)
 	}
 	else
 	{
-		chdir(cmd);
+		if (chdir(cmd) != 0)
+		{
+			ft_putendl_fd("permission denied", 2);
+			return (1);
+		}
 		pwd = getcwd(NULL, 0);
 		update_pwd(env, "PWD", pwd);
 		update_pwd(env, "OLDPWD", oldpwd);
@@ -88,9 +93,13 @@ int	ft_cd(t_cmd *cmds, t_env **env)
 		if (check_home(current) == 1)
 		{
 			update_pwd(env, "OLDPWD", oldpwd);
+			free(oldpwd);
 			pwd = env_search("HOME", current);
 			update_pwd(env, "PWD", pwd);
 		}
+		if (pwd)
+			free(pwd);
+		free (oldpwd);
 	}
 	else if (cmds->cmd[1])
 		if (change_dir(cmds->cmd[1], env, pwd, oldpwd))

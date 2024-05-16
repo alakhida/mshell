@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:15 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/16 06:17:41 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/16 16:46:25 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,11 @@ t_env	*ms_env_search(char *ptr, t_env *head)
 	return (NULL);
 }
 
+int		is_token(char c)
+{
+	return (c == '>' || c == '<' || c == '|');
+}
+
 char	*expanded(char *cmd, int *exit_status)
 {
 	int		i;
@@ -77,8 +82,7 @@ char	*expanded(char *cmd, int *exit_status)
 	k = 0;
 	while ((cmd[i]))
 	{
-		if (cmd[i] == '$' && (cmd[i + 1] == '>' || cmd[i + 1] == '<' || cmd[i
-				+ 1] == '|'))
+		if (cmd[i] == '$' && is_special(&cmd[i + 1]))
 			return (NULL);
 		if (cmd[i] == '$' && cmd[i + 1] == '?')
 		{

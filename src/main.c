@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:08 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/16 14:41:55 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 16:44:09 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ int	ms_prompt(t_env **env, int *exit_status)
 	char	**tmp;
 	t_cmd	*cmd2;
 
-	cmd = readline("$> ");
+	cmd = readline("bash0-0$: ");
 	if (cmd == NULL)
 		return (2);
 	add_history(cmd);
@@ -270,3 +270,5 @@ int	main(int argc, char **argv, char **envp)
 		update_exit(&env,*exit_status);
 	}
 }
+
+//ls -la | cat -e >> gdgk > wh
