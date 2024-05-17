@@ -6,20 +6,20 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 07:23:51 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/17 08:06:47 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:04:34 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	handle_red_out(t_cmd *cmds)
+int	handle_red_out(t_red *red)
 {
 	int	fd;
 
-	if (access(cmds->red->file, F_OK) == -1)
-		fd = open(cmds->red->file, O_WRONLY | O_CREAT, 0644);
+	if (access(red->file, F_OK) == -1)
+		fd = open(red->file, O_WRONLY | O_CREAT, 0644);
 	else
-		fd = open(cmds->red->file, O_WRONLY | O_TRUNC);
+		fd = open(red->file, O_WRONLY | O_TRUNC);
 	if (fd == -1)
 	{
 		ft_putstr_fd("minishell: permission denied\n", 2);
@@ -30,16 +30,16 @@ int	handle_red_out(t_cmd *cmds)
 	return (0);
 }
 
-int	handle_red_in(t_cmd *cmds)
+int	handle_red_in(t_red *red)
 {
 	int	fd;
 
-	if (access(cmds->red->file, F_OK) == -1)
+	if (access(red->file, F_OK) == -1)
 	{
 		ft_putstr_fd("minishell: No such file or directory\n", 2);
 		return (1);
 	}
-	fd = open(cmds->red->file, O_RDONLY);
+	fd = open(red->file, O_RDONLY);
 	if (fd == -1)
 	{
 		ft_putstr_fd("minishell: permission denied", 2);
@@ -50,14 +50,14 @@ int	handle_red_in(t_cmd *cmds)
 	return (0);
 }
 
-int	handle_red_append(t_cmd *cmds)
+int	handle_red_append(t_red *red)
 {
 	int	fd;
 
-	if (access(cmds->red->file, F_OK) == -1)
-		fd = open(cmds->red->file, O_WRONLY | O_CREAT, 0644);
+	if (access(red->file, F_OK) == -1)
+		fd = open(red->file, O_WRONLY | O_CREAT, 0644);
 	else
-		fd = open(cmds->red->file, O_WRONLY | O_APPEND);
+		fd = open(red->file, O_WRONLY | O_APPEND);
 	if (fd == -1)
 	{
 		ft_putstr_fd("minishell: permission denied\n", 2);

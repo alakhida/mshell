@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 00:25:16 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/17 08:52:59 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:04:11 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,10 +146,10 @@ void				free_dbl_ptr(char **ptr);
 char				*copy_path(char *s1, char *s2);
 char				*get_cmd_path(t_env *env);
 void				update_exit(t_env **env, int exit);
-int					handle_red_out(t_cmd *cmds);
-int					handle_red_in(t_cmd *cmds);
+int					handle_red_out(t_red *red);
+int					handle_red_in(t_red *red);
 void				free_all(t_cmd *cmd);
-int					handle_red_append(t_cmd *cmds);
+int					handle_red_append(t_red *red);
 char				**fix_args(char **args);
 void				remove_q(char *str);
 int					count_var(char *str, char c);
