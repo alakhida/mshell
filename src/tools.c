@@ -6,7 +6,7 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 09:58:48 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/17 05:43:42 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/17 07:48:57 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 
 char	*ft_strtok(char *str, const char *delim)
 {
-	static char	*s;
+	static char	*s = NULL;
 	char		*ret;
 	int			i;
 
-	s = NULL;
 	if (str)
 		s = str;
 	if (!s)
@@ -60,7 +59,7 @@ char	*ft_strcat(char *dest, char *src)
 
 char	*ft_strcpy(char *dest, char *src)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	while (src[i] != '\0')
@@ -82,7 +81,7 @@ void	sig(int signal)
 	{
 		printf("\n");
 		rl_on_new_line();
-		// rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 	if (status && WIFSIGNALED(status))

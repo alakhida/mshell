@@ -12,13 +12,13 @@
 
 #include "../includes/minishell.h"
 
-t_cmd	*ms_push_back_node(t_cmd *current)
+t_cmd	*ms_push_back_node(t_cmd	*current)
 {
 	current->next = (t_cmd *)ft_calloc(sizeof(t_cmd), 1);
 	return (current->next);
 }
 
-int	calc(char *curr_tokens, int i)
+int	calc(char	*curr_tokens, int i)
 {
 	if (curr_tokens == NULL)
 		return (i + 1);

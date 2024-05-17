@@ -6,7 +6,7 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 00:25:16 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/17 06:25:46 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/17 07:19:45 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,21 +75,21 @@ typedef struct s_info
 
 typedef struct s_norm
 {
-	int		i;
-	int		j;
-	char	*replacement;
-	char	*var_name;
-	char	*string;
-	int		*ex_stts;
+	int				i;
+	int				j;
+	char			*replacement;
+	char			*var_name;
+	char			*string;
+	int				*ex_stts;
 }					t_norm;
 
 typedef struct s_expanded
 {
-	int		i;
-	int		k;
-	int		ex_len;
-	char	*l7asol;
-}	t_expanded;
+	int				i;
+	int				k;
+	int				ex_len;
+	char			*l7asol;
+}					t_expanded;
 
 int					g_signal_number;
 
@@ -104,7 +104,8 @@ char				**ms_parse(char *cmd);
 t_env				*ms_env_new(char **envp);
 int					ms_prompt(t_env **env, int *exit_status);
 t_cmd				*ms_cmdgen(char **cmd);
-void				ms_rendercmd(char **command, t_env *head, int *exit_status, t_norm *index);
+void				ms_rendercmd(char **command, t_env *head, int *exit_status,
+						t_norm *index);
 char				**ms_env_dup(t_env *env);
 int					node_count(t_env *env);
 t_env				*ms_env_search(char *ptr, t_env *head);
@@ -159,7 +160,7 @@ void				arg_norm2(t_cmd *cmd);
 bool				arg_norm_error(t_cmd *cmd, int i);
 bool				arg_norm_error2(t_cmd *cmd, int i);
 void				arg_norm_error3(t_cmd *cmd, int i);
-void				add_node_back(t_red **red, t_red *new, char *file, 
+void				add_node_back(t_red **red, t_red *new, char *file,
 						t_type type);
 void				ms_cmdgen_norm(char **cmd, t_cmd *current, int i,
 						int checkpoint);

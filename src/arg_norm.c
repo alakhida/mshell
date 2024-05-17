@@ -6,7 +6,7 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 01:40:55 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/17 07:11:39 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/17 04:17:40 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ bool	arg_norm_error2(t_cmd *cmd, int i)
 	head = cmd;
 	if (ms_ctrlop(head->cmd[i + 1]) != NONE)
 	{
-		write(2, "minishell : syntax error near unexpected token `", 48);
+		write(2, "minishell : syntax error near unexpected token `",
+			48);
 		write(2, head->cmd[i], ft_strlen(head->cmd[i]));
 		write(2, "'\n", 2);
 		head->flag = 1;
@@ -56,8 +57,9 @@ void	arg_norm_error3(t_cmd *cmd, int i)
 	}
 	else
 	{
-		add_node_back(&(head->red), malloc(sizeof(t_red)), ft_strdup(head->cmd[i
-				+ 1]), ms_ctrlop(head->cmd[i]));
+		add_node_back(&(head->red), malloc(sizeof(t_red)),
+			ft_strdup(head->cmd[i + 1]),
+			ms_ctrlop(head->cmd[i]));
 	}
 	return ;
 }

@@ -36,8 +36,8 @@ int	check_errors(char **tab)
 
 int	is_special(char *tab)
 {
-	if (ms_ctrlop(tab) == RREDIR || ms_ctrlop(tab) == LREDIR
-		|| ms_ctrlop(tab) == PIPE || ms_ctrlop(tab) == HEREDOC
+	if (ms_ctrlop(tab) == RREDIR || ms_ctrlop(tab) == LREDIR 
+		|| ms_ctrlop(tab) == PIPE || ms_ctrlop(tab) == HEREDOC 
 		|| ms_ctrlop(tab) == APPEND)
 	{
 		return (1);

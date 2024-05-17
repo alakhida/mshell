@@ -6,7 +6,7 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:28:27 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/17 07:10:07 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/17 06:35:40 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ bool	string_is_allnum(char *string)
 }
 
 void	ms_rendercmd_norm(t_env *var_value, t_env *head, t_norm *index,
-		char **command)
+	char **command)
 {
 	var_value = ms_env_search(index->var_name, head);
 	if (var_value != NULL || string_is_allnum(index->var_name))
@@ -50,13 +50,13 @@ void	ms_rendercmd_norm(t_env *var_value, t_env *head, t_norm *index,
 }
 
 void	ms_rendercmd_norm2(t_env *var_value, t_env *head, t_norm *index,
-		char **command)
+	char **command)
 {
 	while (command[index->i][index->j] != '\0')
 	{
-		if (command[index->i][index->j] == '$' &&
+		if (command[index->i][index->j] == '$' && 
 			(ft_isalnum(command[index->i][index->j + 1])
-					|| command[index->i][index->j + 1] == '?'))
+				|| command[index->i][index->j + 1] == '?'))
 		{
 			index->var_name = expanded(&command[index->i][index->j],
 					index->ex_stts);
@@ -71,7 +71,7 @@ void	ms_rendercmd_norm2(t_env *var_value, t_env *head, t_norm *index,
 }
 
 void	ms_rendercmd(char **command, t_env *head, int *exit_status,
-		t_norm *index)
+			t_norm *index)
 {
 	t_env	*var_value;
 
