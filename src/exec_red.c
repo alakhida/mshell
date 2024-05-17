@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 07:23:51 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/16 08:12:31 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/17 08:06:47 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	handle_red_out(t_cmd *cmds)
 {
 	int	fd;
 
-	if (access(cmds->red->file, X_OK) == -1)
+	if (access(cmds->red->file, F_OK) == -1)
 		fd = open(cmds->red->file, O_WRONLY | O_CREAT, 0644);
 	else
 		fd = open(cmds->red->file, O_WRONLY | O_TRUNC);

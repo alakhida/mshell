@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:59 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/16 22:36:43 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/17 08:04:25 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,19 @@ void	handle_heredoc(t_cmd *cmds)
 
 	while (cmds)
 	{
+		cmds->heredoc = 0;
 		if (cmds->red)
 		{
 			curr = cmds->red;
 			while (curr)
 			{
 				if (curr->type == HEREDOC)
+				{
+					if (cmds->heredoc)
+						close(cmds->heredoc);
 					cmds->heredoc = handle_here_doc(curr);
+				}
 				curr = curr->next;
-				if (curr)
-					close(cmds->heredoc);
 			}
 		}
 		cmds = cmds->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   norm.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 08:10:55 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/17 07:37:19 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/17 08:00:51 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	handle_redirections(t_cmd *cmds)
 {
 	while (cmds->red)
 	{
-		puts("9lwa");
 		if (handle_redirections_part_two(cmds))
 			return (1);
 		cmds->red = cmds->red->next;
