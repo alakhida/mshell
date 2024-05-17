@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:08 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/16 22:41:40 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/17 06:41:31 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	ms_prompt(t_env **env, int *exit_status)
 	char	**lexed;
 	char	**tmp;
 	t_cmd	*cmd2;
+	t_norm	index;
 
 	cmd = readline("M0NG14L170_6-9$: ");
 	if (cmd == NULL)
@@ -72,14 +73,13 @@ int	ms_prompt(t_env **env, int *exit_status)
 	lexed = ms_parse(cmd);
 	if (check_errors(lexed) == 1)
 		return (free_dbl_ptr(lexed), free(cmd), 0);
-	ms_rendercmd(lexed, *env, exit_status);
 	lexed = fix_args(lexed);
+	ms_rendercmd(lexed, *env, exit_status, &index);
 	if (lexed == NULL)
 		return (free(cmd), 0);
 	cmd2 = ms_cmdgen(lexed);
 	if (sear(&cmd2) == 1)
-		return (free(cmd), 0);
-	ms_errors(lexed);
+		return (free(cmd), free_dbl_ptr(lexed), free_all(cmd2), 0);
 	exec_cmd(env, cmd2, exit_status);
 	return (free(cmd), free_dbl_ptr(lexed), free_all(cmd2), 0);
 }
@@ -97,12 +97,12 @@ int	main(int __unused argc, char __unused **argv, char **envp)
 	env = ms_env_new(envp);
 	while (true)
 	{
-		signal_number = 0;
+		g_signal_number = 0;
 		cmd_status = ms_prompt(&env, &exit_status);
 		if (cmd_status != 0)
 			return (cmd_status);
-		if (signal_number)
-			exit_status = signal_number + 128;
+		if (g_signal_number)
+			exit_status = g_signal_number + 128;
 		update_exit(&env, exit_status);
 	}
 }

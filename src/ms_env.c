@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:15 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/16 21:40:49 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/17 06:34:19 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,62 +66,56 @@ t_env	*ms_env_search(char *ptr, t_env *head)
 	return (NULL);
 }
 
-int		is_token(char c)
+int  express(char **cmd , int *i , int *k)
 {
-	return (c == '>' || c == '<' || c == '|');
+        if ((*cmd)[*i] == '$' && (*cmd)[(*i) + 1] == '?')
+        {
+            printf("%c , %c \n", (*cmd)[*i],(*cmd)[(*i) + 1] );
+            *k = 2;
+            return 1;
+        }
+        if ((*cmd)[(*i)] == '$')
+        {
+            (*i)++;
+            *k = *i;
+            while (ft_isalnum((*cmd)[(*k)]) || ft_strchr("_?=", (*cmd)[(*k)]) != NULL)
+            {
+                (*k)++;
+                printf("\1");
+            }
+            return 1;
+        }
+        if ((*cmd)[(*i)] == '\'')
+        {
+            (*i)++;
+            while ((*cmd)[(*i)] != '\'')
+                (*i)++;
+        }
+        return 0;
 }
 
-char	*expanded(char *cmd, int *exit_status)
+char    *expanded(char *cmd, int *exit_status)
 {
-	int		i;
-	int		k;
-	int		ex_len;
-	char	*l7asol;
+    int        i;
+    int        k;
+    int        ex_len;
+    char    *l7asol;
 
-	i = -1;
-	k = 0;
-	while ((cmd[++i]))
-	{
-		if (cmd[i] == '$' && is_special(&cmd[i + 1]))
-			return (NULL);
-		if (cmd[i] == '$' && cmd[i + 1] == '?')
-		{
-			k = 2;
-			break ;
-		}
-		if (cmd[i] == '$')
-		{
-			i++;
-			k = i;
-			while (ft_isalnum(cmd[k]) || ft_strchr("_?=", cmd[k]) != NULL)
-				k++;
-			break ;
-		}
-		if (cmd[i] == '\'')
-		{
-			i++;
-			while (cmd[i] != '\'')
-				i++;
-		}
-	}
-	if (k == 0)
-		return (NULL);
-	else if (k == 2)
-		return (ft_strdup("?"));
-	ex_len = k - i;
-	l7asol = malloc(sizeof(char) * (ex_len + 1));
-	ft_strlcpy(l7asol, &cmd[i], ex_len + 1);
-	return (l7asol);
-}
-
-void update_exit(t_env **env, int exit)
-{
-	t_env *l9ito;
-
-	l9ito = ms_env_search("?", *env);
-	if (l9ito->value)
-	{
-		free(l9ito->value);
-		l9ito->value = ft_itoa(exit);
-	}
+    i = -1;
+    k = 0;
+    while ((cmd[++i]))
+    {
+        if (cmd[i] == '$' && is_special(&cmd[i + 1]))
+            return (NULL);
+        if(express(&cmd,&i , &k)==1)
+        break;
+    }
+    if (k == 0)
+        return (NULL);
+    else if (k == 2)
+        return (ft_strdup("?"));
+    ex_len = k - i;
+    l7asol = malloc(sizeof(char) * (ex_len + 1));
+    ft_strlcpy(l7asol, &cmd[i], ex_len + 1);
+    return (l7asol);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 09:38:43 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/16 22:15:28 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/16 23:55:28 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,18 +73,6 @@ char	*ft_strreplace_all(char *src, char *dst, char *replacement)
 
 	ptr = ft_strreplace(src, dst, replacement);
 	return (ptr);
-}
-
-int	ft_strcmp(char *s1, char *s2)
-{
-	int	i;
-
-	if (!s1 || !s2)
-		return (1);
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
-		i++;
-	return (s1[i] - s2[i]);
 }
 
 int	count_var(char *str, char c)

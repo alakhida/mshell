@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 22:09:40 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/16 22:14:08 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/17 05:49:56 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	pre_syntax_check(char *str)
 	while (i >= 0 && (str[i] == ' ' || str[i] == '\t'))
 		i--;
 	if (str[i] == '|')
-	{	
+	{
 		print_err(str[i]);
 		return (1);
 	}
