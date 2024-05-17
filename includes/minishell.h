@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 00:25:16 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/17 07:19:45 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/17 08:52:59 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,5 +166,6 @@ void				ms_cmdgen_norm(char **cmd, t_cmd *current, int i,
 						int checkpoint);
 void				ms_cmdgen_norm2(char **cmd, t_cmd *current, int i);
 void				update_exit(t_env **env, int exit);
+bool				varname_ok(char *string);
 
 #endif

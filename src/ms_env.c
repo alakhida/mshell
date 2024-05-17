@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:15 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/17 06:34:19 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/17 08:35:10 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	express(char **cmd, int *i, int *k)
 {
 	if ((*cmd)[*i] == '$' && (*cmd)[(*i) + 1] == '?')
 	{
-		printf("%c , %c \n", (*cmd)[*i], (*cmd)[(*i) + 1]);
 		*k = 2;
 		return (1);
 	}

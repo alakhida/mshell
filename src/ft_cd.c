@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:15:50 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/16 17:00:25 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/17 08:38:51 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	update_pwd(t_env **env, char *var, char *value)
 		}
 		curr = curr->next;
 	}
-	free(value);
 }
 
 int	check_home(t_env *home)
@@ -53,7 +52,6 @@ int	check_home(t_env *home)
 		ft_putendl_fd("bash : cd : HOME not set", 2);
 		return (0);
 	}
-	free(home);
 	return (1);
 }
 
@@ -73,8 +71,11 @@ int	change_dir(char *cmd, t_env **env, char *pwd, char *oldpwd)
 			return (1);
 		}
 		pwd = getcwd(NULL, 0);
+		if (!pwd)
+			return (perror("getcwd: "), 1);
 		update_pwd(env, "PWD", pwd);
 		update_pwd(env, "OLDPWD", oldpwd);
+		free(pwd);
 	}
 	return (0);
 }
@@ -88,21 +89,19 @@ int	ft_cd(t_cmd *cmds, t_env **env)
 	current = *env;
 	pwd = NULL;
 	oldpwd = getcwd(NULL, 0);
+	if (!oldpwd)
+		return (perror("getcwd: "), 1);
 	if (cmds->cmd[1] == NULL)
 	{
 		if (check_home(current) == 1)
 		{
 			update_pwd(env, "OLDPWD", oldpwd);
-			free(oldpwd);
 			pwd = env_search("HOME", current);
 			update_pwd(env, "PWD", pwd);
 		}
-		if (pwd)
-			free(pwd);
-		free (oldpwd);
 	}
 	else if (cmds->cmd[1])
 		if (change_dir(cmds->cmd[1], env, pwd, oldpwd))
-			return (1);
-	return (0);
+			return (free(oldpwd), 1);
+	return (free(oldpwd), 0);
 }

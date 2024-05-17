@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 07:16:16 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/16 01:35:27 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/17 08:36:03 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,18 @@ int	ft_unset(t_cmd *cmds, t_env **env)
 	curr = *env;
 	while (cmds->cmd[i])
 	{
-		if (!ft_strcmp(cmds->cmd[i], curr->varname))
+		if (ft_strcmp(cmds->cmd[i], "?"))
 		{
-			free(curr->value);
-			free(curr->varname);
-			*env = curr->next;
-			free(curr);
+			if (!ft_strcmp(cmds->cmd[i], curr->varname))
+			{
+				free(curr->value);
+				free(curr->varname);
+				*env = curr->next;
+				free(curr);
+			}
+			else
+				ft_unset_norm(cmds, curr);
 		}
-		else
-			ft_unset_norm(cmds, curr);
 		i++;
 		curr = *env;
 	}

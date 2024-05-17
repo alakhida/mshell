@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 07:27:22 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/11 11:01:50 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/17 08:36:27 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,14 @@ void	ft_env_export(t_env **env)
 		return ;
 	while (curr != NULL)
 	{
-		if (curr->varname)
-			printf("declare -x %s", curr->varname);
-		if (curr->value)
-			printf("=%s", curr->value);
-		printf("\n");
+		if (ft_strcmp(curr->varname, "?"))
+		{
+			if (curr->varname)
+				printf("declare -x %s", curr->varname);
+			if (curr->value)
+				printf("=%s", curr->value);
+			printf("\n");
+		}
 		curr = curr->next;
 	}
 }

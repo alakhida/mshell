@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 06:03:57 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/15 09:24:11 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/17 08:52:08 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	exporting(t_cmd *cmds, t_env **envp)
 
 	i = 1;
 	current = *envp;
-	while (cmds->cmd[i] != NULL)
+	while (cmds->cmd[i] != NULL && varname_ok(cmds->cmd[i]))
 	{
 		j = ft_strchar(cmds->cmd[i], '=');
 		if (j > 0)

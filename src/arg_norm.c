@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arg_norm.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 01:40:55 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/17 04:17:40 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/17 08:51:25 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,22 @@ bool	arg_norm_error(t_cmd *cmd, int i)
 		head->flag = 1;
 		return (true);
 	}
+	return (false);
+}
+
+bool	varname_ok(char *string)
+{
+	int	i;
+
+	i = 0;
+	while ((string && !ft_isdigit(string[0]) && 
+			ft_isalnum(string[i])) || string[i] == '=')
+	{
+		if (!string[i + 1])
+			return (true);
+		i++;
+	}
+	printf("export: bad argument\n");
 	return (false);
 }
 
