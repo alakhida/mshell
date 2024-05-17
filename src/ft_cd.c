@@ -99,7 +99,7 @@ int	ft_cd(t_cmd *cmds, t_env **env)
 		}
 		if (pwd)
 			free(pwd);
-		free (oldpwd);
+		free(oldpwd);
 	}
 	else if (cmds->cmd[1])
 		if (change_dir(cmds->cmd[1], env, pwd, oldpwd))

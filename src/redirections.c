@@ -97,8 +97,7 @@ void	arg_norm2(t_cmd *cmd)
 	i = 0;
 	while (head->cmd[i] != NULL)
 	{
-		if (ms_ctrlop(head->cmd[i]) != NONE
-			&& ms_ctrlop(head->cmd[i]) != PIPE)
+		if (ms_ctrlop(head->cmd[i]) != NONE && ms_ctrlop(head->cmd[i]) != PIPE)
 		{
 			if (arg_norm_error(head, i) == 1)
 				return ;

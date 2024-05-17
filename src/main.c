@@ -6,7 +6,7 @@
 /*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:08 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/17 06:41:31 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/17 07:12:26 by calmouht         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ int	ms_prompt(t_env **env, int *exit_status)
 
 int	main(int __unused argc, char __unused **argv, char **envp)
 {
-	int					cmd_status;
-	int					exit_status;
-	t_env				*env;
+	int		cmd_status;
+	int		exit_status;
+	t_env	*env;
 
 	signal(SIGINT, sig);
 	signal(SIGQUIT, SIG_IGN);

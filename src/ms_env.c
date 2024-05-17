@@ -66,56 +66,57 @@ t_env	*ms_env_search(char *ptr, t_env *head)
 	return (NULL);
 }
 
-int  express(char **cmd , int *i , int *k)
+int	express(char **cmd, int *i, int *k)
 {
-        if ((*cmd)[*i] == '$' && (*cmd)[(*i) + 1] == '?')
-        {
-            printf("%c , %c \n", (*cmd)[*i],(*cmd)[(*i) + 1] );
-            *k = 2;
-            return 1;
-        }
-        if ((*cmd)[(*i)] == '$')
-        {
-            (*i)++;
-            *k = *i;
-            while (ft_isalnum((*cmd)[(*k)]) || ft_strchr("_?=", (*cmd)[(*k)]) != NULL)
-            {
-                (*k)++;
-                printf("\1");
-            }
-            return 1;
-        }
-        if ((*cmd)[(*i)] == '\'')
-        {
-            (*i)++;
-            while ((*cmd)[(*i)] != '\'')
-                (*i)++;
-        }
-        return 0;
+	if ((*cmd)[*i] == '$' && (*cmd)[(*i) + 1] == '?')
+	{
+		printf("%c , %c \n", (*cmd)[*i], (*cmd)[(*i) + 1]);
+		*k = 2;
+		return (1);
+	}
+	if ((*cmd)[(*i)] == '$')
+	{
+		(*i)++;
+		*k = *i;
+		while (ft_isalnum((*cmd)[(*k)]) || ft_strchr("_?=",
+				(*cmd)[(*k)]) != NULL)
+		{
+			(*k)++;
+			printf("\1");
+		}
+		return (1);
+	}
+	if ((*cmd)[(*i)] == '\'')
+	{
+		(*i)++;
+		while ((*cmd)[(*i)] != '\'')
+			(*i)++;
+	}
+	return (0);
 }
 
-char    *expanded(char *cmd, int *exit_status)
+char	*expanded(char *cmd, int *exit_status)
 {
-    int        i;
-    int        k;
-    int        ex_len;
-    char    *l7asol;
+	int		i;
+	int		k;
+	int		ex_len;
+	char	*l7asol;
 
-    i = -1;
-    k = 0;
-    while ((cmd[++i]))
-    {
-        if (cmd[i] == '$' && is_special(&cmd[i + 1]))
-            return (NULL);
-        if(express(&cmd,&i , &k)==1)
-        break;
-    }
-    if (k == 0)
-        return (NULL);
-    else if (k == 2)
-        return (ft_strdup("?"));
-    ex_len = k - i;
-    l7asol = malloc(sizeof(char) * (ex_len + 1));
-    ft_strlcpy(l7asol, &cmd[i], ex_len + 1);
-    return (l7asol);
+	i = -1;
+	k = 0;
+	while ((cmd[++i]))
+	{
+		if (cmd[i] == '$' && is_special(&cmd[i + 1]))
+			return (NULL);
+		if (express(&cmd, &i, &k) == 1)
+			break ;
+	}
+	if (k == 0)
+		return (NULL);
+	else if (k == 2)
+		return (ft_strdup("?"));
+	ex_len = k - i;
+	l7asol = malloc(sizeof(char) * (ex_len + 1));
+	ft_strlcpy(l7asol, &cmd[i], ex_len + 1);
+	return (l7asol);
 }
