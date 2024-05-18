@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 07:47:35 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/16 21:52:37 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/18 01:01:15 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	handling_pipe(t_cmd *cmd, int pip[], t_info *info)
 		dup2(info->save_stdout, STDIN_FILENO);
 		close(info->save_stdout);
 	}
+	if (cmd->heredoc)
+		dup2(cmd->heredoc, STDIN_FILENO);
 	if (cmd->red && handle_redirections(cmd))
 	{
 		exit(EXIT_FAILURE);

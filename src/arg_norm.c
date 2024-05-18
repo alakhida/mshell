@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 01:40:55 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/17 08:51:25 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/18 01:07:56 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ bool	arg_norm_error(t_cmd *cmd, int i)
 	return (false);
 }
 
-bool	varname_ok(char *string)
+bool	varname_ok(char *string, int j)
 {
 	int	i;
 
@@ -38,6 +38,8 @@ bool	varname_ok(char *string)
 			return (true);
 		i++;
 	}
+	if (i > j)
+		return (true);
 	printf("export: bad argument\n");
 	return (false);
 }

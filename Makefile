@@ -6,11 +6,11 @@
 #    By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/10 00:43:31 by calmouht          #+#    #+#              #
-#    Updated: 2024/05/17 09:19:09 by alakhida         ###   ########.fr        #
+#    Updated: 2024/05/18 00:37:52 by alakhida         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CFLAGS =  -I ~/homebrew/opt/readline/include #-g -fsanitize=address
+CFLAGS =  -I ~/homebrew/opt/readline/include 
 RDLINE = -L ~/homebrew/opt/readline/lib
 CC = gcc
 NAME = minishell

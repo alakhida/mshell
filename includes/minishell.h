@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 00:25:16 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/17 09:04:11 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/18 01:08:04 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,6 @@ void				ms_cmdgen_norm(char **cmd, t_cmd *current, int i,
 						int checkpoint);
 void				ms_cmdgen_norm2(char **cmd, t_cmd *current, int i);
 void				update_exit(t_env **env, int exit);
-bool				varname_ok(char *string);
+bool				varname_ok(char *string, int j);
 
 #endif

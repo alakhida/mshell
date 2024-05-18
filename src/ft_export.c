@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 06:03:57 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/17 08:52:08 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/18 01:12:15 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ void	exporting(t_cmd *cmds, t_env **envp)
 
 	i = 1;
 	current = *envp;
-	while (cmds->cmd[i] != NULL && varname_ok(cmds->cmd[i]))
+	while (cmds->cmd[i] != NULL && varname_ok(cmds->cmd[i],
+			ft_strchar(cmds->cmd[i], '=')))
 	{
 		j = ft_strchar(cmds->cmd[i], '=');
 		if (j > 0)
@@ -78,8 +79,7 @@ void	exporting(t_cmd *cmds, t_env **envp)
 		}
 		else if (j <= 0)
 		{
-			printf("%s: '%s': not a valid identifier\n",
-				cmds->cmd[0], cmds->cmd[i]);
+			ft_putendl_fd("export: not a valid identifier", STDERR_FILENO);
 			return ;
 		}
 		i++;

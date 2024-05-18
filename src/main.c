@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:08 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/17 07:44:12 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/18 00:57:13 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ int	ms_prompt(t_env **env, int *exit_status)
 	if (check_errors(lexed) == 1)
 		return (free_dbl_ptr(lexed), free(cmd), 0);
 	lexed = fix_args(lexed);
-	ms_rendercmd(lexed, *env, exit_status, &index);
 	if (lexed == NULL)
 		return (free(cmd), 0);
+	ms_rendercmd(lexed, *env, exit_status, &index);
 	cmd2 = ms_cmdgen(lexed);
 	if (sear(&cmd2) == 1)
 		return (free(cmd), free_dbl_ptr(lexed), free_all(cmd2), 0);

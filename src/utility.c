@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 09:38:43 by alakhida          #+#    #+#             */
-/*   Updated: 2024/05/16 23:55:28 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/18 00:47:36 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,15 @@ char	*ft_strreplace(char *src, char *dst, char *replacement)
 {
 	char	*ptr;
 
-	if (strstr(src, dst))
+	if (ft_strstr(src, dst))
 	{
 		ptr = malloc(sizeof(char) * (ft_strlen(src) - ft_strlen(dst)
 					+ ft_strlen(replacement) + 1));
-		ft_strlcpy(ptr, src, strstr(src, dst) - src);
+		ft_strlcpy(ptr, src, ft_strstr(src, dst) - src);
 		ft_strlcat(ptr, replacement, ft_strlen(ptr) + ft_strlen(replacement)
 			+ 1);
-		ft_strlcat(ptr, strstr(src, dst) + ft_strlen(dst), ft_strlen(ptr)
-			+ ft_strlen(strstr(src, dst) + ft_strlen(dst)) + 1);
+		ft_strlcat(ptr, ft_strstr(src, dst) + ft_strlen(dst), ft_strlen(ptr)
+			+ ft_strlen(ft_strstr(src, dst) + ft_strlen(dst)) + 1);
 	}
 	else
 		ptr = ft_strdup(src);
