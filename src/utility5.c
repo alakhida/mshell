@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility5.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 00:01:33 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/17 05:10:20 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/18 02:49:41 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	**tarray_copy(char **a)
 	char	**cpy;
 	int		i;
 
-	cpy = malloc(sizeof(char *) * t_strlen(a));
+	cpy = malloc(sizeof(char *) * (t_strlen(a) + 1));
 	i = 0;
 	while (a[i])
 	{

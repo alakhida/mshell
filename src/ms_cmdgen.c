@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_cmdgen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calmouht <calmouht@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 06:38:46 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/17 07:04:45 by calmouht         ###   ########.fr       */
+/*   Updated: 2024/05/18 02:46:11 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 t_cmd	*ms_push_back_node(t_cmd	*current)
 {
 	current->next = (t_cmd *)ft_calloc(sizeof(t_cmd), 1);
+	current->next->next = NULL;
 	return (current->next);
 }
 
@@ -35,6 +36,7 @@ t_cmd	*ms_cmdgen(char **cmd)
 	checkpoint = 0;
 	i = 0;
 	current = (t_cmd *)ft_calloc(sizeof(t_cmd), 1);
+	current->next = NULL;
 	while (cmd && cmd[i])
 	{
 		if (ms_ctrlop(cmd[i]) == PIPE || cmd[i + 1] == NULL)
