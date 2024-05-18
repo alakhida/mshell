@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:28:27 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/18 02:28:01 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/18 03:32:34 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,20 @@ void	ms_rendercmd_norm2(t_env *var_value, t_env *head, t_norm *index,
 {
 	while (command[index->i][index->j] != '\0')
 	{
-		if (command[index->i][index->j] == '$' && 
-			(ft_isalnum(command[index->i][index->j + 1])
-				|| command[index->i][index->j + 1] == '?'))
+		if (command[index->i][0] != '\'')
 		{
-			index->var_name = expanded(&command[index->i][index->j],
-					index->ex_stts);
-			if (index->var_name != NULL)
-				ms_rendercmd_norm(var_value, head, index, command);
-			else
-				break ;
-			free(index->var_name);
+			if (command[index->i][index->j] == '$' && 
+				(ft_isalnum(command[index->i][index->j + 1])
+					|| command[index->i][index->j + 1] == '?'))
+			{
+				index->var_name = expanded(&command[index->i][index->j],
+						index->ex_stts);
+				if (index->var_name != NULL)
+					ms_rendercmd_norm(var_value, head, index, command);
+				else
+					break ;
+				free(index->var_name);
+			}
 		}
 		index->j++;
 	}

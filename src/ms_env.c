@@ -6,7 +6,7 @@
 /*   By: alakhida <alakhida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 03:18:15 by calmouht          #+#    #+#             */
-/*   Updated: 2024/05/17 08:35:10 by alakhida         ###   ########.fr       */
+/*   Updated: 2024/05/18 03:42:08 by alakhida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,28 +68,22 @@ t_env	*ms_env_search(char *ptr, t_env *head)
 
 int	express(char **cmd, int *i, int *k)
 {
-	if ((*cmd)[*i] == '$' && (*cmd)[(*i) + 1] == '?')
+	if ((*cmd)[*i] && (*cmd)[*i] == '$' && (*cmd)[(*i) + 1] == '?')
 	{
 		*k = 2;
 		return (1);
 	}
-	if ((*cmd)[(*i)] == '$')
+	if ((*cmd)[*i] && (*cmd)[(*i)] == '$')
 	{
 		(*i)++;
 		*k = *i;
-		while (ft_isalnum((*cmd)[(*k)]) || ft_strchr("_?=",
-				(*cmd)[(*k)]) != NULL)
+		while ((*cmd)[*i] && (ft_isalnum((*cmd)[(*k)]) || ft_strchr("_?=",
+				(*cmd)[(*k)]) != NULL))
 		{
 			(*k)++;
 			printf("\1");
 		}
 		return (1);
-	}
-	if ((*cmd)[(*i)] == '\'')
-	{
-		(*i)++;
-		while ((*cmd)[(*i)] != '\'')
-			(*i)++;
 	}
 	return (0);
 }
@@ -105,6 +99,7 @@ char	*expanded(char *cmd, int *exit_status)
 	k = 0;
 	while ((cmd[++i]))
 	{
+		printf("\1");
 		if (cmd[i] == '$' && is_special(&cmd[i + 1]))
 			return (NULL);
 		if (express(&cmd, &i, &k) == 1)
